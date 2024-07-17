@@ -28,10 +28,11 @@ final class CharactersTableViewCell: UITableViewCell {
     }()
     
     /// FIXME: - лейблы очень похожие может вынести в отдельный класс или расширение
+    /// Проверить шрифты на соответствие
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .label
-        label.font = .systemFont(ofSize: 18, weight: .medium)
+        label.textColor = .white
+        label.font = .IBMPlexSans(fontType: .bold, size: 18)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()

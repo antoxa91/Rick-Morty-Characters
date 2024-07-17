@@ -30,6 +30,8 @@
 		C5D6059E2C47DEF0000DBA15 /* IBMPlexSans-SemiBold.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C5D605832C47DE95000DBA15 /* IBMPlexSans-SemiBold.ttf */; };
 		C5D6059F2C47DEF0000DBA15 /* IBMPlexSans-ExtraLightItalic.ttf in Resources */ = {isa = PBXBuildFile; fileRef = C5D6058E2C47DE96000DBA15 /* IBMPlexSans-ExtraLightItalic.ttf */; };
 		C5D605A12C47E010000DBA15 /* UIFont + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D605A02C47E010000DBA15 /* UIFont + Extension.swift */; };
+		C5D605A32C47E1FB000DBA15 /* UIColor + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D605A22C47E1FB000DBA15 /* UIColor + Extension.swift */; };
+		C5D605A52C47E227000DBA15 /* AppColorEnum.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D605A42C47E227000DBA15 /* AppColorEnum.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -58,6 +60,8 @@
 		C5D6058F2C47DE96000DBA15 /* IBMPlexSans-MediumItalic.ttf */ = {isa = PBXFileReference; lastKnownFileType = file; path = "IBMPlexSans-MediumItalic.ttf"; sourceTree = "<group>"; };
 		C5D605902C47DEC1000DBA15 /* IBMPlexSans.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IBMPlexSans.swift; sourceTree = "<group>"; };
 		C5D605A02C47E010000DBA15 /* UIFont + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIFont + Extension.swift"; sourceTree = "<group>"; };
+		C5D605A22C47E1FB000DBA15 /* UIColor + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UIColor + Extension.swift"; sourceTree = "<group>"; };
+		C5D605A42C47E227000DBA15 /* AppColorEnum.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppColorEnum.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -97,6 +101,7 @@
 				C5D605772C47C5CF000DBA15 /* Extensions */,
 				C5D605762C47C5C8000DBA15 /* Controllers */,
 				C5D605752C47C5BC000DBA15 /* Views */,
+				C5D605A42C47E227000DBA15 /* AppColorEnum.swift */,
 			);
 			path = RickAndMortyCharacters;
 			sourceTree = "<group>";
@@ -123,6 +128,7 @@
 			children = (
 				C5D6057D2C47C7D0000DBA15 /* UIView + Extension.swift */,
 				C5D605A02C47E010000DBA15 /* UIFont + Extension.swift */,
+				C5D605A22C47E1FB000DBA15 /* UIColor + Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -259,10 +265,12 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5D605912C47DEC1000DBA15 /* IBMPlexSans.swift in Sources */,
+				C5D605A52C47E227000DBA15 /* AppColorEnum.swift in Sources */,
 				C5D6057E2C47C7D0000DBA15 /* UIView + Extension.swift in Sources */,
 				C5D605662C47C4B3000DBA15 /* CharactersViewController.swift in Sources */,
 				C5D605802C47D580000DBA15 /* CharacterTableViewCell.swift in Sources */,
 				C5D605622C47C4B3000DBA15 /* AppDelegate.swift in Sources */,
+				C5D605A32C47E1FB000DBA15 /* UIColor + Extension.swift in Sources */,
 				C5D605A12C47E010000DBA15 /* UIFont + Extension.swift in Sources */,
 				C5D6057B2C47C786000DBA15 /* CharacterDetailsViewController.swift in Sources */,
 			);
