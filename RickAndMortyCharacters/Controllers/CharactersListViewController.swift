@@ -7,11 +7,11 @@
 
 import UIKit
 
-final class CharactersViewController: UIViewController {
+final class CharactersListViewController: UIViewController {
     
     // MARK: Private Properties
     private lazy var charactersTableView: UITableView = {
-        let tableView = UITableView(frame: view.bounds, style: .insetGrouped)
+        let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.backgroundColor = AppColorEnum.appBackground.color
         tableView.register(CharactersTableViewCell.self,
                            forCellReuseIdentifier: CharactersTableViewCell.identifier)
@@ -47,6 +47,14 @@ final class CharactersViewController: UIViewController {
     private func setupView() {
         title = "Rick & Morty Characters"
         view.addSubview(charactersTableView)
+        navigationItem.backButtonDisplayMode = .minimal
+        
+        NSLayoutConstraint.activate([
+            charactersTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            charactersTableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
+            charactersTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
+            charactersTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+        ])
     }
     
     private func downloadCharacters() {
@@ -66,7 +74,7 @@ final class CharactersViewController: UIViewController {
 
 
 // MARK: - UITableViewDataSource
-extension CharactersViewController: UITableViewDataSource {
+extension CharactersListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         characters.count
     }
@@ -83,9 +91,9 @@ extension CharactersViewController: UITableViewDataSource {
 
 
 // MARK: - UITableViewDelegate
-extension CharactersViewController: UITableViewDelegate {
+extension CharactersListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = CharacterDetailsViewController()
+        let vc = CharacterProfileViewController()
         navigationController?.pushViewController(vc, animated: true)
     }
     

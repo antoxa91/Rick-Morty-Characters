@@ -15,7 +15,7 @@ protocol ConfigurableViewProtocol {
 
 final class CharactersTableViewCell: UITableViewCell {
     static let identifier = String(describing: CharactersTableViewCell.self)
-
+    
     // MARK: Private UI Properties
     private lazy var characterImageView: UIImageView = {
         let imageView = UIImageView()
@@ -65,7 +65,7 @@ final class CharactersTableViewCell: UITableViewCell {
     // MARK: Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-
+        
         setupContentView()
         setConstraints()
     }
@@ -132,7 +132,7 @@ final class CharactersTableViewCell: UITableViewCell {
 // MARK: - ConfigurableViewProtocol
 extension CharactersTableViewCell: ConfigurableViewProtocol {
     typealias ConfigirationModel = CharacterModel
-
+    
     func configure(with model: CharacterModel) {
         nameLabel.text = model.name
         statusLabel.text = model.status.description

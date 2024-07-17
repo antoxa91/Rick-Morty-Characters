@@ -34,7 +34,7 @@ final class NetworkService {
     }
 }
 
-// MARK: - NetworkServiceProtocol**
+// MARK: - NetworkServiceProtocol
 extension NetworkService: NetworkServiceProtocol {
     func fetchCharacters(completion: @escaping DownloadCompletionHandler) {
         

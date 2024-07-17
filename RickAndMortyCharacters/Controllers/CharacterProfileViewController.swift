@@ -7,11 +7,11 @@
 
 import UIKit
 
-final class CharacterDetailsViewController: UIViewController {
+final class CharacterProfileViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .green
+        view.backgroundColor = .systemGreen
     }
 }
