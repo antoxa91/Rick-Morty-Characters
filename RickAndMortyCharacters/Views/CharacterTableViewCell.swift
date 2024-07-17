@@ -31,32 +31,33 @@ final class CharactersTableViewCell: UITableViewCell {
     /// Проверить шрифты на соответствие
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .white
+        label.textColor = AppColorEnum.text.color
         label.font = .IBMPlexSans(fontType: .bold, size: 18)
+        label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var statusLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .secondaryLabel
-        label.font = .systemFont(ofSize: 16, weight: .regular)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private lazy var genderLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = .secondaryLabel
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.textColor = AppColorEnum.text.color
+        label.font = .IBMPlexSans()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
     private lazy var speciesLabel: UILabel = {
         let label = UILabel()
-        label.textColor = .secondaryLabel
-        label.font = .systemFont(ofSize: 16, weight: .regular)
+        label.textColor = AppColorEnum.text.color
+        label.font = .IBMPlexSans()
+        label.translatesAutoresizingMaskIntoConstraints = false
+        return label
+    }()
+    
+    private lazy var genderLabel: UILabel = {
+        let label = UILabel()
+        label.textColor = AppColorEnum.text.color
+        label.font = .IBMPlexSans()
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -66,7 +67,7 @@ final class CharactersTableViewCell: UITableViewCell {
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         
-        contentView.backgroundColor = .systemBackground
+        contentView.backgroundColor = AppColorEnum.cellBackground.color
         contentView.addSubviews(characterImageView, nameLabel, statusLabel, genderLabel, speciesLabel)
         setConstraints()
     }
@@ -87,31 +88,33 @@ final class CharactersTableViewCell: UITableViewCell {
     
     
     // MARK: Layout
+    ///FIXME - сделать скругление адаптивным
     override func layoutSubviews() {
-        // скруглить картинку
+        characterImageView.layer.cornerRadius = 8
     }
     
+    ///FIXME - сделать размеры картинки адаптивными под размер экрана
+    ///высота всей ячейки 96
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            characterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 8),
-            characterImageView.widthAnchor.constraint(equalTo: heightAnchor, multiplier: 0.6),
-            characterImageView.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.6),
+            characterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
+            characterImageView.widthAnchor.constraint(equalToConstant: 84),
+            characterImageView.heightAnchor.constraint(equalToConstant: 64),
+            characterImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
-            nameLabel.leadingAnchor.constraint(equalTo: characterImageView.trailingAnchor, constant: 8),
-            nameLabel.topAnchor.constraint(equalTo: contentView.topAnchor, constant: 8),
+            nameLabel.leadingAnchor.constraint(equalTo: characterImageView.trailingAnchor, constant: 15),
+            nameLabel.topAnchor.constraint(equalTo: characterImageView.topAnchor),
             
-            statusLabel.leadingAnchor.constraint(equalTo: characterImageView.trailingAnchor, constant: 8),
-            statusLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
+            
+            statusLabel.leadingAnchor.constraint(equalTo: characterImageView.trailingAnchor, constant: 15),
+            statusLabel.centerYAnchor.constraint(equalTo: characterImageView.centerYAnchor),
+            
+            speciesLabel.leadingAnchor.constraint(equalTo: statusLabel.trailingAnchor, constant: 6),
+            speciesLabel.centerYAnchor.constraint(equalTo: characterImageView.centerYAnchor),
 
-            // dot
             
-            speciesLabel.leadingAnchor.constraint(equalTo: statusLabel.trailingAnchor, constant: 8),
-            speciesLabel.topAnchor.constraint(equalTo: nameLabel.bottomAnchor, constant: 8),
-
-            
-            genderLabel.leadingAnchor.constraint(equalTo: characterImageView.trailingAnchor, constant: 8),
-            genderLabel.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 8),
-            genderLabel.bottomAnchor.constraint(equalTo: contentView.bottomAnchor, constant: -8)
+            genderLabel.leadingAnchor.constraint(equalTo: characterImageView.trailingAnchor, constant: 15),
+            genderLabel.bottomAnchor.constraint(equalTo: characterImageView.bottomAnchor)
         ])
     }
 }

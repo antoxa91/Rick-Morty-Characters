@@ -8,7 +8,7 @@
 import UIKit
 
 extension UIFont {
-    static func IBMPlexSans(fontType: IBMPlexSans = .regular, size: CGFloat = 16) -> UIFont {
+    static func IBMPlexSans(fontType: IBMPlexSans = .regular, size: CGFloat = 12) -> UIFont {
         .init(name: fontType.rawValue, size: size) ?? .systemFont(ofSize: size)
     }
 }
