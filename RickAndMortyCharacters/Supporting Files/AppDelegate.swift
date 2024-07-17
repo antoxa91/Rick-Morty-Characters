@@ -16,7 +16,16 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.makeKeyAndVisible()
         
-        window.rootViewController = CharactersViewController()
+
+        ///TODO: - отрефакторить это
+        let navVC = UINavigationController(rootViewController: CharactersViewController())
+        navVC.navigationBar.standardAppearance = UINavigationBarAppearance()
+        navVC.navigationBar.standardAppearance.configureWithOpaqueBackground()
+        navVC.navigationBar.standardAppearance.backgroundColor = AppColorEnum.appBackground.color
+        navVC.navigationBar.standardAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: AppColorEnum.text.color]
+
+        
+        window.rootViewController = navVC
 
         self.window = window
         return true

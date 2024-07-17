@@ -15,7 +15,7 @@ enum AppColorEnum {
     case red
     case green
     case gray
-    case blue
+    case turquoise
     
     var color: UIColor {
         switch self {
@@ -31,7 +31,7 @@ enum AppColorEnum {
             return UIColor(hex: 0x198737)
         case .gray:
             return UIColor(hex: 0x686874)
-        case .blue:
+        case .turquoise:
             return UIColor(hex: 0x42B4CA)
         }
     }

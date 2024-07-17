@@ -28,11 +28,10 @@ final class CharactersTableViewCell: UITableViewCell {
     }()
     
     /// FIXME: - лейблы очень похожие может вынести в отдельный класс или расширение
-    /// Проверить шрифты на соответствие
     private lazy var nameLabel: UILabel = {
         let label = UILabel()
         label.textColor = AppColorEnum.text.color
-        label.font = .IBMPlexSans(fontType: .bold, size: 18)
+        label.font = .IBMPlexSans(fontType: .semiBold, size: 18)
         label.numberOfLines = 1
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
@@ -66,15 +65,22 @@ final class CharactersTableViewCell: UITableViewCell {
     // MARK: Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
-        
-        contentView.backgroundColor = AppColorEnum.cellBackground.color
-        contentView.addSubviews(characterImageView, nameLabel, statusLabel, genderLabel, speciesLabel)
+
+        setupContentView()
         setConstraints()
     }
     
     @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("init(coder:) has not been implemented")
+    }
+    
+    private func setupContentView() {
+        contentView.backgroundColor = AppColorEnum.cellBackground.color
+        contentView.addSubviews(characterImageView, nameLabel, statusLabel, genderLabel, speciesLabel)
+        contentView.layer.borderWidth = 2
+        contentView.layer.borderColor = AppColorEnum.appBackground.color.cgColor
+        contentView.layer.cornerRadius = 25
     }
     
     override func prepareForReuse() {
@@ -88,13 +94,11 @@ final class CharactersTableViewCell: UITableViewCell {
     
     
     // MARK: Layout
-    ///FIXME - сделать скругление адаптивным
     override func layoutSubviews() {
         characterImageView.layer.cornerRadius = 8
     }
     
     ///FIXME - сделать размеры картинки адаптивными под размер экрана
-    ///высота всей ячейки 96
     private func setConstraints() {
         NSLayoutConstraint.activate([
             characterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
@@ -104,17 +108,32 @@ final class CharactersTableViewCell: UITableViewCell {
             
             nameLabel.leadingAnchor.constraint(equalTo: characterImageView.trailingAnchor, constant: 15),
             nameLabel.topAnchor.constraint(equalTo: characterImageView.topAnchor),
-            
+            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
             
             statusLabel.leadingAnchor.constraint(equalTo: characterImageView.trailingAnchor, constant: 15),
-            statusLabel.centerYAnchor.constraint(equalTo: characterImageView.centerYAnchor),
+            statusLabel.centerYAnchor.constraint(equalTo: characterImageView.centerYAnchor, constant: 2),
             
-            speciesLabel.leadingAnchor.constraint(equalTo: statusLabel.trailingAnchor, constant: 6),
-            speciesLabel.centerYAnchor.constraint(equalTo: characterImageView.centerYAnchor),
-
+            speciesLabel.leadingAnchor.constraint(equalTo: statusLabel.trailingAnchor, constant: 3),
+            speciesLabel.centerYAnchor.constraint(equalTo: characterImageView.centerYAnchor, constant: 2),
             
             genderLabel.leadingAnchor.constraint(equalTo: characterImageView.trailingAnchor, constant: 15),
             genderLabel.bottomAnchor.constraint(equalTo: characterImageView.bottomAnchor)
         ])
+    }
+}
+
+// MARK: - ConfigurableViewProtocol
+extension CharactersTableViewCell: ConfigurableViewProtocol {
+    typealias ConfigirationModel = CharacterModel
+
+    func configure(with model: CharacterModel) {
+        nameLabel.text = model.name
+        statusLabel.text = model.status.description
+        statusLabel.textColor = model.status.textColor
+        speciesLabel.text = "• " + model.species
+        genderLabel.text = model.gender.rawValue
+        
+        /// TODO: - для картинки
+        
     }
 }

@@ -29,9 +29,9 @@
                             <constraint firstItem="z5Q-Xb-WpC" firstAttribute="centerX" secondItem="Ze5-6b-2t3" secondAttribute="centerX" id="2Wk-7R-aDL"/>
                             <constraint firstItem="z5Q-Xb-WpC" firstAttribute="centerY" secondItem="Ze5-6b-2t3" secondAttribute="centerY" id="7A6-q7-8Ii"/>
                             <constraint firstItem="frX-X2-Hbt" firstAttribute="top" secondItem="Ze5-6b-2t3" secondAttribute="top" id="F0J-aZ-pj3"/>
-                            <constraint firstItem="frX-X2-Hbt" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="JAX-GX-mgG"/>
+                            <constraint firstItem="frX-X2-Hbt" firstAttribute="trailing" secondItem="Ze5-6b-2t3" secondAttribute="trailing" id="JAX-GX-mgG"/>
                             <constraint firstAttribute="bottom" secondItem="frX-X2-Hbt" secondAttribute="bottom" id="La9-5B-hih"/>
-                            <constraint firstItem="frX-X2-Hbt" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="jnC-6a-zAe"/>
+                            <constraint firstItem="frX-X2-Hbt" firstAttribute="leading" secondItem="Ze5-6b-2t3" secondAttribute="leading" id="jnC-6a-zAe"/>
                         </constraints>
                     </view>
                 </viewController>
