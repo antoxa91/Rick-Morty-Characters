@@ -25,6 +25,7 @@
 		C5D605A92C47EC3F000DBA15 /* CharacterStatus.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D605A82C47EC3F000DBA15 /* CharacterStatus.swift */; };
 		C5D605AB2C47EC54000DBA15 /* CharacterGender.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D605AA2C47EC54000DBA15 /* CharacterGender.swift */; };
 		C5D605AD2C47EC65000DBA15 /* CharacterLocation.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D605AC2C47EC65000DBA15 /* CharacterLocation.swift */; };
+		C5D605AF2C48301A000DBA15 /* NetworkService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D605AE2C48301A000DBA15 /* NetworkService.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -48,6 +49,7 @@
 		C5D605A82C47EC3F000DBA15 /* CharacterStatus.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterStatus.swift; sourceTree = "<group>"; };
 		C5D605AA2C47EC54000DBA15 /* CharacterGender.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterGender.swift; sourceTree = "<group>"; };
 		C5D605AC2C47EC65000DBA15 /* CharacterLocation.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterLocation.swift; sourceTree = "<group>"; };
+		C5D605AE2C48301A000DBA15 /* NetworkService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkService.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -80,9 +82,9 @@
 		C5D605602C47C4B3000DBA15 /* RickAndMortyCharacters */ = {
 			isa = PBXGroup;
 			children = (
+				C5D605792C47C5E9000DBA15 /* Supporting Files */,
 				C5D605812C47DE61000DBA15 /* Font */,
 				C5D6057C2C47C7A2000DBA15 /* Networking */,
-				C5D605792C47C5E9000DBA15 /* Supporting Files */,
 				C5D605782C47C5D8000DBA15 /* Models */,
 				C5D605772C47C5CF000DBA15 /* Extensions */,
 				C5D605762C47C5C8000DBA15 /* Controllers */,
@@ -144,6 +146,7 @@
 		C5D6057C2C47C7A2000DBA15 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
+				C5D605AE2C48301A000DBA15 /* NetworkService.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -238,6 +241,7 @@
 				C5D6057E2C47C7D0000DBA15 /* UIView + Extension.swift in Sources */,
 				C5D605662C47C4B3000DBA15 /* CharactersViewController.swift in Sources */,
 				C5D605802C47D580000DBA15 /* CharacterTableViewCell.swift in Sources */,
+				C5D605AF2C48301A000DBA15 /* NetworkService.swift in Sources */,
 				C5D605A92C47EC3F000DBA15 /* CharacterStatus.swift in Sources */,
 				C5D605622C47C4B3000DBA15 /* AppDelegate.swift in Sources */,
 				C5D605A32C47E1FB000DBA15 /* UIColor + Extension.swift in Sources */,

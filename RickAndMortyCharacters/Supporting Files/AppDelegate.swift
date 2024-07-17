@@ -18,7 +18,9 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         
 
         ///TODO: - отрефакторить это
-        let navVC = UINavigationController(rootViewController: CharactersViewController())
+        ///
+        let networkService = NetworkService()
+        let navVC = UINavigationController(rootViewController: CharactersViewController(networkService: networkService))
         navVC.navigationBar.standardAppearance = UINavigationBarAppearance()
         navVC.navigationBar.standardAppearance.configureWithOpaqueBackground()
         navVC.navigationBar.standardAppearance.backgroundColor = AppColorEnum.appBackground.color

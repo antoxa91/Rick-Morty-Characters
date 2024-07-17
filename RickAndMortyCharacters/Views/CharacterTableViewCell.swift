@@ -92,6 +92,13 @@ final class CharactersTableViewCell: UITableViewCell {
         speciesLabel.text = nil
     }
     
+    override func setSelected(_ selected: Bool, animated: Bool) {
+        if selected {
+            contentView.backgroundColor = AppColorEnum.gray.color
+        } else {
+            contentView.backgroundColor = AppColorEnum.cellBackground.color
+        }
+    }
     
     // MARK: Layout
     override func layoutSubviews() {
