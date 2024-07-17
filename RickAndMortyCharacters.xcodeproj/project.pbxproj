@@ -335,7 +335,7 @@
 				DEVELOPMENT_TEAM = 5CD9RDCH3V;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RickAndMortyCharacters/Supporting Files/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Rick & Morty Characters";
+				INFOPLIST_KEY_CFBundleDisplayName = "Rick & Morty";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
@@ -367,7 +367,7 @@
 				DEVELOPMENT_TEAM = 5CD9RDCH3V;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = "RickAndMortyCharacters/Supporting Files/Info.plist";
-				INFOPLIST_KEY_CFBundleDisplayName = "Rick & Morty Characters";
+				INFOPLIST_KEY_CFBundleDisplayName = "Rick & Morty";
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations = UIInterfaceOrientationPortrait;
