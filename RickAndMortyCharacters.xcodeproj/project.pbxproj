@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C5909D5B2C48E80800FD5136 /* CharacterProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */; };
 		C5D605622C47C4B3000DBA15 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D605612C47C4B3000DBA15 /* AppDelegate.swift */; };
 		C5D605662C47C4B3000DBA15 /* CharactersListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D605652C47C4B3000DBA15 /* CharactersListViewController.swift */; };
 		C5D6056B2C47C4B5000DBA15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5D6056A2C47C4B5000DBA15 /* Assets.xcassets */; };
@@ -29,6 +30,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterProfileView.swift; sourceTree = "<group>"; };
 		C5D6055E2C47C4B3000DBA15 /* RickAndMortyCharacters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RickAndMortyCharacters.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5D605612C47C4B3000DBA15 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C5D605652C47C4B3000DBA15 /* CharactersListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersListViewController.swift; sourceTree = "<group>"; };
@@ -98,6 +100,7 @@
 			isa = PBXGroup;
 			children = (
 				C5D6057F2C47D580000DBA15 /* CharacterTableViewCell.swift */,
+				C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -236,6 +239,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5D605912C47DEC1000DBA15 /* IBMPlexSans.swift in Sources */,
+				C5909D5B2C48E80800FD5136 /* CharacterProfileView.swift in Sources */,
 				C5D605A72C47EB48000DBA15 /* CharacterModel.swift in Sources */,
 				C5D605A52C47E227000DBA15 /* AppColorEnum.swift in Sources */,
 				C5D6057E2C47C7D0000DBA15 /* UIView + Extension.swift in Sources */,

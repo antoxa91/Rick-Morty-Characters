@@ -11,4 +11,11 @@ enum CharacterGender: String, Decodable {
     case male = "Male"
     case female = "Female"
     case unknown = "unknown"
+    
+    var text: String {
+        switch self {
+        case .male, .female, .unknown:
+            return rawValue
+        }
+    }
 }

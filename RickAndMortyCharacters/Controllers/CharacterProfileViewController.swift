@@ -9,9 +9,34 @@ import UIKit
 
 final class CharacterProfileViewController: UIViewController {
     
+    private lazy var characterProfileView = CharacterProfileView()
+    private let character: CharacterModel
+    
+    // MARK: Init
+    init(character: CharacterModel) {
+        self.character = character
+        super.init(nibName: nil, bundle: nil)
+    }
+    
+    required init?(coder: NSCoder) {
+        fatalError("init(coder:) has not been implemented")
+    }
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = .systemGreen
+        setupView()
+        setConstraints()
+    }
+    
+    private func setupView() {
+        view.backgroundColor = AppColorEnum.appBackground.color
+        title = "Brad"
+        view.addSubview(characterProfileView)
+    }
+    
+    // MARK: Layout
+    private func setConstraints() {
+        //
     }
 }

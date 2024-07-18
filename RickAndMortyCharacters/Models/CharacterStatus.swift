@@ -12,7 +12,7 @@ enum CharacterStatus: String, Decodable {
     case dead = "Dead"
     case unknown = "unknown"
     
-    var description: String {
+    var text: String {
         switch self {
         case .alive, .dead:
             return rawValue
@@ -21,7 +21,7 @@ enum CharacterStatus: String, Decodable {
         }
     }
     
-    var textColor: UIColor {
+    var color: UIColor {
         switch self {
         case .alive:
             return AppColorEnum.green.color

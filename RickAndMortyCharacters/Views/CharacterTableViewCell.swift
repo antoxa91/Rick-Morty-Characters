@@ -135,10 +135,10 @@ extension CharactersTableViewCell: ConfigurableViewProtocol {
     
     func configure(with model: CharacterModel) {
         nameLabel.text = model.name
-        statusLabel.text = model.status.description
-        statusLabel.textColor = model.status.textColor
+        statusLabel.text = model.status.text
+        statusLabel.textColor = model.status.color
         speciesLabel.text = "• " + model.species
-        genderLabel.text = model.gender.rawValue
+        genderLabel.text = model.gender.text
         
         /// TODO: - для картинки
         

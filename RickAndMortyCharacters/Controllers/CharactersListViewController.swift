@@ -93,7 +93,8 @@ extension CharactersListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension CharactersListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let vc = CharacterProfileViewController()
+        let character = characters[indexPath.row]
+        let vc = CharacterProfileViewController(character: character)
         navigationController?.pushViewController(vc, animated: true)
     }
     
