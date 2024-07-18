@@ -37,6 +37,7 @@ final class CharactersTableViewCell: UITableViewCell {
         return label
     }()
     
+    ///FIXME - attr str Применить
     private lazy var statusLabel: UILabel = {
         let label = UILabel()
         label.textColor = AppColorEnum.text.color

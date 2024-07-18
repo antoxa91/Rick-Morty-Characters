@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum StaticTextForInfo: String {
+enum StaticInfoText: String {
     case species = "Species"
     case gender = "Gender"
     case episodes = "Episodes"
@@ -37,28 +37,39 @@ final class CharacterProfileView: UIView {
         return label
     }()
     
-    private lazy var speciesLabelForModel = UILabel()
-    private lazy var speciesHStack = getInfoForLabel(staticText: .species, labelForModel: speciesLabelForModel)
+    private lazy var speciesLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        return label
+    }()
     
-    private lazy var genderLabelForModel = UILabel()
-    private lazy var genderHStack = getInfoForLabel(staticText: .gender, labelForModel: genderLabelForModel)
+    private lazy var genderLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        return label
+    }()
     
-    private lazy var episodesLabelForModel = UILabel()
-    private lazy var episodesHStack = getInfoForLabel(staticText: .episodes, labelForModel: episodesLabelForModel)
+    private lazy var episodesLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        return label
+    }()
     
-    
-    private lazy var lastLocationLabelForModel = UILabel()
-    private lazy var lastLocationHStack = getInfoForLabel(staticText: .lastKnownLocation, labelForModel: lastLocationLabelForModel)
+    private lazy var lastLocationLabel: UILabel = {
+        let label = UILabel()
+        label.numberOfLines = 0
+        return label
+    }()
     
     private lazy var vInfoStackView: UIStackView = {
         let vStack = UIStackView()
         vStack.axis = .vertical
         vStack.alignment = .leading
         vStack.distribution = .equalSpacing
-        vStack.addArrangedSubview(speciesHStack)
-        vStack.addArrangedSubview(genderHStack)
-        vStack.addArrangedSubview(episodesHStack)
-        vStack.addArrangedSubview(lastLocationHStack)
+        vStack.addArrangedSubview(speciesLabel)
+        vStack.addArrangedSubview(genderLabel)
+        vStack.addArrangedSubview(episodesLabel)
+        vStack.addArrangedSubview(lastLocationLabel)
         vStack.translatesAutoresizingMaskIntoConstraints = false
         return vStack
     }()
@@ -80,46 +91,47 @@ final class CharacterProfileView: UIView {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = AppColorEnum.cellBackground.color
         layer.cornerRadius = 24
-        
         addSubviews(characterImageView, statusLabel, vInfoStackView)
     }
     
-    /// FIXME - исправить абзац у текста
-    func getInfoForLabel(staticText: StaticTextForInfo, labelForModel: UILabel) -> UIStackView {
-        let staticLabel = UILabel()
-        staticLabel.textColor = AppColorEnum.text.color
-        staticLabel.font = .IBMPlexSans(fontType: .semiBold, size: 16)
-        staticLabel.text = "\(staticText.rawValue): "
-
-        labelForModel.textColor = AppColorEnum.text.color
-        labelForModel.font = .IBMPlexSans(fontType: .regular, size: 16)
-        labelForModel.numberOfLines = 0
+    private func getAttributedText(staticText: StaticInfoText, modelText: String) -> NSAttributedString {
+        let attributedString = NSMutableAttributedString(
+            string: "\(staticText.rawValue): ",
+            attributes: [
+                .font: UIFont.IBMPlexSans(fontType: .semiBold, size: 16),
+                .foregroundColor: AppColorEnum.text.color
+            ]
+        )
         
-        var hStack: UIStackView {
-            let stack = UIStackView()
-            stack.axis = .horizontal
-            stack.alignment = .top
-            stack.distribution = .fill
-            stack.addArrangedSubview(staticLabel)
-            stack.addArrangedSubview(labelForModel)
-            return stack
-        }
+        let regularAttributes: [NSAttributedString.Key: Any] = [
+            .font: UIFont.IBMPlexSans(fontType: .regular, size: 16),
+            .foregroundColor: AppColorEnum.text.color
+        ]
         
-        return hStack
+        attributedString.append(NSAttributedString(string: modelText, attributes: regularAttributes))
+        
+        return attributedString
+    }
+    
+    private func listOfEpisodes(model: CharacterModel) -> String {
+        model.episode.compactMap { $0.split(separator: "/")
+                .last
+            .map { String($0)}}
+        .joined(separator: ", ")
     }
     
     // MARK: Layout
     override func layoutSubviews() {
         characterImageView.layer.cornerRadius = 16
     }
-    
+        
     ///TODO - расчитать адаптивные размеры
     private func setConstraints() {
         NSLayoutConstraint.activate([
             characterImageView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
             characterImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
             characterImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            characterImageView.heightAnchor.constraint(equalToConstant: 320),
+            characterImageView.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 0.92),
             
             statusLabel.topAnchor.constraint(equalTo: characterImageView.bottomAnchor, constant: 16),
             statusLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
@@ -141,19 +153,17 @@ extension CharacterProfileView: ConfigurableViewProtocol {
     func configure(with model: CharacterModel) {
         statusLabel.text = model.status.text
         statusLabel.backgroundColor = model.status.color
-        speciesLabelForModel.text = model.species
-        genderLabelForModel.text = model.gender.text
         
-        episodesLabelForModel.text = listOfEpisodes(model: model)
-        lastLocationLabelForModel.text = model.location.name
+        speciesLabel.attributedText = getAttributedText(staticText: .species,
+                                                        modelText: model.species)
+        genderLabel.attributedText = getAttributedText(staticText: .gender,
+                                                       modelText: model.gender.text)
+        episodesLabel.attributedText = getAttributedText(staticText: .episodes,
+                                                         modelText: listOfEpisodes(model: model))
+        lastLocationLabel.attributedText = getAttributedText(staticText: .lastKnownLocation,
+                                                             modelText: model.location.name)
+        
         fetchImage(with: model)
-    }
-    
-    private func listOfEpisodes(model: CharacterModel) -> String {
-        model.episode.compactMap { $0.split(separator: "/")
-                .last
-            .map { String($0)}}
-        .joined(separator: ", ")
     }
     
     func fetchImage(with model: CharacterModel) {
