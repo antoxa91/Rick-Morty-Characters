@@ -32,25 +32,11 @@ final class CharactersTableViewCell: UITableViewCell {
         let label = UILabel()
         label.textColor = AppColorEnum.text.color
         label.font = .IBMPlexSans(fontType: .semiBold, size: 18)
-        label.numberOfLines = 1
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
-    ///FIXME - attr str Применить
-    private lazy var statusLabel: UILabel = {
+    private lazy var statusAndSpeciesLabel: UILabel = {
         let label = UILabel()
-        label.textColor = AppColorEnum.text.color
-        label.font = .IBMPlexSans(fontType: .bold)
-        label.translatesAutoresizingMaskIntoConstraints = false
-        return label
-    }()
-    
-    private lazy var speciesLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = AppColorEnum.text.color
-        label.font = .IBMPlexSans(fontType: .bold)
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
     
@@ -58,8 +44,19 @@ final class CharactersTableViewCell: UITableViewCell {
         let label = UILabel()
         label.textColor = AppColorEnum.text.color
         label.font = .IBMPlexSans()
-        label.translatesAutoresizingMaskIntoConstraints = false
         return label
+    }()
+    
+    private lazy var vInfoStackView: UIStackView = {
+        let vStack = UIStackView()
+        vStack.axis = .vertical
+        vStack.alignment = .leading
+        vStack.distribution = .equalSpacing
+        vStack.addArrangedSubview(nameLabel)
+        vStack.addArrangedSubview(statusAndSpeciesLabel)
+        vStack.addArrangedSubview(genderLabel)
+        vStack.translatesAutoresizingMaskIntoConstraints = false
+        return vStack
     }()
     
     
@@ -78,7 +75,7 @@ final class CharactersTableViewCell: UITableViewCell {
     
     private func setupContentView() {
         contentView.backgroundColor = AppColorEnum.cellBackground.color
-        contentView.addSubviews(characterImageView, nameLabel, statusLabel, genderLabel, speciesLabel)
+        contentView.addSubviews(characterImageView, vInfoStackView)
         contentView.layer.borderWidth = 2
         contentView.layer.borderColor = AppColorEnum.appBackground.color.cgColor
         contentView.layer.cornerRadius = 25
@@ -88,9 +85,8 @@ final class CharactersTableViewCell: UITableViewCell {
         super.prepareForReuse()
         characterImageView.image = nil
         nameLabel.text = nil
-        statusLabel.text = nil
+        statusAndSpeciesLabel.text = nil
         genderLabel.text = nil
-        speciesLabel.text = nil
     }
     
     override func setSelected(_ selected: Bool, animated: Bool) {
@@ -114,18 +110,10 @@ final class CharactersTableViewCell: UITableViewCell {
             characterImageView.heightAnchor.constraint(equalToConstant: 64),
             characterImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
-            nameLabel.leadingAnchor.constraint(equalTo: characterImageView.trailingAnchor, constant: 15),
-            nameLabel.topAnchor.constraint(equalTo: characterImageView.topAnchor),
-            nameLabel.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
-            
-            statusLabel.leadingAnchor.constraint(equalTo: characterImageView.trailingAnchor, constant: 15),
-            statusLabel.centerYAnchor.constraint(equalTo: characterImageView.centerYAnchor, constant: 2),
-            
-            speciesLabel.leadingAnchor.constraint(equalTo: statusLabel.trailingAnchor, constant: 3),
-            speciesLabel.centerYAnchor.constraint(equalTo: characterImageView.centerYAnchor, constant: 2),
-            
-            genderLabel.leadingAnchor.constraint(equalTo: characterImageView.trailingAnchor, constant: 15),
-            genderLabel.bottomAnchor.constraint(equalTo: characterImageView.bottomAnchor)
+            vInfoStackView.leadingAnchor.constraint(equalTo: characterImageView.trailingAnchor, constant: 15),
+            vInfoStackView.topAnchor.constraint(equalTo: characterImageView.topAnchor),
+            vInfoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            vInfoStackView.bottomAnchor.constraint(equalTo: characterImageView.bottomAnchor)
         ])
     }
 }
@@ -136,10 +124,10 @@ extension CharactersTableViewCell: ConfigurableViewProtocol {
     
     func configure(with model: CharacterModel) {
         nameLabel.text = model.name
-        statusLabel.text = model.status.text
-        statusLabel.textColor = model.status.color
-        speciesLabel.text = "• " + model.species
         genderLabel.text = model.gender.text
+        statusAndSpeciesLabel.setAttributedText(leadingText: model.status.text,
+                                                leadingColor: model.status.color,
+                                                trailingText: " • " + model.species)
     }
     
     func fetchImage(with model: CharacterModel) {

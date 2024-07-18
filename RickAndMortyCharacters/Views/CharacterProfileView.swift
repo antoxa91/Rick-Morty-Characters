@@ -7,11 +7,11 @@
 
 import UIKit
 
-enum StaticInfoText: String {
-    case species = "Species"
-    case gender = "Gender"
-    case episodes = "Episodes"
-    case lastKnownLocation = "Last known location"
+enum LeadingInfoText: String {
+    case species = "Species: "
+    case gender = "Gender: "
+    case episodes = "Episodes: "
+    case lastKnownLocation = "Last known location: "
 }
 
 final class CharacterProfileView: UIView {
@@ -94,25 +94,6 @@ final class CharacterProfileView: UIView {
         addSubviews(characterImageView, statusLabel, vInfoStackView)
     }
     
-    private func getAttributedText(staticText: StaticInfoText, modelText: String) -> NSAttributedString {
-        let attributedString = NSMutableAttributedString(
-            string: "\(staticText.rawValue): ",
-            attributes: [
-                .font: UIFont.IBMPlexSans(fontType: .semiBold, size: 16),
-                .foregroundColor: AppColorEnum.text.color
-            ]
-        )
-        
-        let regularAttributes: [NSAttributedString.Key: Any] = [
-            .font: UIFont.IBMPlexSans(fontType: .regular, size: 16),
-            .foregroundColor: AppColorEnum.text.color
-        ]
-        
-        attributedString.append(NSAttributedString(string: modelText, attributes: regularAttributes))
-        
-        return attributedString
-    }
-    
     private func listOfEpisodes(model: CharacterModel) -> String {
         model.episode.compactMap { $0.split(separator: "/")
                 .last
@@ -124,7 +105,7 @@ final class CharacterProfileView: UIView {
     override func layoutSubviews() {
         characterImageView.layer.cornerRadius = 16
     }
-        
+    
     ///TODO - расчитать адаптивные размеры
     private func setConstraints() {
         NSLayoutConstraint.activate([
@@ -154,14 +135,14 @@ extension CharacterProfileView: ConfigurableViewProtocol {
         statusLabel.text = model.status.text
         statusLabel.backgroundColor = model.status.color
         
-        speciesLabel.attributedText = getAttributedText(staticText: .species,
-                                                        modelText: model.species)
-        genderLabel.attributedText = getAttributedText(staticText: .gender,
-                                                       modelText: model.gender.text)
-        episodesLabel.attributedText = getAttributedText(staticText: .episodes,
-                                                         modelText: listOfEpisodes(model: model))
-        lastLocationLabel.attributedText = getAttributedText(staticText: .lastKnownLocation,
-                                                             modelText: model.location.name)
+        speciesLabel.setAttributedText(leadingText: .species,
+                                       trailingText: model.species)
+        genderLabel.setAttributedText(leadingText: .gender,
+                                      trailingText: model.gender.text)
+        episodesLabel.setAttributedText(leadingText: .episodes,
+                                        trailingText: listOfEpisodes(model: model))
+        lastLocationLabel.setAttributedText(leadingText: .lastKnownLocation,
+                                            trailingText: model.location.name)
         
         fetchImage(with: model)
     }
