@@ -18,9 +18,9 @@ enum NetworkError: Error {
 }
 
 protocol NetworkServiceProtocol {
-    typealias DownloadCompletionHandler = (Result<[CharacterModel],NetworkError>) -> Void
+    typealias DownloadCompletion = (Result<[CharacterModel],NetworkError>) -> Void
     
-    func fetchCharacters(completion: @escaping DownloadCompletionHandler)
+    func fetchCharacters(completion: @escaping DownloadCompletion)
 }
 
 final class NetworkService {
@@ -28,7 +28,6 @@ final class NetworkService {
     
     private var session: URLSession {
         let configuration = URLSessionConfiguration.default
-        configuration.allowsCellularAccess = true
         configuration.waitsForConnectivity = true
         return URLSession(configuration: configuration)
     }
@@ -36,7 +35,7 @@ final class NetworkService {
 
 // MARK: - NetworkServiceProtocol
 extension NetworkService: NetworkServiceProtocol {
-    func fetchCharacters(completion: @escaping DownloadCompletionHandler) {
+    func fetchCharacters(completion: @escaping DownloadCompletion) {
         
         var urlComponents = URLComponents()
         urlComponents.scheme = "https"
@@ -49,7 +48,7 @@ extension NetworkService: NetworkServiceProtocol {
         
         let request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy)
         
-        session.dataTask(with: request) { data, response, error in
+        let task = session.dataTask(with: request) { data, response, error in
             guard let data, error == nil else {
                 return completion(.failure(.badData))
             }
@@ -72,6 +71,7 @@ extension NetworkService: NetworkServiceProtocol {
                 completion(.failure(.unknownStatusCode(response.statusCode)))
             }
         }
-        .resume()
+        
+        task.resume()
     }
 }

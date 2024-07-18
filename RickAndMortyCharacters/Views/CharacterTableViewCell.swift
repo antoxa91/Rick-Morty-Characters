@@ -22,8 +22,7 @@ final class CharactersTableViewCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        /// FIXME: - не забыть изменить
-        imageView.image = UIImage(resource: .launchBackground)
+        imageView.backgroundColor = AppColorEnum.gray.color
         return imageView
     }()
     
@@ -139,8 +138,27 @@ extension CharactersTableViewCell: ConfigurableViewProtocol {
         statusLabel.textColor = model.status.color
         speciesLabel.text = "• " + model.species
         genderLabel.text = model.gender.text
+        fetchImage(with: model)
+    }
+    
+    /// TODO: Вынести в протокол ?
+    private func fetchImage(with model: CharacterModel) {
+        guard let url = URL(string: model.image) else {
+            debugPrint("Bad URL")
+            return
+        }
         
-        /// TODO: - для картинки
-        
+        ImageLoaderService.shared.downloadImage(url) { result in
+            switch result {
+            case .success(let data):
+                DispatchQueue.main.async {
+                    let image = UIImage(data: data)
+                    self.characterImageView.image = image
+                }
+            case .failure(let failure):
+                debugPrint(failure.localizedDescription)
+                break
+            }
+        }
     }
 }

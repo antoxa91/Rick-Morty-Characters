@@ -5,8 +5,6 @@
 //  Created by Антон Стафеев on 18.07.2024.
 //
 
-import Foundation
-
 import UIKit
 
 struct CharactersViewControllerAssembly {
