@@ -8,7 +8,7 @@
 import Foundation
 
 enum IBMPlexSans: String {
-    case bold = "IBMPlexSans-Bold"
-    case regular = "IBMPlexSans-Regular"
-    case semiBold = "IBMPlexSans-SemiBold"
+    case bold = "IBMPlexSans-Bold" //600
+    case regular = "IBMPlexSans-Regular" //400
+    case semiBold = "IBMPlexSans-SemiBold" //500
 }

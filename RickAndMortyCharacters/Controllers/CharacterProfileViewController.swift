@@ -31,13 +31,18 @@ final class CharacterProfileViewController: UIViewController {
     
     private func setupView() {
         view.backgroundColor = AppColorEnum.appBackground.color
-        title = "Brad"
+        title = character.name
         view.addSubview(characterProfileView)
         characterProfileView.configure(with: character)
+        characterProfileView.fetchImage(with: character)
     }
     
     // MARK: Layout
     private func setConstraints() {
-        //
+        NSLayoutConstraint.activate([
+            characterProfileView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: 20),
+            characterProfileView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: 20),
+            characterProfileView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -20),
+        ])
     }
 }

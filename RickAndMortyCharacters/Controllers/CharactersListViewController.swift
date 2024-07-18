@@ -85,6 +85,7 @@ extension CharactersListViewController: UITableViewDataSource {
         }
         let character = characters[indexPath.row]
         cell.configure(with: character)
+        cell.fetchImage(with: character)
         return cell
     }
 }

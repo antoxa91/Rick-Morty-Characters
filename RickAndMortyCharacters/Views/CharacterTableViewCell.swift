@@ -10,6 +10,7 @@ import UIKit
 protocol ConfigurableViewProtocol {
     associatedtype ConfigirationModel
     func configure(with model: ConfigirationModel)
+    func fetchImage(with model: ConfigirationModel)
 }
 
 
@@ -39,7 +40,7 @@ final class CharactersTableViewCell: UITableViewCell {
     private lazy var statusLabel: UILabel = {
         let label = UILabel()
         label.textColor = AppColorEnum.text.color
-        label.font = .IBMPlexSans()
+        label.font = .IBMPlexSans(fontType: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -47,7 +48,7 @@ final class CharactersTableViewCell: UITableViewCell {
     private lazy var speciesLabel: UILabel = {
         let label = UILabel()
         label.textColor = AppColorEnum.text.color
-        label.font = .IBMPlexSans()
+        label.font = .IBMPlexSans(fontType: .bold)
         label.translatesAutoresizingMaskIntoConstraints = false
         return label
     }()
@@ -138,11 +139,9 @@ extension CharactersTableViewCell: ConfigurableViewProtocol {
         statusLabel.textColor = model.status.color
         speciesLabel.text = "• " + model.species
         genderLabel.text = model.gender.text
-        fetchImage(with: model)
     }
     
-    /// TODO: Вынести в протокол ?
-    private func fetchImage(with model: CharacterModel) {
+    func fetchImage(with model: CharacterModel) {
         guard let url = URL(string: model.image) else {
             debugPrint("Bad URL")
             return
@@ -151,9 +150,12 @@ extension CharactersTableViewCell: ConfigurableViewProtocol {
         ImageLoaderService.shared.downloadImage(url) { result in
             switch result {
             case .success(let data):
-                DispatchQueue.main.async {
-                    let image = UIImage(data: data)
-                    self.characterImageView.image = image
+                let image = UIImage(data: data)
+                let thumbnailSize = CGSize(width: 150, height: 150)
+                image?.prepareThumbnail(of: thumbnailSize) { [weak self] preparedImage in
+                    DispatchQueue.main.async {
+                        self?.characterImageView.image = preparedImage
+                    }
                 }
             case .failure(let failure):
                 debugPrint(failure.localizedDescription)

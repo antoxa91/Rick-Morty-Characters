@@ -21,6 +21,7 @@ struct CharacterModel: Decodable {
     let gender: CharacterGender
     let location: CharacterLocation
     let image: String
-    let episode: [String]
+    let episode: [String] // стучать к эпизодам надо
+  //  let episode: [Episode] // стучать к эпизодам надо
     let url: String
 }
