@@ -21,7 +21,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             window.rootViewController = try CharactersViewControllerAssembly().create()
         } catch {
             let logger = Logger()
-            logger.error("Не удалось создать ResumeViewController:: \(error.localizedDescription)")
+            logger.error("Не удалось создать CharactersListViewController: \(error.localizedDescription)")
         }
         
         self.window = window

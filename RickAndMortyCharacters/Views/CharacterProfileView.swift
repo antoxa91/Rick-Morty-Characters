@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum LeadingInfoText: String {
+enum CharacterInfoLabel: String {
     case species = "Species: "
     case gender = "Gender: "
     case episodes = "Episodes: "
@@ -15,6 +15,11 @@ enum LeadingInfoText: String {
 }
 
 final class CharacterProfileView: UIView {
+    private enum ConstraintConstants {
+        static let padding: CGFloat = 16.0
+        static let statusHeight: CGFloat = 42.0
+        static let imageHeightMultiplier: CGFloat = 0.92
+    }
     
     // MARK: Private UI Properties
     private lazy var characterImageView: UIImageView = {
@@ -25,7 +30,7 @@ final class CharacterProfileView: UIView {
         imageView.backgroundColor = AppColorEnum.appBackground.color
         return imageView
     }()
-        
+    
     private lazy var statusLabel = BaseLabel(font: .IBMPlexSans(fontType: .semiBold, size: 16),
                                              textAlignment: .center,
                                              cornerRadius: 16,
@@ -37,7 +42,7 @@ final class CharacterProfileView: UIView {
     private lazy var lastLocationLabel = BaseLabel()
     
     private lazy var vInfoStackView: UIStackView = {
-        let vStack = UIStackView()
+        let vStack = UIStackView(arrangedSubviews: [speciesLabel, genderLabel, episodesLabel, lastLocationLabel])
         vStack.axis = .vertical
         vStack.alignment = .leading
         vStack.distribution = .equalSpacing
@@ -52,7 +57,6 @@ final class CharacterProfileView: UIView {
     // MARK: Init
     override init(frame: CGRect) {
         super.init(frame: frame)
-        
         setupView()
         setConstraints()
     }
@@ -62,6 +66,7 @@ final class CharacterProfileView: UIView {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Setup
     private func setupView() {
         translatesAutoresizingMaskIntoConstraints = false
         backgroundColor = AppColorEnum.cellBackground.color
@@ -69,35 +74,39 @@ final class CharacterProfileView: UIView {
         addSubviews(characterImageView, statusLabel, vInfoStackView)
     }
     
-    private func listOfEpisodes(model: CharacterModel) -> String {
-        model.episode.compactMap { $0.split(separator: "/")
-                .last
-            .map { String($0)}}
-        .joined(separator: ", ")
-    }
-    
     // MARK: Layout
     override func layoutSubviews() {
+        super.layoutSubviews()
         characterImageView.layer.cornerRadius = 16
     }
     
-    ///TODO - расчитать адаптивные размеры
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            characterImageView.topAnchor.constraint(equalTo: topAnchor, constant: 16),
-            characterImageView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            characterImageView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            characterImageView.heightAnchor.constraint(equalTo: widthAnchor, multiplier: 0.92),
+            characterImageView.topAnchor.constraint(equalTo: topAnchor,
+                                                    constant: ConstraintConstants.padding),
+            characterImageView.leadingAnchor.constraint(equalTo: leadingAnchor,
+                                                        constant: ConstraintConstants.padding),
+            characterImageView.trailingAnchor.constraint(equalTo: trailingAnchor,
+                                                         constant: -ConstraintConstants.padding),
+            characterImageView.heightAnchor.constraint(equalTo: widthAnchor,
+                                                       multiplier: ConstraintConstants.imageHeightMultiplier),
             
-            statusLabel.topAnchor.constraint(equalTo: characterImageView.bottomAnchor, constant: 16),
-            statusLabel.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            statusLabel.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            statusLabel.heightAnchor.constraint(equalToConstant: 42),
+            statusLabel.topAnchor.constraint(equalTo: characterImageView.bottomAnchor,
+                                             constant: ConstraintConstants.padding),
+            statusLabel.leadingAnchor.constraint(equalTo: leadingAnchor,
+                                                 constant: ConstraintConstants.padding),
+            statusLabel.trailingAnchor.constraint(equalTo: trailingAnchor,
+                                                  constant: -ConstraintConstants.padding),
+            statusLabel.heightAnchor.constraint(equalToConstant: ConstraintConstants.statusHeight),
             
-            vInfoStackView.topAnchor.constraint(equalTo: statusLabel.bottomAnchor, constant: 16),
-            vInfoStackView.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16),
-            vInfoStackView.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 16),
-            vInfoStackView.bottomAnchor.constraint(equalTo: bottomAnchor, constant: -16)
+            vInfoStackView.topAnchor.constraint(equalTo: statusLabel.bottomAnchor,
+                                                constant: ConstraintConstants.padding),
+            vInfoStackView.trailingAnchor.constraint(equalTo: trailingAnchor,
+                                                     constant: -ConstraintConstants.padding),
+            vInfoStackView.leadingAnchor.constraint(equalTo: leadingAnchor,
+                                                    constant: ConstraintConstants.padding),
+            vInfoStackView.bottomAnchor.constraint(equalTo: bottomAnchor,
+                                                   constant: -ConstraintConstants.padding)
         ])
     }
 }
@@ -115,19 +124,18 @@ extension CharacterProfileView: ConfigurableViewProtocol {
         genderLabel.setAttributedText(leadingText: .gender,
                                       trailingText: model.gender.text)
         episodesLabel.setAttributedText(leadingText: .episodes,
-                                        trailingText: listOfEpisodes(model: model))
+                                        trailingText: model.formattedEpisodes())
         lastLocationLabel.setAttributedText(leadingText: .lastKnownLocation,
                                             trailingText: model.location.name)
         
-        fetchImage(with: model)
+        if let url = URL(string: model.image) {
+            fetchImage(with: url)
+        } else {
+            ///TODO: -обработать ошибку
+        }
     }
     
-    func fetchImage(with model: CharacterModel) {
-        guard let url = URL(string: model.image) else {
-            debugPrint("Bad URL")
-            return
-        }
-        
+    func fetchImage(with url: URL) {
         ImageLoaderService.shared.downloadImage(url) { result in
             switch result {
             case .success(let data):
@@ -136,7 +144,7 @@ extension CharacterProfileView: ConfigurableViewProtocol {
                     self.characterImageView.image = image
                 }
             case .failure(let failure):
-                debugPrint(failure.localizedDescription)
+                ///TODO: - обработать
                 break
             }
         }

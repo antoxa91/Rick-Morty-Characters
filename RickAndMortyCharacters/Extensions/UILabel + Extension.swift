@@ -36,7 +36,7 @@ extension UILabel {
     }
     
     func setAttributedText(
-        leadingText: LeadingInfoText,
+        leadingText: CharacterInfoLabel,
         leadingFont: UIFont = UIFont.IBMPlexSans(fontType: .bold, size: 16),
         leadingColor: UIColor = AppColorEnum.text.color,
         trailingText: String,
@@ -61,4 +61,3 @@ extension UILabel {
         self.attributedText = attributedString
     }
 }
-

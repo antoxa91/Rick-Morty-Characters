@@ -22,6 +22,14 @@ struct CharacterModel: Decodable {
     let location: CharacterLocation
     let image: String
     let episode: [String] // стучать к эпизодам надо
-  //  let episode: [Episode] // стучать к эпизодам надо
+    //  let episode: [Episode] // стучать к эпизодам надо
     let url: String
+    
+    func formattedEpisodes() -> String {
+        episode.compactMap {
+            $0.split(separator: "/")
+                .last
+            .map { String($0) }}
+        .joined(separator: ", ")
+    }
 }

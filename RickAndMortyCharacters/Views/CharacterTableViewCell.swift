@@ -10,11 +10,21 @@ import UIKit
 protocol ConfigurableViewProtocol {
     associatedtype ConfigirationModel
     func configure(with model: ConfigirationModel)
-    func fetchImage(with model: ConfigirationModel)
+    func fetchImage(with url: URL)
 }
 
 final class CharactersTableViewCell: UITableViewCell {
     static let identifier = String(describing: CharactersTableViewCell.self)
+    
+    private enum Constants {
+        static let cellCornerRadius: CGFloat = 25.0
+        static let cellBorderWidth: CGFloat = 2.0
+        static let characterImageViewWidth: CGFloat = 84.0
+        static let characterImageViewHeight: CGFloat = 64.0
+        static let characterImageViewLeadingInset: CGFloat = 15.0
+        static let vStackViewLeadingInset: CGFloat = 15.0
+        static let vStackViewTrailingInset: CGFloat = -8.0
+    }
     
     // MARK: Private UI Properties
     private lazy var characterImageView: UIImageView = {
@@ -58,9 +68,9 @@ final class CharactersTableViewCell: UITableViewCell {
     private func setupContentView() {
         contentView.backgroundColor = AppColorEnum.cellBackground.color
         contentView.addSubviews(characterImageView, vInfoStackView)
-        contentView.layer.borderWidth = 2
+        contentView.layer.borderWidth = Constants.cellBorderWidth
         contentView.layer.borderColor = AppColorEnum.appBackground.color.cgColor
-        contentView.layer.cornerRadius = 25
+        contentView.layer.cornerRadius = Constants.cellCornerRadius
     }
     
     override func prepareForReuse() {
@@ -84,17 +94,16 @@ final class CharactersTableViewCell: UITableViewCell {
         characterImageView.layer.cornerRadius = 8
     }
     
-    ///FIXME - сделать размеры картинки адаптивными под размер экрана
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            characterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: 15),
-            characterImageView.widthAnchor.constraint(equalToConstant: 84),
-            characterImageView.heightAnchor.constraint(equalToConstant: 64),
+            characterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.characterImageViewLeadingInset),
+            characterImageView.widthAnchor.constraint(equalToConstant: Constants.characterImageViewWidth),
+            characterImageView.heightAnchor.constraint(equalToConstant: Constants.characterImageViewHeight),
             characterImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
-            vInfoStackView.leadingAnchor.constraint(equalTo: characterImageView.trailingAnchor, constant: 15),
+            vInfoStackView.leadingAnchor.constraint(equalTo: characterImageView.trailingAnchor, constant: Constants.vStackViewLeadingInset),
             vInfoStackView.topAnchor.constraint(equalTo: characterImageView.topAnchor),
-            vInfoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -8),
+            vInfoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.vStackViewTrailingInset),
             vInfoStackView.bottomAnchor.constraint(equalTo: characterImageView.bottomAnchor)
         ])
     }
@@ -110,14 +119,15 @@ extension CharactersTableViewCell: ConfigurableViewProtocol {
         statusAndSpeciesLabel.setAttributedText(leadingText: model.status.text,
                                                 leadingColor: model.status.color,
                                                 trailingText: " • " + model.species)
+        
+        if let url = URL(string: model.image) {
+            fetchImage(with: url)
+        } else {
+            ///TODO: - обработать ошибку
+        }
     }
     
-    func fetchImage(with model: CharacterModel) {
-        guard let url = URL(string: model.image) else {
-            debugPrint("Bad URL")
-            return
-        }
-        
+    func fetchImage(with url: URL) {
         ImageLoaderService.shared.downloadImage(url) { result in
             switch result {
             case .success(let data):
@@ -129,7 +139,7 @@ extension CharactersTableViewCell: ConfigurableViewProtocol {
                     }
                 }
             case .failure(let failure):
-                debugPrint(failure.localizedDescription)
+                ///TODO: - обработать
                 break
             }
         }

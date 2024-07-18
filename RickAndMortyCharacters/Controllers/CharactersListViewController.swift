@@ -10,6 +10,10 @@ import UIKit
 final class CharactersListViewController: UIViewController {
     
     // MARK: Private Properties
+    private var characters: [CharacterModel] = []
+    private let networkService: NetworkServiceProtocol
+    
+    // MARK: Private UI Properties
     private lazy var charactersTableView: UITableView = {
         let tableView = UITableView(frame: .zero, style: .insetGrouped)
         tableView.backgroundColor = AppColorEnum.appBackground.color
@@ -21,9 +25,14 @@ final class CharactersListViewController: UIViewController {
         return tableView
     }()
     
-    private var characters: [CharacterModel] = []
-    
-    private let networkService: NetworkServiceProtocol
+    private lazy var spinner: UIActivityIndicatorView = {
+        let spinner = UIActivityIndicatorView()
+        spinner.hidesWhenStopped = true
+        spinner.style = .large
+        spinner.color = .systemBlue
+        spinner.translatesAutoresizingMaskIntoConstraints = false
+        return spinner
+    }()
     
     // MARK: Init
     init(networkService: NetworkServiceProtocol) {
@@ -38,37 +47,46 @@ final class CharactersListViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupView()
+        setConstraints()
         downloadCharacters()
     }
     
     // MARK: Private Methods
     private func setupView() {
         title = "Rick & Morty Characters"
-        view.addSubview(charactersTableView)
         navigationItem.backButtonDisplayMode = .minimal
-        
+        view.addSubviews(charactersTableView, spinner)
+        spinner.startAnimating()
+    }
+    
+    private func downloadCharacters() {
+        networkService.fetchCharacters { [weak self] result in
+            switch result {
+            case .success(let characters):
+                self?.characters = characters
+                DispatchQueue.main.async {
+                    self?.charactersTableView.reloadData()
+                    self?.spinner.stopAnimating()
+                }
+            case .failure(let failure):
+                /// TODO: - обработать
+                break
+            }
+        }
+    }
+    
+    // MARK: Layout
+    private func setConstraints() {
         NSLayoutConstraint.activate([
             charactersTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             charactersTableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             charactersTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            charactersTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor)
+            charactersTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+            
+            spinner.centerXAnchor.constraint(equalTo: charactersTableView.centerXAnchor),
+            spinner.centerYAnchor.constraint(equalTo: charactersTableView.centerYAnchor)
         ])
-    }
-    
-    private func downloadCharacters() {
-        networkService.fetchCharacters { result in
-            switch result {
-            case .success(let characters):
-                self.characters = characters
-                DispatchQueue.main.async {
-                    self.charactersTableView.reloadData()
-                }
-            case .failure(let failure):
-                print(failure)
-            }
-        }
     }
 }
 
@@ -85,7 +103,6 @@ extension CharactersListViewController: UITableViewDataSource {
         }
         let character = characters[indexPath.row]
         cell.configure(with: character)
-        cell.fetchImage(with: character)
         return cell
     }
 }
