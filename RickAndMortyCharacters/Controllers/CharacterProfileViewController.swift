@@ -33,6 +33,7 @@ final class CharacterProfileViewController: UIViewController {
         view.backgroundColor = AppColorEnum.appBackground.color
         title = "Brad"
         view.addSubview(characterProfileView)
+        characterProfileView.configure(with: character)
     }
     
     // MARK: Layout

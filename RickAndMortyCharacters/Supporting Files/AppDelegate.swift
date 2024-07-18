@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import OSLog
 
 @main
 class AppDelegate: UIResponder, UIApplicationDelegate {
@@ -16,17 +17,12 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.makeKeyAndVisible()
         
-        
-        ///TODO: - отрефакторить это
-        ///
-        let networkService = NetworkService()
-        let navVC = UINavigationController(rootViewController: CharactersListViewController(networkService: networkService))
-        navVC.navigationBar.standardAppearance = UINavigationBarAppearance()
-        navVC.navigationBar.standardAppearance.configureWithOpaqueBackground()
-        navVC.navigationBar.standardAppearance.backgroundColor = AppColorEnum.appBackground.color
-        navVC.navigationBar.standardAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: AppColorEnum.text.color]
-        
-        window.rootViewController = navVC
+        do {
+            window.rootViewController = try CharactersViewControllerAssembly().create()
+        } catch {
+            let logger = Logger()
+            logger.error("Не удалось создать ResumeViewController:: \(error.localizedDescription)")
+        }
         
         self.window = window
         return true

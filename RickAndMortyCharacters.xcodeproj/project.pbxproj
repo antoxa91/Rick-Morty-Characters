@@ -8,6 +8,7 @@
 
 /* Begin PBXBuildFile section */
 		C5909D5B2C48E80800FD5136 /* CharacterProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */; };
+		C5D522422C4906A200BF35BD /* CharactersViewControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D522412C4906A200BF35BD /* CharactersViewControllerAssembly.swift */; };
 		C5D605622C47C4B3000DBA15 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D605612C47C4B3000DBA15 /* AppDelegate.swift */; };
 		C5D605662C47C4B3000DBA15 /* CharactersListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D605652C47C4B3000DBA15 /* CharactersListViewController.swift */; };
 		C5D6056B2C47C4B5000DBA15 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = C5D6056A2C47C4B5000DBA15 /* Assets.xcassets */; };
@@ -31,6 +32,7 @@
 
 /* Begin PBXFileReference section */
 		C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterProfileView.swift; sourceTree = "<group>"; };
+		C5D522412C4906A200BF35BD /* CharactersViewControllerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersViewControllerAssembly.swift; sourceTree = "<group>"; };
 		C5D6055E2C47C4B3000DBA15 /* RickAndMortyCharacters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RickAndMortyCharacters.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5D605612C47C4B3000DBA15 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		C5D605652C47C4B3000DBA15 /* CharactersListViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersListViewController.swift; sourceTree = "<group>"; };
@@ -92,6 +94,7 @@
 				C5D605762C47C5C8000DBA15 /* Controllers */,
 				C5D605752C47C5BC000DBA15 /* Views */,
 				C5D605A42C47E227000DBA15 /* AppColorEnum.swift */,
+				C5D522412C4906A200BF35BD /* CharactersViewControllerAssembly.swift */,
 			);
 			path = RickAndMortyCharacters;
 			sourceTree = "<group>";
@@ -238,6 +241,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C5D522422C4906A200BF35BD /* CharactersViewControllerAssembly.swift in Sources */,
 				C5D605912C47DEC1000DBA15 /* IBMPlexSans.swift in Sources */,
 				C5909D5B2C48E80800FD5136 /* CharacterProfileView.swift in Sources */,
 				C5D605A72C47EB48000DBA15 /* CharacterModel.swift in Sources */,
