@@ -16,8 +16,11 @@ struct CharactersViewControllerAssembly {
         navVC.navigationBar.standardAppearance = UINavigationBarAppearance()
         navVC.navigationBar.standardAppearance.configureWithOpaqueBackground()
         navVC.navigationBar.standardAppearance.backgroundColor = AppColorEnum.appBackground.color
-        navVC.navigationBar.standardAppearance.titleTextAttributes = [NSAttributedString.Key.foregroundColor: AppColorEnum.text.color]
-        
+        navVC.navigationBar.standardAppearance.titleTextAttributes = [
+            NSAttributedString.Key.font: UIFont(name: "IBMPlexSans-Bold", size: 24) ?? .systemFont(ofSize: 24),
+            NSAttributedString.Key.foregroundColor: AppColorEnum.text.color
+        ]
+
         return navVC
     }
 }
