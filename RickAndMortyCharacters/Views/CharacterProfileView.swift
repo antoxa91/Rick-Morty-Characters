@@ -21,6 +21,8 @@ final class CharacterProfileView: UIView {
         static let imageHeightMultiplier: CGFloat = 0.92
     }
     
+    weak var alertDelegate: AlertDisplaying?
+    
     // MARK: Private UI Properties
     private lazy var characterImageView: UIImageView = {
         let imageView = UIImageView()
@@ -131,7 +133,8 @@ extension CharacterProfileView: ConfigurableViewProtocol {
         if let url = URL(string: model.image) {
             fetchImage(with: url)
         } else {
-            ///TODO: -обработать ошибку
+            self.alertDelegate?.showErrorAlert(with: .invalidURL)
+            return
         }
     }
     
@@ -144,7 +147,7 @@ extension CharacterProfileView: ConfigurableViewProtocol {
                     self.characterImageView.image = image
                 }
             case .failure(let failure):
-                ///TODO: - обработать
+                self.alertDelegate?.showErrorAlert(with: failure)
                 break
             }
         }

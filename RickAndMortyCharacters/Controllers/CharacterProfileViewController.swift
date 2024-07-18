@@ -35,6 +35,7 @@ final class CharacterProfileViewController: UIViewController {
         title = character.name
         view.addSubview(characterProfileView)
         characterProfileView.configure(with: character)
+        characterProfileView.alertDelegate = self
     }
     
     // MARK: Layout
@@ -44,5 +45,12 @@ final class CharacterProfileViewController: UIViewController {
             characterProfileView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: constant),
             characterProfileView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -constant),
         ])
+    }
+}
+
+// MARK: - AlertDisplaying
+extension CharacterProfileViewController: AlertDisplaying {
+    func showErrorAlert(with message: NetworkError) {
+        AlertManager.showErrorAlert(self, message: message)
     }
 }

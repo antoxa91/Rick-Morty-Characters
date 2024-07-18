@@ -6,3 +6,14 @@
 //
 
 import Foundation
+
+enum NetworkError: Error {
+    case badData
+    case badResponse
+    case badRequest
+    case notFound
+    case serverError
+    case badDecode
+    case invalidURL
+    case unknownStatusCode(Int)
+}

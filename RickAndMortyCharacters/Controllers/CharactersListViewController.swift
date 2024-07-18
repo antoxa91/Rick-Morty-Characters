@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol AlertDisplaying: AnyObject {
+    func showErrorAlert(with message: NetworkError)
+}
+
 final class CharactersListViewController: UIViewController {
     
     // MARK: Private Properties
@@ -70,7 +74,7 @@ final class CharactersListViewController: UIViewController {
                     self?.spinner.stopAnimating()
                 }
             case .failure(let failure):
-                /// TODO: - обработать
+                AlertManager.showErrorAlert(self ?? UIViewController(), message: failure)
                 break
             }
         }
@@ -103,6 +107,7 @@ extension CharactersListViewController: UITableViewDataSource {
         }
         let character = characters[indexPath.row]
         cell.configure(with: character)
+        cell.alertDelegate = self
         return cell
     }
 }
@@ -118,5 +123,12 @@ extension CharactersListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return view.frame.size.width/4
+    }
+}
+
+// MARK: - AlertDisplaying
+extension CharactersListViewController: AlertDisplaying {
+    func showErrorAlert(with message: NetworkError) {
+        AlertManager.showErrorAlert(self, message: message)
     }
 }

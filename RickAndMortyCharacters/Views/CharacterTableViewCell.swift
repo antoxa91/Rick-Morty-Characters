@@ -52,6 +52,8 @@ final class CharactersTableViewCell: UITableViewCell {
         return vStack
     }()
     
+    weak var alertDelegate: AlertDisplaying?
+    
     // MARK: Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
@@ -123,7 +125,8 @@ extension CharactersTableViewCell: ConfigurableViewProtocol {
         if let url = URL(string: model.image) {
             fetchImage(with: url)
         } else {
-            ///TODO: - обработать ошибку
+            self.alertDelegate?.showErrorAlert(with: .invalidURL)
+            return
         }
     }
     
@@ -139,7 +142,7 @@ extension CharactersTableViewCell: ConfigurableViewProtocol {
                     }
                 }
             case .failure(let failure):
-                ///TODO: - обработать
+                self.alertDelegate?.showErrorAlert(with: failure)
                 break
             }
         }

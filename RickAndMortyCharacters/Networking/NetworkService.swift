@@ -7,16 +7,6 @@
 
 import Foundation
 
-///TODO: удалить неиспользуемое
-enum NetworkError: Error {
-    case badData
-    case badResponse
-    case badRequest
-    case badDecode
-    case invalidURL
-    case unknownStatusCode(Int)
-}
-
 protocol NetworkServiceProtocol {
     typealias DownloadCompletion = (Result<[CharacterModel],NetworkError>) -> Void
     
@@ -25,11 +15,10 @@ protocol NetworkServiceProtocol {
 
 final class NetworkService {
     private let decoder = JSONDecoder()
+    private let session: URLSession
     
-    private var session: URLSession {
-        let configuration = URLSessionConfiguration.default
-        configuration.waitsForConnectivity = true
-        return URLSession(configuration: configuration)
+    init(session: URLSession = URLSession(configuration: .default)) {
+        self.session = session
     }
 }
 
@@ -65,8 +54,10 @@ extension NetworkService: NetworkServiceProtocol {
                 } catch {
                     completion(.failure(.badDecode))
                 }
-            case 400:
-                completion(.failure(.badRequest))
+            case 404:
+                completion(.failure(.notFound))
+            case 500:
+                completion(.failure(.serverError))
             default:
                 completion(.failure(.unknownStatusCode(response.statusCode)))
             }

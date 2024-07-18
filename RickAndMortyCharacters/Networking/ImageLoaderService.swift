@@ -8,15 +8,13 @@
 import Foundation
 
 final class ImageLoaderService {
-    static let shared = ImageLoaderService()
-    private init() {}
-    
+    static let shared = ImageLoaderService()    
     private var imageDataCache = NSCache<NSString, NSData>()
     
-    private var session: URLSession {
-        let configuration = URLSessionConfiguration.default
-        configuration.waitsForConnectivity = true
-        return URLSession(configuration: configuration)
+    private let session: URLSession
+    
+    private init(session: URLSession = URLSession(configuration: .default)) {
+        self.session = session
     }
     
     typealias DownloadImageCompletion = (Result <Data, NetworkError>) -> Void
@@ -46,8 +44,10 @@ final class ImageLoaderService {
                 let value = data as NSData
                 self?.imageDataCache.setObject(value, forKey: key)
                 completion(.success(data))
-            case 400:
-                completion(.failure(.badRequest))
+            case 404:
+                completion(.failure(.notFound))
+            case 500:
+                completion(.failure(.serverError))
             default:
                 completion(.failure(.unknownStatusCode(response.statusCode)))
             }
