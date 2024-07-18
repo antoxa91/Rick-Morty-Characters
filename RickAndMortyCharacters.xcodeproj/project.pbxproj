@@ -9,6 +9,7 @@
 /* Begin PBXBuildFile section */
 		C540F3BB2C493EA300919379 /* Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C540F3BA2C493EA300919379 /* Episode.swift */; };
 		C540F3BD2C49854200919379 /* UILabel + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C540F3BC2C49854200919379 /* UILabel + Extension.swift */; };
+		C540F3BF2C49964D00919379 /* BaseLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C540F3BE2C49964D00919379 /* BaseLabel.swift */; };
 		C5909D5B2C48E80800FD5136 /* CharacterProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */; };
 		C5D522422C4906A200BF35BD /* CharactersViewControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D522412C4906A200BF35BD /* CharactersViewControllerAssembly.swift */; };
 		C5D522442C490A8900BF35BD /* ImageLoaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D522432C490A8900BF35BD /* ImageLoaderService.swift */; };
@@ -36,6 +37,7 @@
 /* Begin PBXFileReference section */
 		C540F3BA2C493EA300919379 /* Episode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Episode.swift; sourceTree = "<group>"; };
 		C540F3BC2C49854200919379 /* UILabel + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel + Extension.swift"; sourceTree = "<group>"; };
+		C540F3BE2C49964D00919379 /* BaseLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLabel.swift; sourceTree = "<group>"; };
 		C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterProfileView.swift; sourceTree = "<group>"; };
 		C5D522412C4906A200BF35BD /* CharactersViewControllerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersViewControllerAssembly.swift; sourceTree = "<group>"; };
 		C5D522432C490A8900BF35BD /* ImageLoaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderService.swift; sourceTree = "<group>"; };
@@ -100,6 +102,7 @@
 				C5D605762C47C5C8000DBA15 /* Controllers */,
 				C5D605752C47C5BC000DBA15 /* Views */,
 				C5D605A42C47E227000DBA15 /* AppColorEnum.swift */,
+				C540F3BE2C49964D00919379 /* BaseLabel.swift */,
 				C5D522412C4906A200BF35BD /* CharactersViewControllerAssembly.swift */,
 			);
 			path = RickAndMortyCharacters;
@@ -259,6 +262,7 @@
 				C5D605662C47C4B3000DBA15 /* CharactersListViewController.swift in Sources */,
 				C540F3BD2C49854200919379 /* UILabel + Extension.swift in Sources */,
 				C540F3BB2C493EA300919379 /* Episode.swift in Sources */,
+				C540F3BF2C49964D00919379 /* BaseLabel.swift in Sources */,
 				C5D605802C47D580000DBA15 /* CharacterTableViewCell.swift in Sources */,
 				C5D605AF2C48301A000DBA15 /* NetworkService.swift in Sources */,
 				C5D605A92C47EC3F000DBA15 /* CharacterStatus.swift in Sources */,

@@ -13,7 +13,6 @@ protocol ConfigurableViewProtocol {
     func fetchImage(with model: ConfigirationModel)
 }
 
-
 final class CharactersTableViewCell: UITableViewCell {
     static let identifier = String(describing: CharactersTableViewCell.self)
     
@@ -27,25 +26,9 @@ final class CharactersTableViewCell: UITableViewCell {
         return imageView
     }()
     
-    /// FIXME: - лейблы очень похожие может вынести в отдельный класс или расширение
-    private lazy var nameLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = AppColorEnum.text.color
-        label.font = .IBMPlexSans(fontType: .semiBold, size: 18)
-        return label
-    }()
-    
-    private lazy var statusAndSpeciesLabel: UILabel = {
-        let label = UILabel()
-        return label
-    }()
-    
-    private lazy var genderLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = AppColorEnum.text.color
-        label.font = .IBMPlexSans()
-        return label
-    }()
+    private lazy var nameLabel = BaseLabel(font: .IBMPlexSans(fontType: .semiBold, size: 18))
+    private lazy var statusAndSpeciesLabel = BaseLabel()
+    private lazy var genderLabel = BaseLabel()
     
     private lazy var vInfoStackView: UIStackView = {
         let vStack = UIStackView()
@@ -58,7 +41,6 @@ final class CharactersTableViewCell: UITableViewCell {
         vStack.translatesAutoresizingMaskIntoConstraints = false
         return vStack
     }()
-    
     
     // MARK: Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {

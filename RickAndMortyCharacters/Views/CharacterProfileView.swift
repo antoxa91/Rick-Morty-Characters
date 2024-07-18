@@ -25,41 +25,16 @@ final class CharacterProfileView: UIView {
         imageView.backgroundColor = AppColorEnum.appBackground.color
         return imageView
     }()
-    
-    private lazy var statusLabel: UILabel = {
-        let label = UILabel()
-        label.textColor = AppColorEnum.text.color
-        label.font = .IBMPlexSans(fontType: .semiBold, size: 16)
-        label.textAlignment = .center
-        label.translatesAutoresizingMaskIntoConstraints = false
-        label.layer.cornerRadius = 16
-        label.clipsToBounds = true
-        return label
-    }()
-    
-    private lazy var speciesLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    private lazy var genderLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    private lazy var episodesLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        return label
-    }()
-    
-    private lazy var lastLocationLabel: UILabel = {
-        let label = UILabel()
-        label.numberOfLines = 0
-        return label
-    }()
+        
+    private lazy var statusLabel = BaseLabel(font: .IBMPlexSans(fontType: .semiBold, size: 16),
+                                             textAlignment: .center,
+                                             cornerRadius: 16,
+                                             clipsToBounds: true
+    )
+    private lazy var speciesLabel = BaseLabel()
+    private lazy var genderLabel = BaseLabel()
+    private lazy var episodesLabel = BaseLabel()
+    private lazy var lastLocationLabel = BaseLabel()
     
     private lazy var vInfoStackView: UIStackView = {
         let vStack = UIStackView()
