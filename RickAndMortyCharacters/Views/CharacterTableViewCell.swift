@@ -15,7 +15,8 @@ protocol ConfigurableViewProtocol {
 
 final class CharactersTableViewCell: UITableViewCell {
     static let identifier = String(describing: CharactersTableViewCell.self)
-    
+    private var imageUpdater: CharacterImageUpdater?
+
     private enum Constants {
         static let cellCornerRadius: CGFloat = 25.0
         static let cellBorderWidth: CGFloat = 2.0
@@ -58,6 +59,8 @@ final class CharactersTableViewCell: UITableViewCell {
         
         setupContentView()
         setConstraints()
+        imageUpdater = CharacterImageUpdater()
+        imageUpdater?.delegate = self
     }
     
     @available(*, unavailable)
@@ -125,25 +128,13 @@ extension CharactersTableViewCell: ConfigurableViewProtocol {
             Logger.network.error("Invalid URL in CharactersTableViewCell")
             return
         }
-        
-        fetchImage(with: url)
+        imageUpdater?.fetchImage(with: url)
     }
-    
-    func fetchImage(with url: URL) {
-        ImageLoaderService.shared.downloadImage(url) { result in
-            switch result {
-            case .success(let data):
-                let image = UIImage(data: data)
-                let thumbnailSize = CGSize(width: 150, height: 150)
-                image?.prepareThumbnail(of: thumbnailSize) { [weak self] preparedImage in
-                    DispatchQueue.main.async {
-                        self?.characterImageView.image = preparedImage
-                    }
-                }
-            case .failure(let failure):
-                Logger.network.error("Ошибка \(failure.localizedDescription)")
-                break
-            }
-        }
+}
+
+// MARK: - CharacterImageDelegate
+extension CharactersTableViewCell: CharacterImageDelegate {
+    func didUpdateImage(_ model: CharacterImageUpdater, image: UIImage?) {
+        characterImageView.image = image
     }
 }
