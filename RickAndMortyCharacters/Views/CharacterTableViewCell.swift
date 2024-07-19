@@ -11,7 +11,6 @@ import OSLog
 protocol ConfigurableViewProtocol {
     associatedtype ConfigirationModel
     func configure(with model: ConfigirationModel)
-    func fetchImage(with url: URL)
 }
 
 final class CharactersTableViewCell: UITableViewCell {

@@ -22,6 +22,9 @@ final class CharacterProfileView: UIView {
         static let imageHeightMultiplier: CGFloat = 0.92
     }
     
+    private var imageUpdater: CharacterImageUpdater?
+    private var episodeUpdater: CharacterProfileEpisodeUpdater?
+
     // MARK: Private UI Properties
     private lazy var characterImageView: UIImageView = {
         let imageView = UIImageView()
@@ -73,6 +76,10 @@ final class CharacterProfileView: UIView {
         backgroundColor = AppColorEnum.cellBackground.color
         layer.cornerRadius = 24
         addSubviews(characterImageView, statusLabel, vInfoStackView)
+        imageUpdater = CharacterImageUpdater()
+        imageUpdater?.delegate = self
+        episodeUpdater = CharacterProfileEpisodeUpdater()
+        episodeUpdater?.delegate = self
     }
     
     // MARK: Layout
@@ -125,51 +132,27 @@ extension CharacterProfileView: ConfigurableViewProtocol {
                                       trailingText: model.gender.text)
         lastLocationLabel.setAttributedText(leadingText: .lastKnownLocation,
                                             trailingText: model.location.name)
-        fetchEpisodes(urls: model.episode)
+        
+        episodeUpdater?.fetchEpisodes(urls: model.episode)
         
         guard let url = URL(string: model.image) else {
             Logger.network.error("Ошибка: Invalid URL")
             return
         }
-        
-        fetchImage(with: url)
+        imageUpdater?.fetchImage(with: url)
     }
-    
-    func fetchImage(with url: URL) {
-        ImageLoaderService.shared.downloadImage(url) { result in
-            switch result {
-            case .success(let data):
-                let image = UIImage(data: data)
-                DispatchQueue.main.async {
-                    self.characterImageView.image = image
-                }
-            case .failure(let failure):
-                Logger.network.error("Ошибка при загрузке character image: \(failure.localizedDescription)")
-                break
-            }
-        }
+}
+
+// MARK: - CharacterProfileImageDelegate
+extension CharacterProfileView: CharacterImageDelegate {
+    func didUpdateImage(_ model: CharacterImageUpdater, image: UIImage?) {
+        characterImageView.image = image
     }
-    ///TODO-
-    private func fetchEpisodes(urls: [String]) {
-        let group = DispatchGroup()
-        var episodeNames: [String] = []
-        
-        for url in urls {
-            guard let episodeURL = URL(string: url) else { continue }
-            group.enter()
-            NetworkService().fetchData(awaiting: Episode.self, url: episodeURL) { result in
-                defer { group.leave() }
-                switch result {
-                case .success(let episode):
-                    episodeNames.append(episode.name)
-                case .failure(let error):
-                    Logger.network.error("Ошибка при загрузке эпизода: \(error)")
-                }
-            }
-        }
-        
-        group.notify(queue: .main) {
-            self.episodesLabel.setAttributedText(leadingText: .episodes, trailingText: episodeNames.joined(separator: ", "))
-        }
+}
+
+// MARK: - CharacterProfileeEpisodeDelegate
+extension CharacterProfileView: CharacterProfileEpisodeDelegate {
+    func didUpdateEpisodes(_ model: CharacterProfileEpisodeUpdater, episodes: String) {
+        episodesLabel.setAttributedText(leadingText: .episodes, trailingText: episodes)
     }
 }

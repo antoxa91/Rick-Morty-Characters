@@ -16,6 +16,8 @@
 		C55C8CF92C4A54F9003E787E /* NetworkErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C8CF82C4A54F9003E787E /* NetworkErrorView.swift */; };
 		C55C8CFB2C4AC11C003E787E /* Logger + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C8CFA2C4AC11C003E787E /* Logger + Extension.swift */; };
 		C55C8CFD2C4AF067003E787E /* FooterLoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C8CFC2C4AF067003E787E /* FooterLoaderView.swift */; };
+		C55C8D042C4B1E09003E787E /* CharacterImageUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C8D032C4B1E09003E787E /* CharacterImageUpdater.swift */; };
+		C55C8D062C4B1E44003E787E /* CharacterProfileEpisodeUpdater.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C8D052C4B1E44003E787E /* CharacterProfileEpisodeUpdater.swift */; };
 		C5909D5B2C48E80800FD5136 /* CharacterProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */; };
 		C5D522422C4906A200BF35BD /* CharactersViewControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D522412C4906A200BF35BD /* CharactersViewControllerAssembly.swift */; };
 		C5D522442C490A8900BF35BD /* ImageLoaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D522432C490A8900BF35BD /* ImageLoaderService.swift */; };
@@ -50,6 +52,8 @@
 		C55C8CF82C4A54F9003E787E /* NetworkErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorView.swift; sourceTree = "<group>"; };
 		C55C8CFA2C4AC11C003E787E /* Logger + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Logger + Extension.swift"; sourceTree = "<group>"; };
 		C55C8CFC2C4AF067003E787E /* FooterLoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterLoaderView.swift; sourceTree = "<group>"; };
+		C55C8D032C4B1E09003E787E /* CharacterImageUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterImageUpdater.swift; sourceTree = "<group>"; };
+		C55C8D052C4B1E44003E787E /* CharacterProfileEpisodeUpdater.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterProfileEpisodeUpdater.swift; sourceTree = "<group>"; };
 		C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterProfileView.swift; sourceTree = "<group>"; };
 		C5D522412C4906A200BF35BD /* CharactersViewControllerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersViewControllerAssembly.swift; sourceTree = "<group>"; };
 		C5D522432C490A8900BF35BD /* ImageLoaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderService.swift; sourceTree = "<group>"; };
@@ -87,6 +91,17 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		C55C8D022C4B1D58003E787E /* Entities */ = {
+			isa = PBXGroup;
+			children = (
+				C540F3BE2C49964D00919379 /* BaseLabel.swift */,
+				C5D522412C4906A200BF35BD /* CharactersViewControllerAssembly.swift */,
+				C55C8D032C4B1E09003E787E /* CharacterImageUpdater.swift */,
+				C55C8D052C4B1E44003E787E /* CharacterProfileEpisodeUpdater.swift */,
+			);
+			path = Entities;
+			sourceTree = "<group>";
+		};
 		C5D605552C47C4B3000DBA15 = {
 			isa = PBXGroup;
 			children = (
@@ -106,6 +121,7 @@
 		C5D605602C47C4B3000DBA15 /* RickAndMortyCharacters */ = {
 			isa = PBXGroup;
 			children = (
+				C55C8D022C4B1D58003E787E /* Entities */,
 				C5D605792C47C5E9000DBA15 /* Supporting Files */,
 				C5D605812C47DE61000DBA15 /* Font */,
 				C5D6057C2C47C7A2000DBA15 /* Networking */,
@@ -167,8 +183,6 @@
 			children = (
 				C5D605A42C47E227000DBA15 /* AppColorEnum.swift */,
 				C5D605612C47C4B3000DBA15 /* AppDelegate.swift */,
-				C540F3BE2C49964D00919379 /* BaseLabel.swift */,
-				C5D522412C4906A200BF35BD /* CharactersViewControllerAssembly.swift */,
 				C5D6056C2C47C4B5000DBA15 /* LaunchScreen.storyboard */,
 				C5D6056A2C47C4B5000DBA15 /* Assets.xcassets */,
 				C5D6056F2C47C4B5000DBA15 /* Info.plist */,
@@ -276,6 +290,8 @@
 				C5D605912C47DEC1000DBA15 /* IBMPlexSans.swift in Sources */,
 				C5909D5B2C48E80800FD5136 /* CharacterProfileView.swift in Sources */,
 				C5D605A72C47EB48000DBA15 /* CharacterModel.swift in Sources */,
+				C55C8D062C4B1E44003E787E /* CharacterProfileEpisodeUpdater.swift in Sources */,
+				C55C8D042C4B1E09003E787E /* CharacterImageUpdater.swift in Sources */,
 				C5D605A52C47E227000DBA15 /* AppColorEnum.swift in Sources */,
 				C5D6057E2C47C7D0000DBA15 /* UIView + Extension.swift in Sources */,
 				C5D605662C47C4B3000DBA15 /* CharactersListViewController.swift in Sources */,
