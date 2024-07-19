@@ -26,15 +26,6 @@ final class CharactersListViewController: UIViewController {
         return tableView
     }()
     
-    private lazy var spinner: UIActivityIndicatorView = {
-        let spinner = UIActivityIndicatorView()
-        spinner.hidesWhenStopped = true
-        spinner.style = .large
-        spinner.color = .systemBlue
-        spinner.translatesAutoresizingMaskIntoConstraints = false
-        return spinner
-    }()
-    
     ///TODO -
     private var apiInfo: AllCharactersResponse.Info? = nil
     private var isLoadingMoreCharacters = false
@@ -62,12 +53,12 @@ final class CharactersListViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(noInternetConnection(notification:)), name: .networkStatusChanged, object: nil)
     }
     
-
+    
     // MARK: Setup
     private func setupView() {
         title = "Rick & Morty Characters"
         navigationItem.backButtonDisplayMode = .minimal
-        view.addSubviews(charactersTableView, spinner)
+        view.addSubviews(charactersTableView)
     }
     
     ///TODO - загрузка из сети и скролвью
@@ -79,7 +70,7 @@ final class CharactersListViewController: UIViewController {
             return
         }
         isLoadingMoreCharacters = true
-
+        
         networkService.fetchCharacters(awaiting: AllCharactersResponse.self, url: url) { [weak self] result in
             guard let self else { return }
             
@@ -150,10 +141,7 @@ final class CharactersListViewController: UIViewController {
             charactersTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
             charactersTableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             charactersTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
-            charactersTableView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
-            
-            spinner.centerXAnchor.constraint(equalTo: charactersTableView.centerXAnchor),
-            spinner.centerYAnchor.constraint(equalTo: charactersTableView.centerYAnchor)
+            charactersTableView.bottomAnchor.constraint(equalTo:view.safeAreaLayoutGuide.bottomAnchor)
         ])
     }
 }
@@ -187,6 +175,16 @@ extension CharactersListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return view.frame.size.width/4
     }
+    
+    func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
+        let footer = FooterLoaderView()
+        footer.startAnimating()
+        return footer
+    }
+    
+    func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
+        return isLoadingMoreCharacters ? 100 : 0
+    }
 }
 
 
@@ -199,7 +197,6 @@ extension CharactersListViewController {
     }
 }
 
-
 // MARK: - UIScrollViewDelegate
 extension CharactersListViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -208,8 +205,8 @@ extension CharactersListViewController: UIScrollViewDelegate {
               !characters.isEmpty,
               let nextUrlString = apiInfo?.next,
               let url = URL(string: nextUrlString) else { return }
-
-        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) {[weak self] t in
+        
+        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { [weak self] t in
             let offset = scrollView.contentOffset.y
             let totalContentHeight = scrollView.contentSize.height
             let totalScrollViewFixedHeight = scrollView.frame.size.height

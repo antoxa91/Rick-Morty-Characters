@@ -33,7 +33,7 @@ final class CharactersTableViewCell: UITableViewCell {
         imageView.contentMode = .scaleAspectFill
         imageView.clipsToBounds = true
         imageView.translatesAutoresizingMaskIntoConstraints = false
-        imageView.backgroundColor = AppColorEnum.gray.color
+        imageView.backgroundColor = AppColorEnum.appBackground.color
         return imageView
     }()
     

@@ -1,5 +1,5 @@
 //
-//  FooterLoaderTableView.swift
+//  FooterLoaderView.swift
 //  RickAndMortyCharacters
 //
 //  Created by Антон Стафеев on 20.07.2024.
@@ -7,10 +7,8 @@
 
 import UIKit
 
-final class FooterLoaderTableView: UIView {
-    static let identifier = "RMFooterLoadingCollectionReusableView"
-    
-    private let spinner: UIActivityIndicatorView = {
+final class FooterLoaderView: UIView {
+    private lazy var spinner: UIActivityIndicatorView = {
         let spinner = UIActivityIndicatorView(style: .large)
         spinner.hidesWhenStopped = true
         spinner.translatesAutoresizingMaskIntoConstraints = false
@@ -19,25 +17,26 @@ final class FooterLoaderTableView: UIView {
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = .systemBackground
+        backgroundColor = AppColorEnum.appBackground.color
         addSubview(spinner)
-        addConstraints()
+        setConstraints()
     }
-    
+
+    @available(*, unavailable)
     required init?(coder: NSCoder) {
         fatalError("Unsupported")
     }
     
-    private func addConstraints() {
+    private func setConstraints() {
         NSLayoutConstraint.activate([
-            spinner.widthAnchor.constraint(equalToConstant: 100),
-            spinner.heightAnchor.constraint(equalToConstant: 100),
+            spinner.widthAnchor.constraint(equalToConstant: 40),
+            spinner.heightAnchor.constraint(equalToConstant: 40),
             spinner.centerXAnchor.constraint(equalTo: centerXAnchor),
             spinner.centerYAnchor.constraint(equalTo: centerYAnchor)
         ])
     }
     
-    public func startAnimating() {
+    func startAnimating() {
         spinner.startAnimating()
     }
 }

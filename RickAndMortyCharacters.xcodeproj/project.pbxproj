@@ -15,6 +15,7 @@
 		C55C8CF72C4A53CD003E787E /* NetworkErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C8CF62C4A53CD003E787E /* NetworkErrorViewController.swift */; };
 		C55C8CF92C4A54F9003E787E /* NetworkErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C8CF82C4A54F9003E787E /* NetworkErrorView.swift */; };
 		C55C8CFB2C4AC11C003E787E /* Logger + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C8CFA2C4AC11C003E787E /* Logger + Extension.swift */; };
+		C55C8CFD2C4AF067003E787E /* FooterLoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C8CFC2C4AF067003E787E /* FooterLoaderView.swift */; };
 		C5909D5B2C48E80800FD5136 /* CharacterProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */; };
 		C5D522422C4906A200BF35BD /* CharactersViewControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D522412C4906A200BF35BD /* CharactersViewControllerAssembly.swift */; };
 		C5D522442C490A8900BF35BD /* ImageLoaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D522432C490A8900BF35BD /* ImageLoaderService.swift */; };
@@ -48,6 +49,7 @@
 		C55C8CF62C4A53CD003E787E /* NetworkErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorViewController.swift; sourceTree = "<group>"; };
 		C55C8CF82C4A54F9003E787E /* NetworkErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorView.swift; sourceTree = "<group>"; };
 		C55C8CFA2C4AC11C003E787E /* Logger + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Logger + Extension.swift"; sourceTree = "<group>"; };
+		C55C8CFC2C4AF067003E787E /* FooterLoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterLoaderView.swift; sourceTree = "<group>"; };
 		C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterProfileView.swift; sourceTree = "<group>"; };
 		C5D522412C4906A200BF35BD /* CharactersViewControllerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersViewControllerAssembly.swift; sourceTree = "<group>"; };
 		C5D522432C490A8900BF35BD /* ImageLoaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderService.swift; sourceTree = "<group>"; };
@@ -121,6 +123,7 @@
 				C5D6057F2C47D580000DBA15 /* CharacterTableViewCell.swift */,
 				C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */,
 				C55C8CF82C4A54F9003E787E /* NetworkErrorView.swift */,
+				C55C8CFC2C4AF067003E787E /* FooterLoaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -269,6 +272,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				C5D522422C4906A200BF35BD /* CharactersViewControllerAssembly.swift in Sources */,
+				C55C8CFD2C4AF067003E787E /* FooterLoaderView.swift in Sources */,
 				C5D605912C47DEC1000DBA15 /* IBMPlexSans.swift in Sources */,
 				C5909D5B2C48E80800FD5136 /* CharacterProfileView.swift in Sources */,
 				C5D605A72C47EB48000DBA15 /* CharacterModel.swift in Sources */,
