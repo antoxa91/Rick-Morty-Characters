@@ -123,10 +123,9 @@ extension CharacterProfileView: ConfigurableViewProtocol {
                                        trailingText: model.species)
         genderLabel.setAttributedText(leadingText: .gender,
                                       trailingText: model.gender.text)
-        episodesLabel.setAttributedText(leadingText: .episodes,
-                                        trailingText: model.formattedEpisodes())
         lastLocationLabel.setAttributedText(leadingText: .lastKnownLocation,
                                             trailingText: model.location.name)
+        fetchEpisodes(urls: model.episode)
         
         guard let url = URL(string: model.image) else {
             Logger.network.error("Ошибка: Invalid URL")
@@ -148,6 +147,29 @@ extension CharacterProfileView: ConfigurableViewProtocol {
                 Logger.network.error("Ошибка при загрузке character image: \(failure.localizedDescription)")
                 break
             }
+        }
+    }
+    ///TODO-
+    private func fetchEpisodes(urls: [String]) {
+        let group = DispatchGroup()
+        var episodeNames: [String] = []
+        
+        for url in urls {
+            guard let episodeURL = URL(string: url) else { continue }
+            group.enter()
+            NetworkService().fetchData(awaiting: Episode.self, url: episodeURL) { result in
+                defer { group.leave() }
+                switch result {
+                case .success(let episode):
+                    episodeNames.append(episode.name)
+                case .failure(let error):
+                    Logger.network.error("Ошибка при загрузке эпизода: \(error)")
+                }
+            }
+        }
+        
+        group.notify(queue: .main) {
+            self.episodesLabel.setAttributedText(leadingText: .episodes, trailingText: episodeNames.joined(separator: ", "))
         }
     }
 }

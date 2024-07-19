@@ -9,7 +9,7 @@ import Foundation
 
 ///TODO - посмотреть еще как улучшить
 protocol NetworkServiceProtocol {
-    func fetchCharacters<T: Decodable>(awaiting type: T.Type, url: URL,
+    func fetchData<T: Decodable>(awaiting type: T.Type, url: URL,
                                        completion: @escaping (Result <T, NetworkError>) -> Void)
 }
 
@@ -24,7 +24,7 @@ final class NetworkService {
 
 // MARK: - NetworkServiceProtocol
 extension NetworkService: NetworkServiceProtocol {
-    func fetchCharacters<T: Decodable>(awaiting type: T.Type, url: URL,
+    func fetchData<T: Decodable>(awaiting type: T.Type, url: URL,
                                        completion: @escaping (Result <T, NetworkError>) -> Void) {
         
         let request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy)

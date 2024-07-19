@@ -7,6 +7,19 @@
 
 import Foundation
 
+///TODO
+struct AllEpisodesResponse: Decodable {
+    struct Info: Codable {
+        let count: Int
+        let pages: Int
+        let next: String?
+        let prev: String?
+    }
+    
+    let info: Info
+    let results: [Episode]
+}
+
 struct Episode: Decodable {
     let id: Int
     let name: String

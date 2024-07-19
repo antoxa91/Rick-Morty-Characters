@@ -7,7 +7,7 @@
 
 import Foundation
 
-
+///TODO -
 struct AllCharactersResponse: Decodable {
     struct Info: Decodable {
         let count: Int
@@ -28,15 +28,6 @@ struct CharacterModel: Decodable {
     let gender: CharacterGender
     let location: CharacterLocation
     let image: String
-    let episode: [String] // стучать к эпизодам надо
-    //  let episode: [Episode] // стучать к эпизодам надо
+    let episode: [String]
     let url: String
-    
-    func formattedEpisodes() -> String {
-        episode.compactMap {
-            $0.split(separator: "/")
-                .last
-            .map { String($0) }}
-        .joined(separator: ", ")
-    }
 }

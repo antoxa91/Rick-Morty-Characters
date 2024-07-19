@@ -62,7 +62,6 @@ final class CharactersListViewController: UIViewController {
     }
     
     ///TODO - загрузка из сети и скролвью
-    ///Logger
     ///может в презентер вынесу
     // MARK: Private Methods
     public func fetchAdditionalCharacters(url: URL) {
@@ -71,7 +70,7 @@ final class CharactersListViewController: UIViewController {
         }
         isLoadingMoreCharacters = true
         
-        networkService.fetchCharacters(awaiting: AllCharactersResponse.self, url: url) { [weak self] result in
+        networkService.fetchData(awaiting: AllCharactersResponse.self, url: url) { [weak self] result in
             guard let self else { return }
             
             switch result {
@@ -95,6 +94,7 @@ final class CharactersListViewController: UIViewController {
                 }
             case .failure:
                 self.isLoadingMoreCharacters = false
+                Logger.network.error("Ошибка: не удается загрузить доп персонажей")
             }
         }
     }
@@ -109,7 +109,7 @@ final class CharactersListViewController: UIViewController {
             return
         }
         
-        networkService.fetchCharacters(awaiting: AllCharactersResponse.self, url: url) { [weak self] result in
+        networkService.fetchData(awaiting: AllCharactersResponse.self, url: url) { [weak self] result in
             switch result {
             case .success(let characters):
                 self?.characters = characters.results
