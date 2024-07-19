@@ -11,9 +11,7 @@ import Foundation
 struct AllCharactersResponse: Decodable {
     struct Info: Decodable {
         let count: Int
-        let pages: Int
         let next: String?
-        let prev: String?
     }
     
     let info: Info
@@ -24,10 +22,8 @@ struct CharacterModel: Decodable {
     let name: String
     let status: CharacterStatus
     let species: String
-    let type: String
     let gender: CharacterGender
     let location: CharacterLocation
     let image: String
     let episode: [String]
-    let url: String
 }
