@@ -7,6 +7,7 @@
 
 import UIKit
 
+///TODO: - может не нужен и заменить логами?
 final class AlertManager {
     static func showErrorAlert(_ vc: UIViewController,
                                title: String = "Ошибка",

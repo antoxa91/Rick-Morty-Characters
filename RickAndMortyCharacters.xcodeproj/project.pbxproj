@@ -12,6 +12,9 @@
 		C540F3BF2C49964D00919379 /* BaseLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C540F3BE2C49964D00919379 /* BaseLabel.swift */; };
 		C540F3C12C49BF2E00919379 /* AlertManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = C540F3C02C49BF2E00919379 /* AlertManager.swift */; };
 		C540F3C32C49C7FE00919379 /* NetworkError.swift in Sources */ = {isa = PBXBuildFile; fileRef = C540F3C22C49C7FE00919379 /* NetworkError.swift */; };
+		C55C8CF52C4A5171003E787E /* NetworkMonitor.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C8CF42C4A5171003E787E /* NetworkMonitor.swift */; };
+		C55C8CF72C4A53CD003E787E /* NetworkErrorViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C8CF62C4A53CD003E787E /* NetworkErrorViewController.swift */; };
+		C55C8CF92C4A54F9003E787E /* NetworkErrorView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C8CF82C4A54F9003E787E /* NetworkErrorView.swift */; };
 		C5909D5B2C48E80800FD5136 /* CharacterProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */; };
 		C5D522422C4906A200BF35BD /* CharactersViewControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D522412C4906A200BF35BD /* CharactersViewControllerAssembly.swift */; };
 		C5D522442C490A8900BF35BD /* ImageLoaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D522432C490A8900BF35BD /* ImageLoaderService.swift */; };
@@ -42,6 +45,9 @@
 		C540F3BE2C49964D00919379 /* BaseLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLabel.swift; sourceTree = "<group>"; };
 		C540F3C02C49BF2E00919379 /* AlertManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AlertManager.swift; sourceTree = "<group>"; };
 		C540F3C22C49C7FE00919379 /* NetworkError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkError.swift; sourceTree = "<group>"; };
+		C55C8CF42C4A5171003E787E /* NetworkMonitor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkMonitor.swift; sourceTree = "<group>"; };
+		C55C8CF62C4A53CD003E787E /* NetworkErrorViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorViewController.swift; sourceTree = "<group>"; };
+		C55C8CF82C4A54F9003E787E /* NetworkErrorView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkErrorView.swift; sourceTree = "<group>"; };
 		C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterProfileView.swift; sourceTree = "<group>"; };
 		C5D522412C4906A200BF35BD /* CharactersViewControllerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersViewControllerAssembly.swift; sourceTree = "<group>"; };
 		C5D522432C490A8900BF35BD /* ImageLoaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderService.swift; sourceTree = "<group>"; };
@@ -118,6 +124,7 @@
 			children = (
 				C5D6057F2C47D580000DBA15 /* CharacterTableViewCell.swift */,
 				C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */,
+				C55C8CF82C4A54F9003E787E /* NetworkErrorView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -126,6 +133,7 @@
 			isa = PBXGroup;
 			children = (
 				C5D605652C47C4B3000DBA15 /* CharactersListViewController.swift */,
+				C55C8CF62C4A53CD003E787E /* NetworkErrorViewController.swift */,
 				C5D6057A2C47C786000DBA15 /* CharacterProfileViewController.swift */,
 			);
 			path = Controllers;
@@ -171,6 +179,7 @@
 				C540F3C22C49C7FE00919379 /* NetworkError.swift */,
 				C5D605AE2C48301A000DBA15 /* NetworkService.swift */,
 				C5D522432C490A8900BF35BD /* ImageLoaderService.swift */,
+				C55C8CF42C4A5171003E787E /* NetworkMonitor.swift */,
 			);
 			path = Networking;
 			sourceTree = "<group>";
@@ -271,6 +280,7 @@
 				C540F3C32C49C7FE00919379 /* NetworkError.swift in Sources */,
 				C540F3BB2C493EA300919379 /* Episode.swift in Sources */,
 				C540F3BF2C49964D00919379 /* BaseLabel.swift in Sources */,
+				C55C8CF72C4A53CD003E787E /* NetworkErrorViewController.swift in Sources */,
 				C5D605802C47D580000DBA15 /* CharacterTableViewCell.swift in Sources */,
 				C5D605AF2C48301A000DBA15 /* NetworkService.swift in Sources */,
 				C5D605A92C47EC3F000DBA15 /* CharacterStatus.swift in Sources */,
@@ -279,8 +289,10 @@
 				C5D605A12C47E010000DBA15 /* UIFont + Extension.swift in Sources */,
 				C5D605AB2C47EC54000DBA15 /* CharacterGender.swift in Sources */,
 				C5D522442C490A8900BF35BD /* ImageLoaderService.swift in Sources */,
+				C55C8CF92C4A54F9003E787E /* NetworkErrorView.swift in Sources */,
 				C5D6057B2C47C786000DBA15 /* CharacterProfileViewController.swift in Sources */,
 				C5D605AD2C47EC65000DBA15 /* CharacterLocation.swift in Sources */,
+				C55C8CF52C4A5171003E787E /* NetworkMonitor.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
