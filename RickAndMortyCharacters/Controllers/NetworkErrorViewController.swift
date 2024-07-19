@@ -14,7 +14,6 @@ final class NetworkErrorViewController: UIViewController {
     
     override func viewDidLoad() {
         super.viewDidLoad()
-        
         setupView()
     }
     

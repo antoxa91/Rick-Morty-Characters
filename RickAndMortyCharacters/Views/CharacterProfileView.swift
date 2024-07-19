@@ -119,7 +119,6 @@ extension CharacterProfileView: ConfigurableViewProtocol {
     func configure(with model: CharacterModel) {
         statusLabel.text = model.status.text
         statusLabel.backgroundColor = model.status.color
-        
         speciesLabel.setAttributedText(leadingText: .species,
                                        trailingText: model.species)
         genderLabel.setAttributedText(leadingText: .gender,

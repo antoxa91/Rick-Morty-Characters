@@ -66,6 +66,7 @@ final class CharactersTableViewCell: UITableViewCell {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: Setup
     private func setupContentView() {
         contentView.backgroundColor = AppColorEnum.cellBackground.color
         contentView.addSubviews(characterImageView, vInfoStackView)

@@ -12,6 +12,19 @@ protocol NetworkErrorViewDelegate: AnyObject {
 }
 
 final class NetworkErrorView: UIView {
+    private enum ConstraintConstants {
+        static let imageTop: CGFloat = 120
+        static let imageHeight: CGFloat = 263
+        
+        static let networkErrorLabelTop: CGFloat = 35
+        static let errorDescriptionLabelTop: CGFloat = 10
+        static let retryButtonTop: CGFloat = 10
+        
+        static let buttonHeight: CGFloat = 263
+        static let buttonWidth: CGFloat = 263
+
+    }
+    
     weak var delegate: NetworkErrorViewDelegate?
     
     // MARK: Private UI Properties
@@ -71,21 +84,25 @@ final class NetworkErrorView: UIView {
     // MARK: Layout
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            errorImageView.topAnchor.constraint(equalTo: topAnchor, constant: 120),
-            errorImageView.heightAnchor.constraint(equalToConstant: 263),
+            errorImageView.topAnchor.constraint(equalTo: topAnchor,
+                                                constant: ConstraintConstants.imageTop),
+            errorImageView.heightAnchor.constraint(equalToConstant: ConstraintConstants.imageHeight),
             errorImageView.widthAnchor.constraint(equalTo: heightAnchor),
             errorImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
             
             networkErrorLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            networkErrorLabel.topAnchor.constraint(equalTo: errorImageView.bottomAnchor, constant: 35),
+            networkErrorLabel.topAnchor.constraint(equalTo: errorImageView.bottomAnchor,
+                                                   constant: ConstraintConstants.networkErrorLabelTop),
             
             errorDescriptionLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
-            errorDescriptionLabel.topAnchor.constraint(equalTo: networkErrorLabel.bottomAnchor, constant: 10),
+            errorDescriptionLabel.topAnchor.constraint(equalTo: networkErrorLabel.bottomAnchor,
+                                                       constant: ConstraintConstants.errorDescriptionLabelTop),
             
-            retryButton.topAnchor.constraint(equalTo: errorDescriptionLabel.bottomAnchor, constant: 10),
+            retryButton.topAnchor.constraint(equalTo: errorDescriptionLabel.bottomAnchor,
+                                             constant: ConstraintConstants.retryButtonTop),
             retryButton.centerXAnchor.constraint(equalTo: centerXAnchor),
-            retryButton.widthAnchor.constraint(equalToConstant: 220),
-            retryButton.heightAnchor.constraint(equalToConstant: 42)
+            retryButton.widthAnchor.constraint(equalToConstant: ConstraintConstants.buttonWidth),
+            retryButton.heightAnchor.constraint(equalToConstant: ConstraintConstants.buttonHeight)
         ])
     }
 }

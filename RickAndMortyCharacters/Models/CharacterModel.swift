@@ -12,7 +12,6 @@ struct AllCharactersResponse: Decodable {
     let results: [CharacterModel]
 }
 
-///TODO - проверить на лишние поля
 struct CharacterModel: Decodable {
     let name: String
     let status: CharacterStatus
