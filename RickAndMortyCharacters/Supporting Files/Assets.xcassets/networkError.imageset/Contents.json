@@ -1,11 +1,11 @@
 {
   "images" : [
     {
+      "filename" : "networkError.png",
       "idiom" : "universal",
       "scale" : "1x"
     },
     {
-      "filename" : "networkError.png",
       "idiom" : "universal",
       "scale" : "2x"
     },

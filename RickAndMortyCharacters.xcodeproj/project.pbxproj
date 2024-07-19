@@ -133,8 +133,8 @@
 			isa = PBXGroup;
 			children = (
 				C5D605652C47C4B3000DBA15 /* CharactersListViewController.swift */,
-				C55C8CF62C4A53CD003E787E /* NetworkErrorViewController.swift */,
 				C5D6057A2C47C786000DBA15 /* CharacterProfileViewController.swift */,
+				C55C8CF62C4A53CD003E787E /* NetworkErrorViewController.swift */,
 			);
 			path = Controllers;
 			sourceTree = "<group>";

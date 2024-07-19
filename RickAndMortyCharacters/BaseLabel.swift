@@ -12,7 +12,9 @@ final class BaseLabel: UILabel {
     init(font: UIFont = .IBMPlexSans(),
          textAlignment: NSTextAlignment = .left,
          cornerRadius: CGFloat = 0,
-         clipsToBounds: Bool = false
+         clipsToBounds: Bool = false,
+         text: String = "",
+         textColor: UIColor = AppColorEnum.text.color
     ) {
         super.init(frame: .zero)
         
@@ -20,6 +22,8 @@ final class BaseLabel: UILabel {
         self.textAlignment = textAlignment
         self.layer.cornerRadius = cornerRadius
         self.clipsToBounds = clipsToBounds
+        self.text = text
+        self.textColor = textColor
         setupDefaultStyle()
     }
      
@@ -31,6 +35,5 @@ final class BaseLabel: UILabel {
     private func setupDefaultStyle() {     
         self.translatesAutoresizingMaskIntoConstraints = false
         self.numberOfLines = 0
-        self.textColor = AppColorEnum.text.color
     }
 }

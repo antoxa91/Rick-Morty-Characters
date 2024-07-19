@@ -9,10 +9,30 @@ import UIKit
 
 final class NetworkErrorViewController: UIViewController {
     
+    private lazy var networkErrorView = NetworkErrorView()
     
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        view.backgroundColor = AppColorEnum.turquoise.color
+        setupView()
+    }
+    
+    private func setupView() {
+        view.addSubview(networkErrorView)
+        networkErrorView.delegate = self
+        
+        NSLayoutConstraint.activate([
+            networkErrorView.topAnchor.constraint(equalTo: view.topAnchor),
+            networkErrorView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
+            networkErrorView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
+            networkErrorView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+        ])
+    }
+}
+
+// MARK: - NetworkErrorViewDelegate
+extension NetworkErrorViewController: NetworkErrorViewDelegate {
+    func retryButtonTapped() {
+        print(#function)
     }
 }
