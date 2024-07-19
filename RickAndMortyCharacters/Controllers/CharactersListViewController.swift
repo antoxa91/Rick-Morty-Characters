@@ -35,6 +35,13 @@ final class CharactersListViewController: UIViewController {
         return spinner
     }()
     
+    ///TODO -
+    private var apiInfo: AllCharactersResponse.Info? = nil
+    private var isLoadingMoreCharacters = false
+    public var shouldShowMoreLoadMoreIndicator: Bool {
+        return apiInfo?.next != nil
+    }
+    
     // MARK: Init
     init(networkService: NetworkServiceProtocol) {
         self.networkService = networkService
@@ -61,18 +68,63 @@ final class CharactersListViewController: UIViewController {
         title = "Rick & Morty Characters"
         navigationItem.backButtonDisplayMode = .minimal
         view.addSubviews(charactersTableView, spinner)
-        spinner.startAnimating()
     }
     
+    ///TODO - загрузка из сети и скролвью
+    ///Logger
+    ///может в презентер вынесу
     // MARK: Private Methods
+    public func fetchAdditionalCharacters(url: URL) {
+        guard !isLoadingMoreCharacters else {
+            return
+        }
+        isLoadingMoreCharacters = true
+
+        networkService.fetchCharacters(awaiting: AllCharactersResponse.self, url: url) { [weak self] result in
+            guard let self else { return }
+            
+            switch result {
+            case .success(let responseModel):
+                let moreResults = responseModel.results
+                let info = responseModel.info
+                self.apiInfo = info
+                
+                let originalCount = self.characters.count
+                let newCount = moreResults.count
+                let total = originalCount + newCount
+                let startingIndex = total - newCount
+                let indexPathToAdd: [IndexPath] = Array(startingIndex..<(startingIndex + newCount)).compactMap({
+                    return IndexPath(row: $0, section: 0)
+                })
+                
+                self.characters.append(contentsOf: moreResults)
+                DispatchQueue.main.async {
+                    self.didLoadMoreCharacters(with: indexPathToAdd)
+                    self.isLoadingMoreCharacters = false
+                }
+            case .failure:
+                self.isLoadingMoreCharacters = false
+            }
+        }
+    }
+    
     private func downloadCharacters() {
-        networkService.fetchCharacters { [weak self] result in
+        var urlComponents = URLComponents()
+        urlComponents.scheme = "https"
+        urlComponents.host = "rickandmortyapi.com"
+        urlComponents.path = "/api/character"
+        
+        guard let url = urlComponents.url else {
+            return
+        }
+        
+        networkService.fetchCharacters(awaiting: AllCharactersResponse.self, url: url) { [weak self] result in
             switch result {
             case .success(let characters):
-                self?.characters = characters
+                self?.characters = characters.results
+                self?.apiInfo = characters.info
                 DispatchQueue.main.async {
                     self?.charactersTableView.reloadData()
-                    self?.spinner.stopAnimating()
                 }
             case .failure(let failure):
                 Logger.network.error("Ошибка при загрузке персонажей: \(failure.localizedDescription)")
@@ -134,5 +186,38 @@ extension CharactersListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return view.frame.size.width/4
+    }
+}
+
+
+// MARK: - NEW
+extension CharactersListViewController {
+    func didLoadMoreCharacters(with newIndexPaths: [IndexPath]) {
+        charactersTableView.performBatchUpdates {
+            self.charactersTableView.insertRows(at: newIndexPaths, with: .fade)
+        }
+    }
+}
+
+
+// MARK: - UIScrollViewDelegate
+extension CharactersListViewController: UIScrollViewDelegate {
+    func scrollViewDidScroll(_ scrollView: UIScrollView) {
+        guard shouldShowMoreLoadMoreIndicator,
+              !isLoadingMoreCharacters,
+              !characters.isEmpty,
+              let nextUrlString = apiInfo?.next,
+              let url = URL(string: nextUrlString) else { return }
+
+        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) {[weak self] t in
+            let offset = scrollView.contentOffset.y
+            let totalContentHeight = scrollView.contentSize.height
+            let totalScrollViewFixedHeight = scrollView.frame.size.height
+            
+            if offset >= (totalContentHeight - totalScrollViewFixedHeight - 120) {
+                self?.fetchAdditionalCharacters(url: url)
+            }
+            t.invalidate()
+        }
     }
 }

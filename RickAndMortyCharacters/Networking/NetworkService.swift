@@ -7,10 +7,10 @@
 
 import Foundation
 
+///TODO - посмотреть еще как улучшить
 protocol NetworkServiceProtocol {
-    typealias DownloadCompletion = (Result<[CharacterModel],NetworkError>) -> Void
-    
-    func fetchCharacters(completion: @escaping DownloadCompletion)
+    func fetchCharacters<T: Decodable>(awaiting type: T.Type, url: URL,
+                                       completion: @escaping (Result <T, NetworkError>) -> Void)
 }
 
 final class NetworkService {
@@ -24,16 +24,8 @@ final class NetworkService {
 
 // MARK: - NetworkServiceProtocol
 extension NetworkService: NetworkServiceProtocol {
-    func fetchCharacters(completion: @escaping DownloadCompletion) {
-        
-        var urlComponents = URLComponents()
-        urlComponents.scheme = "https"
-        urlComponents.host = "rickandmortyapi.com"
-        urlComponents.path = "/api/character"
-        
-        guard let url = urlComponents.url else {
-            return completion(.failure(.invalidURL))
-        }
+    func fetchCharacters<T: Decodable>(awaiting type: T.Type, url: URL,
+                                       completion: @escaping (Result <T, NetworkError>) -> Void) {
         
         let request = URLRequest(url: url, cachePolicy: .useProtocolCachePolicy)
         
@@ -49,8 +41,8 @@ extension NetworkService: NetworkServiceProtocol {
             switch response.statusCode {
             case 200..<300:
                 do {
-                    let decodedData = try self.decoder.decode(AllCharactersResponse.self, from: data)
-                    completion(.success(decodedData.results))
+                    let decodedData = try self.decoder.decode(type.self, from: data)
+                    completion(.success(decodedData))
                 } catch {
                     completion(.failure(.badDecode))
                 }
