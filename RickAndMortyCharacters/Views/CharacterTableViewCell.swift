@@ -122,8 +122,7 @@ extension CharactersTableViewCell: ConfigurableViewProtocol {
                                                 trailingText: " • " + model.species)
         
         guard let url = URL(string: model.image) else {
-            let logger = Logger()
-            logger.error("Invalid URL in CharactersTableViewCell")
+            Logger.network.error("Invalid URL in CharactersTableViewCell")
             return
         }
         
@@ -142,8 +141,7 @@ extension CharactersTableViewCell: ConfigurableViewProtocol {
                     }
                 }
             case .failure(let failure):
-                let logger = Logger()
-                logger.error("Ошибка \(failure.localizedDescription)")
+                Logger.network.error("Ошибка \(failure.localizedDescription)")
                 break
             }
         }

@@ -130,8 +130,7 @@ extension CharacterProfileView: ConfigurableViewProtocol {
                                             trailingText: model.location.name)
         
         guard let url = URL(string: model.image) else {
-            let logger = Logger()
-            logger.error("Ошибка: Invalid URL")
+            Logger.network.error("Ошибка: Invalid URL")
             return
         }
         
@@ -147,8 +146,7 @@ extension CharacterProfileView: ConfigurableViewProtocol {
                     self.characterImageView.image = image
                 }
             case .failure(let failure):
-                let logger = Logger()
-                logger.error("Ошибка при загрузке character image: \(failure.localizedDescription)")
+                Logger.network.error("Ошибка при загрузке character image: \(failure.localizedDescription)")
                 break
             }
         }

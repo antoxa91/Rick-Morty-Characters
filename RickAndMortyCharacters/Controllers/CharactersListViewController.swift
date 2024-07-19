@@ -75,8 +75,7 @@ final class CharactersListViewController: UIViewController {
                     self?.spinner.stopAnimating()
                 }
             case .failure(let failure):
-                let logger = Logger()
-                logger.error("Ошибка при загрузке персонажей: \(failure.localizedDescription)")
+                Logger.network.error("Ошибка при загрузке персонажей: \(failure.localizedDescription)")
                 break
             }
         }

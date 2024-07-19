@@ -23,8 +23,7 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let assembly = CharactersViewControllerAssembly(networkService: NetworkService())
             window.rootViewController = try assembly.create()
         } catch {
-            let logger = Logger()
-            logger.error("Не удалось создать CharactersListViewController: \(error.localizedDescription)")
+            Logger.appDelegate.error("Не удалось создать CharactersListViewController: \(error.localizedDescription)")
         }
         self.window = window
         
