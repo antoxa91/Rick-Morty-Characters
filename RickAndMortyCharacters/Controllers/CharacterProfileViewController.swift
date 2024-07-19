@@ -9,9 +9,16 @@ import UIKit
 import OSLog
 
 final class CharacterProfileViewController: UIViewController {
-    private lazy var characterProfileView = CharacterProfileView()
     private let character: CharacterModel
     private let constant: CGFloat = 20
+    
+    private lazy var characterProfileView = CharacterProfileView()
+    
+    private lazy var scrollView: UIScrollView = {
+        let scrollView = UIScrollView()
+        scrollView.translatesAutoresizingMaskIntoConstraints = false
+        return scrollView
+    }()
     
     // MARK: Init
     init(character: CharacterModel) {
@@ -34,16 +41,23 @@ final class CharacterProfileViewController: UIViewController {
     private func setupView() {
         view.backgroundColor = AppColorEnum.appBackground.color
         title = character.name
-        view.addSubview(characterProfileView)
+        view.addSubview(scrollView)
+        scrollView.addSubview(characterProfileView)
         characterProfileView.configure(with: character)
     }
     
     // MARK: Layout
     private func setConstraints() {
-        NSLayoutConstraint.activate([
-            characterProfileView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor, constant: constant),
-            characterProfileView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor, constant: constant),
-            characterProfileView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor, constant: -constant),
-        ])
-    }
+            NSLayoutConstraint.activate([
+                scrollView.widthAnchor.constraint(equalTo: view.safeAreaLayoutGuide.widthAnchor),
+                scrollView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+                scrollView.bottomAnchor.constraint(equalTo: view.safeAreaLayoutGuide.bottomAnchor),
+                
+                characterProfileView.topAnchor.constraint(equalTo: scrollView.topAnchor, constant: constant),
+                characterProfileView.leadingAnchor.constraint(equalTo: scrollView.leadingAnchor, constant: constant),
+                characterProfileView.trailingAnchor.constraint(equalTo: scrollView.trailingAnchor, constant: -constant),
+                characterProfileView.bottomAnchor.constraint(equalTo: scrollView.bottomAnchor, constant: -constant),
+                characterProfileView.widthAnchor.constraint(equalTo: scrollView.widthAnchor, constant: -2*constant)
+            ])
+        }
 }
