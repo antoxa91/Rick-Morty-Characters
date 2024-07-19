@@ -14,6 +14,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
     var window: UIWindow?
     
     func application(_ application: UIApplication, didFinishLaunchingWithOptions launchOptions: [UIApplication.LaunchOptionsKey: Any]?) -> Bool {
+        NetworkMonitor.shared.startMonitoring()
+
         let window = UIWindow(frame: UIScreen.main.bounds)
         window.makeKeyAndVisible()
         
@@ -24,8 +26,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
             let logger = Logger()
             logger.error("Не удалось создать CharactersListViewController: \(error.localizedDescription)")
         }
-        
         self.window = window
+        
         return true
     }
 }

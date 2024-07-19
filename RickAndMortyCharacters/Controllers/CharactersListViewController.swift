@@ -6,10 +6,7 @@
 //
 
 import UIKit
-
-protocol AlertDisplaying: AnyObject {
-    func showErrorAlert(with message: NetworkError)
-}
+import OSLog
 
 final class CharactersListViewController: UIViewController {
     
@@ -49,14 +46,17 @@ final class CharactersListViewController: UIViewController {
         fatalError("init(coder:) has not been implemented")
     }
     
+    // MARK: LifeCycle
     override func viewDidLoad() {
         super.viewDidLoad()
         setupView()
         setConstraints()
         downloadCharacters()
+        NotificationCenter.default.addObserver(self, selector: #selector(noInternetConnection(notification:)), name: .networkStatusChanged, object: nil)
     }
     
-    // MARK: Private Methods
+
+    // MARK: Setup
     private func setupView() {
         title = "Rick & Morty Characters"
         navigationItem.backButtonDisplayMode = .minimal
@@ -64,6 +64,7 @@ final class CharactersListViewController: UIViewController {
         spinner.startAnimating()
     }
     
+    // MARK: Private Methods
     private func downloadCharacters() {
         networkService.fetchCharacters { [weak self] result in
             switch result {
@@ -74,8 +75,20 @@ final class CharactersListViewController: UIViewController {
                     self?.spinner.stopAnimating()
                 }
             case .failure(let failure):
-                AlertManager.showErrorAlert(self ?? UIViewController(), message: failure)
+                let logger = Logger()
+                logger.error("Ошибка при загрузке персонажей: \(failure.localizedDescription)")
                 break
+            }
+        }
+    }
+    
+    @objc func noInternetConnection(notification: Notification) {
+        if !NetworkMonitor.shared.isConnected {
+            DispatchQueue.main.async {
+                let vc = NetworkErrorViewController()
+                vc.modalTransitionStyle = .crossDissolve
+                vc.modalPresentationStyle = .fullScreen
+                self.present(vc, animated: true)
             }
         }
     }
@@ -107,7 +120,6 @@ extension CharactersListViewController: UITableViewDataSource {
         }
         let character = characters[indexPath.row]
         cell.configure(with: character)
-        cell.alertDelegate = self
         return cell
     }
 }
@@ -123,12 +135,5 @@ extension CharactersListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
         return view.frame.size.width/4
-    }
-}
-
-// MARK: - AlertDisplaying
-extension CharactersListViewController: AlertDisplaying {
-    func showErrorAlert(with message: NetworkError) {
-        AlertManager.showErrorAlert(self, message: message)
     }
 }

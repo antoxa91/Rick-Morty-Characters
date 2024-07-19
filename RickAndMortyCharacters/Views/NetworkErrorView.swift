@@ -13,7 +13,7 @@ protocol NetworkErrorViewDelegate: AnyObject {
 
 final class NetworkErrorView: UIView {
     weak var delegate: NetworkErrorViewDelegate?
-
+    
     // MARK: Private UI Properties
     private lazy var errorImageView: UIImageView = {
         let imageView = UIImageView()
@@ -71,11 +71,11 @@ final class NetworkErrorView: UIView {
     // MARK: Layout
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            errorImageView.topAnchor.constraint(equalTo: topAnchor, constant: 70),
+            errorImageView.topAnchor.constraint(equalTo: topAnchor, constant: 120),
             errorImageView.heightAnchor.constraint(equalToConstant: 263),
             errorImageView.widthAnchor.constraint(equalTo: heightAnchor),
             errorImageView.centerXAnchor.constraint(equalTo: centerXAnchor),
-
+            
             networkErrorLabel.centerXAnchor.constraint(equalTo: centerXAnchor),
             networkErrorLabel.topAnchor.constraint(equalTo: errorImageView.bottomAnchor, constant: 35),
             

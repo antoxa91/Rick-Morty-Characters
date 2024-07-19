@@ -9,6 +9,7 @@ import UIKit
 
 final class NetworkErrorViewController: UIViewController {
     
+    // MARK: Private UI Properties
     private lazy var networkErrorView = NetworkErrorView()
     
     override func viewDidLoad() {
@@ -18,14 +19,14 @@ final class NetworkErrorViewController: UIViewController {
     }
     
     private func setupView() {
-        view.addSubview(networkErrorView)
+        view.addSubviews(networkErrorView)
         networkErrorView.delegate = self
         
         NSLayoutConstraint.activate([
             networkErrorView.topAnchor.constraint(equalTo: view.topAnchor),
             networkErrorView.leadingAnchor.constraint(equalTo: view.leadingAnchor),
             networkErrorView.trailingAnchor.constraint(equalTo: view.trailingAnchor),
-            networkErrorView.bottomAnchor.constraint(equalTo: view.bottomAnchor),
+            networkErrorView.bottomAnchor.constraint(equalTo: view.bottomAnchor)
         ])
     }
 }
@@ -33,6 +34,8 @@ final class NetworkErrorViewController: UIViewController {
 // MARK: - NetworkErrorViewDelegate
 extension NetworkErrorViewController: NetworkErrorViewDelegate {
     func retryButtonTapped() {
-        print(#function)
+        if NetworkMonitor.shared.isConnected {
+            self.dismiss(animated: true)
+        }
     }
 }

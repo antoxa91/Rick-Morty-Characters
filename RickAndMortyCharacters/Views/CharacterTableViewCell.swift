@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import OSLog
 
 protocol ConfigurableViewProtocol {
     associatedtype ConfigirationModel
@@ -51,8 +52,6 @@ final class CharactersTableViewCell: UITableViewCell {
         vStack.translatesAutoresizingMaskIntoConstraints = false
         return vStack
     }()
-    
-    weak var alertDelegate: AlertDisplaying?
     
     // MARK: Init
     override init(style: UITableViewCell.CellStyle, reuseIdentifier: String?) {
@@ -123,7 +122,8 @@ extension CharactersTableViewCell: ConfigurableViewProtocol {
                                                 trailingText: " • " + model.species)
         
         guard let url = URL(string: model.image) else {
-            self.alertDelegate?.showErrorAlert(with: .invalidURL)
+            let logger = Logger()
+            logger.error("Invalid URL in CharactersTableViewCell")
             return
         }
         
@@ -142,7 +142,8 @@ extension CharactersTableViewCell: ConfigurableViewProtocol {
                     }
                 }
             case .failure(let failure):
-                self.alertDelegate?.showErrorAlert(with: failure)
+                let logger = Logger()
+                logger.error("Ошибка \(failure.localizedDescription)")
                 break
             }
         }

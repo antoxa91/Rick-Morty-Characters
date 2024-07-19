@@ -6,6 +6,7 @@
 //
 
 import UIKit
+import OSLog
 
 enum CharacterInfoLabel: String {
     case species = "Species: "
@@ -20,8 +21,6 @@ final class CharacterProfileView: UIView {
         static let statusHeight: CGFloat = 42.0
         static let imageHeightMultiplier: CGFloat = 0.92
     }
-    
-    weak var alertDelegate: AlertDisplaying?
     
     // MARK: Private UI Properties
     private lazy var characterImageView: UIImageView = {
@@ -131,7 +130,8 @@ extension CharacterProfileView: ConfigurableViewProtocol {
                                             trailingText: model.location.name)
         
         guard let url = URL(string: model.image) else {
-            self.alertDelegate?.showErrorAlert(with: .invalidURL)
+            let logger = Logger()
+            logger.error("Ошибка: Invalid URL")
             return
         }
         
@@ -147,7 +147,8 @@ extension CharacterProfileView: ConfigurableViewProtocol {
                     self.characterImageView.image = image
                 }
             case .failure(let failure):
-                self.alertDelegate?.showErrorAlert(with: failure)
+                let logger = Logger()
+                logger.error("Ошибка при загрузке character image: \(failure.localizedDescription)")
                 break
             }
         }
