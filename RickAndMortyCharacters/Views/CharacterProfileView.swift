@@ -130,12 +130,12 @@ extension CharacterProfileView: ConfigurableViewProtocol {
         lastLocationLabel.setAttributedText(leadingText: .lastKnownLocation,
                                             trailingText: model.location.name)
         
-        if let url = URL(string: model.image) {
-            fetchImage(with: url)
-        } else {
+        guard let url = URL(string: model.image) else {
             self.alertDelegate?.showErrorAlert(with: .invalidURL)
             return
         }
+        
+        fetchImage(with: url)
     }
     
     func fetchImage(with url: URL) {

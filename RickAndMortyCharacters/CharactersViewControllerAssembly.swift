@@ -8,19 +8,24 @@
 import UIKit
 
 struct CharactersViewControllerAssembly {
+    let networkService: NetworkServiceProtocol
+    
     func create() throws -> UIViewController {
-        let networkService: NetworkServiceProtocol = NetworkService()
-        let vc = CharactersListViewController(networkService: networkService)
         
+        let vc = CharactersListViewController(networkService: networkService)
         let navVC = UINavigationController(rootViewController: vc)
-        navVC.navigationBar.standardAppearance = UINavigationBarAppearance()
-        navVC.navigationBar.standardAppearance.configureWithOpaqueBackground()
-        navVC.navigationBar.standardAppearance.backgroundColor = AppColorEnum.appBackground.color
-        navVC.navigationBar.standardAppearance.titleTextAttributes = [
+        configureNavigationBar(for: navVC)
+        
+        return navVC
+    }
+    
+    private func configureNavigationBar(for navController: UINavigationController) {
+        navController.navigationBar.standardAppearance = UINavigationBarAppearance()
+        navController.navigationBar.standardAppearance.configureWithOpaqueBackground()
+        navController.navigationBar.standardAppearance.backgroundColor = AppColorEnum.appBackground.color
+        navController.navigationBar.standardAppearance.titleTextAttributes = [
             NSAttributedString.Key.font: UIFont(name: "IBMPlexSans-Bold", size: 24) ?? .systemFont(ofSize: 24),
             NSAttributedString.Key.foregroundColor: AppColorEnum.text.color
         ]
-
-        return navVC
     }
 }

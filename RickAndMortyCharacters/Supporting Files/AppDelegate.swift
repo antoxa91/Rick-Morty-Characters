@@ -18,7 +18,8 @@ class AppDelegate: UIResponder, UIApplicationDelegate {
         window.makeKeyAndVisible()
         
         do {
-            window.rootViewController = try CharactersViewControllerAssembly().create()
+            let assembly = CharactersViewControllerAssembly(networkService: NetworkService())
+            window.rootViewController = try assembly.create()
         } catch {
             let logger = Logger()
             logger.error("Не удалось создать CharactersListViewController: \(error.localizedDescription)")
