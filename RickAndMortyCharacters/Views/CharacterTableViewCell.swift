@@ -15,7 +15,6 @@ protocol ConfigurableViewProtocol {
 
 final class CharactersTableViewCell: UITableViewCell {
     static let identifier = String(describing: CharactersTableViewCell.self)
-    private var imageLoader: ImageLoaderService?
 
     private enum Constants {
         static let cellCornerRadius: CGFloat = 25.0
@@ -59,8 +58,7 @@ final class CharactersTableViewCell: UITableViewCell {
         
         setupContentView()
         setConstraints()
-        imageLoader = ImageLoaderService()
-        imageLoader?.delegate = self
+        ImageLoaderService.shared.delegate = self
     }
     
     @available(*, unavailable)
@@ -128,7 +126,7 @@ extension CharactersTableViewCell: ConfigurableViewProtocol {
             Logger.network.error("Invalid URL in CharactersTableViewCell")
             return
         }
-        imageLoader?.fetchImage(with: url)
+        ImageLoaderService.shared.fetchImage(with: url)
     }
 }
 

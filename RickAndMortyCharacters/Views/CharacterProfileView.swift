@@ -22,8 +22,7 @@ final class CharacterProfileView: UIView {
         static let imageHeightMultiplier: CGFloat = 0.92
     }
     
-    private var imageLoader: ImageLoaderService?
-    private var episodeUpdater: EpisodesLoaderService?
+    private var episodesLoader: EpisodesLoaderService?
 
     // MARK: Private UI Properties
     private lazy var characterImageView: UIImageView = {
@@ -76,10 +75,9 @@ final class CharacterProfileView: UIView {
         backgroundColor = AppColorEnum.cellBackground.color
         layer.cornerRadius = 24
         addSubviews(characterImageView, statusLabel, vInfoStackView)
-        imageLoader = ImageLoaderService()
-        imageLoader?.delegate = self
-        episodeUpdater = EpisodesLoaderService()
-        episodeUpdater?.delegate = self
+        ImageLoaderService.shared.delegate = self
+        episodesLoader = EpisodesLoaderService()
+        episodesLoader?.delegate = self
     }
     
     // MARK: Layout
@@ -133,13 +131,13 @@ extension CharacterProfileView: ConfigurableViewProtocol {
         lastLocationLabel.setAttributedText(leadingText: .lastKnownLocation,
                                             trailingText: model.location.name)
         
-        episodeUpdater?.fetchEpisodes(urls: model.episode)
+        episodesLoader?.fetchEpisodes(urls: model.episode)
         
         guard let url = URL(string: model.image) else {
             Logger.network.error("Ошибка: Invalid URL")
             return
         }
-        imageLoader?.fetchImage(with: url)
+        ImageLoaderService.shared.fetchImage(with: url)
     }
 }
 

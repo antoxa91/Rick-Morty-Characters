@@ -19,11 +19,13 @@ protocol ImageLoaderProtocol {
 final class ImageLoaderService {
     weak var delegate: ImageLoaderDelegate?
     
+    static let shared = ImageLoaderService()
+    
     private var imageDataCache = NSCache<NSString, NSData>()
     
     private let session: URLSession
     
-    init(session: URLSession = URLSession(configuration: .default)) {
+    private init(session: URLSession = URLSession(configuration: .default)) {
         self.session = session
     }
     
