@@ -16,20 +16,20 @@ protocol ImageLoaderProtocol {
     func fetchImage(with url: URL)
 }
 
+protocol ImageLoaderCacheCleaner {
+    func clearCache()
+}
+
 final class ImageLoaderService {
     weak var delegate: ImageLoaderDelegate?
-    
-    static let shared = ImageLoaderService()
-    
     private var imageDataCache = NSCache<NSString, NSData>()
-    
     private let session: URLSession
     
-    private init(session: URLSession = URLSession(configuration: .default)) {
+    init(session: URLSession = URLSession(configuration: .default)) {
         self.session = session
     }
     
-    private func downloadImage(_ url: URL, completion: @escaping (Result <Data, NetworkError>) -> Void) {
+    private func downloadData(_ url: URL, completion: @escaping (Result <Data, NetworkError>) -> Void) {
         let key = url.absoluteString as NSString
         
         if let data = imageDataCache.object(forKey: key) {
@@ -49,42 +49,51 @@ final class ImageLoaderService {
             }
             
             
-            switch response.statusCode {
-            case 200..<300:
-                let value = data as NSData
-                self?.imageDataCache.setObject(value, forKey: key)
-                completion(.success(data))
-            case 404:
-                completion(.failure(.notFound))
-            case 500:
-                completion(.failure(.serverError))
-            default:
-                completion(.failure(.unknownStatusCode(response.statusCode)))
-            }
+            self?.handleResponse(response, data: data, key: key, completion: completion)
         }
         
         task.resume()
+    }
+    
+    private func handleResponse(_ response: HTTPURLResponse, data: Data, key: NSString, completion: @escaping (Result<Data, NetworkError>) -> Void) {
+        switch response.statusCode {
+        case 200..<300:
+            let value = data as NSData
+            self.imageDataCache.setObject(value, forKey: key)
+            completion(.success(data))
+        case 404:
+            completion(.failure(.notFound))
+        case 500:
+            completion(.failure(.serverError))
+        default:
+            completion(.failure(.unknownStatusCode(response.statusCode)))
+        }
     }
 }
 
 // MARK: - ImageLoaderProtocol
 extension ImageLoaderService: ImageLoaderProtocol {
     func fetchImage(with url: URL) {
-        downloadImage(url) { [weak self] result in
+        downloadData(url) { [weak self] result in
             guard let self else { return }
             
-            switch result {
-            case .success(let data):
-                let image = UIImage(data: data)
-                DispatchQueue.main.async {
+            DispatchQueue.main.async {
+                switch result {
+                case .success(let data):
+                    let image = UIImage(data: data)
                     self.delegate?.didUpdateImage(self, image: image)
-                }
-            case .failure(let failure):
-                Logger.network.error("Ошибка при загрузке character image: \(failure.localizedDescription)")
-                DispatchQueue.main.async {
+                case .failure(let failure):
+                    Logger.network.error("Ошибка при загрузке character image: \(failure.localizedDescription)")
                     self.delegate?.didUpdateImage(self, image: nil)
                 }
             }
         }
+    }
+}
+
+// MARK: - ImageLoaderCacheCleaner
+extension ImageLoaderService: ImageLoaderCacheCleaner {
+    func clearCache() {
+        imageDataCache.removeAllObjects()
     }
 }
