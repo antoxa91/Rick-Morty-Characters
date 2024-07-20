@@ -20,8 +20,8 @@ final class NetworkErrorView: UIView {
         static let errorDescriptionLabelTop: CGFloat = 10
         static let retryButtonTop: CGFloat = 10
         
-        static let buttonHeight: CGFloat = 263
-        static let buttonWidth: CGFloat = 263
+        static let buttonHeight: CGFloat = 42
+        static let buttonWidth: CGFloat = 220
 
     }
     
