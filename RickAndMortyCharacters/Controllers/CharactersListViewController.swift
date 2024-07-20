@@ -69,8 +69,9 @@ final class CharactersListViewController: UIViewController {
     private func downloadAdditionalCharacters() {
         charactersLoader.fetchAdditionalCharacters() { [weak self] indexPathsToAdd in
             DispatchQueue.main.async {
-                self?.charactersTableView.performBatchUpdates {
-                    self?.charactersTableView.insertRows(at: indexPathsToAdd, with: .fade)
+                guard let self = self else { return }
+                self.charactersTableView.performBatchUpdates {
+                    self.charactersTableView.insertRows(at: indexPathsToAdd, with: .fade)
                 }
             }
         }
@@ -138,7 +139,7 @@ extension CharactersListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return charactersLoader.isLoadingMoreCharacters ? 200 : 0
+        return 100
     }
 }
 
@@ -149,8 +150,8 @@ extension CharactersListViewController: UIScrollViewDelegate {
               !charactersLoader.isLoadingMoreCharacters,
               !charactersLoader.characters.isEmpty,
               !searchController.isFiltering else { return }
-
-        Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { [weak self] timer in
+        
+        Timer.scheduledTimer(withTimeInterval: 0.15, repeats: false) { [weak self] timer in //02
             let offset = scrollView.contentOffset.y
             let totalContentHeight = scrollView.contentSize.height
             let totalScrollViewFixedHeight = scrollView.frame.size.height

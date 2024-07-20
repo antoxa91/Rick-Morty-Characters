@@ -6,19 +6,18 @@
 //
 
 import UIKit
-///TODO - пропал спинер
+
 final class FooterLoaderView: UIView {
     private lazy var spinner: UIActivityIndicatorView = {
         let spinner = UIActivityIndicatorView(style: .large)
         spinner.hidesWhenStopped = true
-        spinner.color = .red
         spinner.translatesAutoresizingMaskIntoConstraints = false
         return spinner
     }()
     
     override init(frame: CGRect) {
         super.init(frame: frame)
-        backgroundColor = AppColorEnum.turquoise.color
+        backgroundColor = AppColorEnum.appBackground.color
         addSubview(spinner)
         setConstraints()
     }
