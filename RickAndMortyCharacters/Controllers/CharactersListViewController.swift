@@ -11,7 +11,6 @@ import OSLog
 final class CharactersListViewController: UIViewController {
     
     // MARK: Private Properties
-    private var characters: [CharacterModel] = []
     private let charactersLoader: CharactersLoadable
     
     // MARK: Private UI Properties
@@ -32,13 +31,6 @@ final class CharactersListViewController: UIViewController {
         return searchController
     }()
     
-    private var apiInfo: AllCharactersResponse.Info? = nil
-    private var isLoadingMoreCharacters = false
-    private var shouldShowMoreLoadMoreIndicator: Bool {
-        return apiInfo?.next != nil
-    }
-    
-
     // MARK: Init
     init(charactersLoader: CharactersLoadable) {
         self.charactersLoader = charactersLoader
@@ -55,8 +47,8 @@ final class CharactersListViewController: UIViewController {
         super.viewDidLoad()
         setupView()
         setConstraints()
-        downloadCharacters()
-        setupObservers()
+        downloadInitialCharacters()
+        NotificationCenter.default.addObserver(self, selector: #selector(noInternetConnection(notification:)), name: .networkStatusChanged, object: nil)
     }
     
     // MARK: Setup
@@ -67,67 +59,24 @@ final class CharactersListViewController: UIViewController {
         view.addSubviews(charactersTableView)
     }
     
-    private func setupObservers() {
-        NotificationCenter.default.addObserver(self, selector: #selector(noInternetConnection(notification:)), name: .networkStatusChanged, object: nil)
-    }
-    
-    @objc private func updateTableViewForSearchResults() {
-           charactersTableView.reloadData()
-       }
-    
     // MARK: Private Methods
-    private func fetchAdditionalCharacters(url: URL) {
-        guard !isLoadingMoreCharacters else { return }
-        isLoadingMoreCharacters = true
-        
-        charactersLoader.fetchAdditionalCharacters(url: url) { [weak self] result in
-            guard let self else { return }
-            
-            switch result {
-            case .success(let responseModel):
-                let moreResults = responseModel.results
-                let info = responseModel.info
-                self.apiInfo = info
-                
-                let originalCount = self.characters.count
-                let newCount = moreResults.count
-                let total = originalCount + newCount
-                let startingIndex = total - newCount
-                let indexPathsToAdd = (startingIndex..<startingIndex + moreResults.count).map {
-                    IndexPath(row: $0, section: 0)
+    private func downloadInitialCharacters() {
+        charactersLoader.fetchInitialCharacters {[weak self] in
+            self?.charactersTableView.reloadData()
+        }
+    }
+    
+    private func downloadAdditionalCharacters() {
+        charactersLoader.fetchAdditionalCharacters() { [weak self] indexPathsToAdd in
+            DispatchQueue.main.async {
+                self?.charactersTableView.performBatchUpdates {
+                    self?.charactersTableView.insertRows(at: indexPathsToAdd, with: .fade)
                 }
-                
-                self.characters.append(contentsOf: moreResults)
-                DispatchQueue.main.async {
-                    self.charactersTableView.performBatchUpdates {
-                        self.charactersTableView.insertRows(at: indexPathsToAdd, with: .fade)
-                    }
-                    self.isLoadingMoreCharacters = false
-                }
-            case .failure:
-                self.isLoadingMoreCharacters = false
-                Logger.network.error("Ошибка: не удается загрузить доп персонажей")
             }
         }
     }
     
-    private func downloadCharacters() {
-        charactersLoader.fetchInitialCharacters { [weak self] result in
-            switch result {
-            case .success(let characters):
-                self?.characters = characters.results
-                self?.apiInfo = characters.info
-                DispatchQueue.main.async {
-                    self?.charactersTableView.reloadData()
-                }
-            case .failure(let failure):
-                Logger.network.error("Ошибка при загрузке персонажей: \(failure.localizedDescription)")
-                break
-            }
-        }
-    }
-    
-    @objc func noInternetConnection(notification: Notification) {
+    @objc private func noInternetConnection(notification: Notification) {
         if !NetworkMonitor.shared.isConnected {
             DispatchQueue.main.async {
                 let vc = NetworkErrorViewController()
@@ -149,12 +98,11 @@ final class CharactersListViewController: UIViewController {
     }
 }
 
-
 // MARK: - UITableViewDataSource
 extension CharactersListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
         searchController.isFiltering ?
-        searchController.filteredCharacters.count : characters.count
+        searchController.filteredCharacters.count : charactersLoader.characters.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -163,7 +111,7 @@ extension CharactersListViewController: UITableViewDataSource {
         }
         
         let character = searchController.isFiltering ?
-        searchController.filteredCharacters[indexPath.row] : characters[indexPath.row]
+        searchController.filteredCharacters[indexPath.row] : charactersLoader.characters[indexPath.row]
         cell.configure(with: character)
         return cell
     }
@@ -173,8 +121,8 @@ extension CharactersListViewController: UITableViewDataSource {
 extension CharactersListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         let character = searchController.isFiltering ?
-        searchController.filteredCharacters[indexPath.row] : characters[indexPath.row]
-
+        searchController.filteredCharacters[indexPath.row] : charactersLoader.characters[indexPath.row]
+        
         let vc = CharacterProfileViewController(character: character)
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -190,27 +138,25 @@ extension CharactersListViewController: UITableViewDelegate {
     }
     
     func tableView(_ tableView: UITableView, heightForFooterInSection section: Int) -> CGFloat {
-        return isLoadingMoreCharacters ? 100 : 0
+        return charactersLoader.isLoadingMoreCharacters ? 200 : 0
     }
 }
 
 // MARK: - UIScrollViewDelegate
 extension CharactersListViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard shouldShowMoreLoadMoreIndicator,
-              !isLoadingMoreCharacters,
-              !characters.isEmpty,
-              !searchController.isFiltering,
-              let nextUrlString = apiInfo?.next,
-              let url = URL(string: nextUrlString) else { return }
-        
-        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { [weak self] timer in
+        guard charactersLoader.isShouldLoadMore,
+              !charactersLoader.isLoadingMoreCharacters,
+              !charactersLoader.characters.isEmpty,
+              !searchController.isFiltering else { return }
+
+        Timer.scheduledTimer(withTimeInterval: 0.3, repeats: false) { [weak self] timer in
             let offset = scrollView.contentOffset.y
             let totalContentHeight = scrollView.contentSize.height
             let totalScrollViewFixedHeight = scrollView.frame.size.height
             
             if offset >= (totalContentHeight - totalScrollViewFixedHeight - 120) {
-                self?.fetchAdditionalCharacters(url: url)
+                self?.downloadAdditionalCharacters()
             }
             timer.invalidate()
         }

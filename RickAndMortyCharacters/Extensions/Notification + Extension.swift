@@ -8,6 +8,5 @@
 import Foundation
 
 extension Notification.Name {
-    static let searchResultsUpdated = Notification.Name("searchResultsUpdated")
     static let networkStatusChanged = Notification.Name("networkStatusChanged")
 }
