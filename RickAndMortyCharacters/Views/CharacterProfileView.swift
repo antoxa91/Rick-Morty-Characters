@@ -22,8 +22,8 @@ final class CharacterProfileView: UIView {
         static let imageHeightMultiplier: CGFloat = 0.92
     }
     
-    private var imageUpdater: CharacterImageUpdater?
-    private var episodeUpdater: CharacterProfileEpisodeUpdater?
+    private var imageLoader: ImageLoaderService?
+    private var episodeUpdater: EpisodesLoaderService?
 
     // MARK: Private UI Properties
     private lazy var characterImageView: UIImageView = {
@@ -76,9 +76,9 @@ final class CharacterProfileView: UIView {
         backgroundColor = AppColorEnum.cellBackground.color
         layer.cornerRadius = 24
         addSubviews(characterImageView, statusLabel, vInfoStackView)
-        imageUpdater = CharacterImageUpdater()
-        imageUpdater?.delegate = self
-        episodeUpdater = CharacterProfileEpisodeUpdater()
+        imageLoader = ImageLoaderService()
+        imageLoader?.delegate = self
+        episodeUpdater = EpisodesLoaderService()
         episodeUpdater?.delegate = self
     }
     
@@ -139,20 +139,20 @@ extension CharacterProfileView: ConfigurableViewProtocol {
             Logger.network.error("Ошибка: Invalid URL")
             return
         }
-        imageUpdater?.fetchImage(with: url)
+        imageLoader?.fetchImage(with: url)
     }
 }
 
 // MARK: - CharacterProfileImageDelegate
-extension CharacterProfileView: CharacterImageDelegate {
-    func didUpdateImage(_ model: CharacterImageUpdater, image: UIImage?) {
+extension CharacterProfileView: ImageLoaderDelegate {
+    func didUpdateImage(_ model: ImageLoaderProtocol, image: UIImage?) {
         characterImageView.image = image
     }
 }
 
 // MARK: - CharacterProfileeEpisodeDelegate
-extension CharacterProfileView: CharacterProfileEpisodeDelegate {
-    func didUpdateEpisodes(_ model: CharacterProfileEpisodeUpdater, episodes: String) {
+extension CharacterProfileView: EpisodesLoaderDelegate {
+    func didUpdateEpisodes(_ model: EpisodesLoaderService, episodes: String) {
         episodesLabel.setAttributedText(leadingText: .episodes, trailingText: episodes)
     }
 }

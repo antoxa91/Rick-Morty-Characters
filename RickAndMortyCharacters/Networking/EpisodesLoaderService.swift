@@ -1,5 +1,5 @@
 //
-//  CharacterProfileEpisodeUpdater.swift
+//  EpisodesLoaderService.swift
 //  RickAndMortyCharacters
 //
 //  Created by Антон Стафеев on 20.07.2024.
@@ -8,12 +8,12 @@
 import UIKit
 import OSLog
 
-protocol CharacterProfileEpisodeDelegate: AnyObject {
-    func didUpdateEpisodes(_ model: CharacterProfileEpisodeUpdater, episodes: String)
+protocol EpisodesLoaderDelegate: AnyObject {
+    func didUpdateEpisodes(_ model: EpisodesLoaderService, episodes: String)
 }
 
-final class CharacterProfileEpisodeUpdater {
-    weak var delegate: CharacterProfileEpisodeDelegate?
+final class EpisodesLoaderService {
+    weak var delegate: EpisodesLoaderDelegate?
     
     func fetchEpisodes(urls: [String]) {
         let group = DispatchGroup()

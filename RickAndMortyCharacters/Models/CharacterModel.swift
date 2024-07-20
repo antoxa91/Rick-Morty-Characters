@@ -7,7 +7,6 @@
 
 import Foundation
 
-///TODO -
 struct AllCharactersResponse: Decodable {
     struct Info: Decodable {
         let count: Int

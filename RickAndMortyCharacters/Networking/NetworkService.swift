@@ -7,7 +7,6 @@
 
 import Foundation
 
-///TODO - посмотреть еще как улучшить
 protocol NetworkServiceProtocol {
     func fetchData<T: Decodable>(awaiting type: T.Type, url: URL,
                                        completion: @escaping (Result <T, NetworkError>) -> Void)

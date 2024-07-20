@@ -12,7 +12,7 @@ final class CharactersListViewController: UIViewController {
     
     // MARK: Private Properties
     private var characters: [CharacterModel] = []
-    private let networkService: NetworkServiceProtocol
+    private let presenter: CharactersLoaderProtocol
     
     // MARK: Private UI Properties
     private lazy var charactersTableView: UITableView = {
@@ -26,16 +26,14 @@ final class CharactersListViewController: UIViewController {
         return tableView
     }()
     
-    ///TODO -
     private var apiInfo: AllCharactersResponse.Info? = nil
     private var isLoadingMoreCharacters = false
-    public var shouldShowMoreLoadMoreIndicator: Bool {
+    private var shouldShowMoreLoadMoreIndicator: Bool {
         return apiInfo?.next != nil
     }
     
-    // MARK: Init
-    init(networkService: NetworkServiceProtocol) {
-        self.networkService = networkService
+    init(presenter: CharactersLoaderProtocol) {
+        self.presenter = presenter
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -53,7 +51,6 @@ final class CharactersListViewController: UIViewController {
         NotificationCenter.default.addObserver(self, selector: #selector(noInternetConnection(notification:)), name: .networkStatusChanged, object: nil)
     }
     
-    
     // MARK: Setup
     private func setupView() {
         title = "Rick & Morty Characters"
@@ -61,16 +58,12 @@ final class CharactersListViewController: UIViewController {
         view.addSubviews(charactersTableView)
     }
     
-    ///TODO - загрузка из сети и скролвью
-    ///может в презентер вынесу
     // MARK: Private Methods
-    public func fetchAdditionalCharacters(url: URL) {
-        guard !isLoadingMoreCharacters else {
-            return
-        }
+    private func fetchAdditionalCharacters(url: URL) {
+        guard !isLoadingMoreCharacters else { return }
         isLoadingMoreCharacters = true
         
-        networkService.fetchData(awaiting: AllCharactersResponse.self, url: url) { [weak self] result in
+        presenter.fetchAdditionalCharacters(url: url) { [weak self] result in
             guard let self else { return }
             
             switch result {
@@ -83,13 +76,15 @@ final class CharactersListViewController: UIViewController {
                 let newCount = moreResults.count
                 let total = originalCount + newCount
                 let startingIndex = total - newCount
-                let indexPathToAdd: [IndexPath] = Array(startingIndex..<(startingIndex + newCount)).compactMap({
-                    return IndexPath(row: $0, section: 0)
-                })
+                let indexPathsToAdd = (startingIndex..<startingIndex + moreResults.count).map {
+                    IndexPath(row: $0, section: 0)
+                }
                 
                 self.characters.append(contentsOf: moreResults)
                 DispatchQueue.main.async {
-                    self.didLoadMoreCharacters(with: indexPathToAdd)
+                    self.charactersTableView.performBatchUpdates {
+                        self.charactersTableView.insertRows(at: indexPathsToAdd, with: .fade)
+                    }
                     self.isLoadingMoreCharacters = false
                 }
             case .failure:
@@ -100,16 +95,7 @@ final class CharactersListViewController: UIViewController {
     }
     
     private func downloadCharacters() {
-        var urlComponents = URLComponents()
-        urlComponents.scheme = "https"
-        urlComponents.host = "rickandmortyapi.com"
-        urlComponents.path = "/api/character"
-        
-        guard let url = urlComponents.url else {
-            return
-        }
-        
-        networkService.fetchData(awaiting: AllCharactersResponse.self, url: url) { [weak self] result in
+        presenter.fetchInitialCharacters { [weak self] result in
             switch result {
             case .success(let characters):
                 self?.characters = characters.results
@@ -163,7 +149,6 @@ extension CharactersListViewController: UITableViewDataSource {
     }
 }
 
-
 // MARK: - UITableViewDelegate
 extension CharactersListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
@@ -187,16 +172,6 @@ extension CharactersListViewController: UITableViewDelegate {
     }
 }
 
-
-// MARK: - NEW
-extension CharactersListViewController {
-    func didLoadMoreCharacters(with newIndexPaths: [IndexPath]) {
-        charactersTableView.performBatchUpdates {
-            self.charactersTableView.insertRows(at: newIndexPaths, with: .fade)
-        }
-    }
-}
-
 // MARK: - UIScrollViewDelegate
 extension CharactersListViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
@@ -206,7 +181,7 @@ extension CharactersListViewController: UIScrollViewDelegate {
               let nextUrlString = apiInfo?.next,
               let url = URL(string: nextUrlString) else { return }
         
-        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { [weak self] t in
+        Timer.scheduledTimer(withTimeInterval: 0.2, repeats: false) { [weak self] timer in
             let offset = scrollView.contentOffset.y
             let totalContentHeight = scrollView.contentSize.height
             let totalScrollViewFixedHeight = scrollView.frame.size.height
@@ -214,7 +189,7 @@ extension CharactersListViewController: UIScrollViewDelegate {
             if offset >= (totalContentHeight - totalScrollViewFixedHeight - 120) {
                 self?.fetchAdditionalCharacters(url: url)
             }
-            t.invalidate()
+            timer.invalidate()
         }
     }
 }
