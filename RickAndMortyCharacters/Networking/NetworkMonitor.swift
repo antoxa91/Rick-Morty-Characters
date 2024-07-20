@@ -50,9 +50,3 @@ final class NetworkMonitor {
         monitor.cancel()
     }
 }
-
-
-// MARK: - Notification.Name
-extension Notification.Name {
-    static let networkStatusChanged = Notification.Name("networkStatusChanged")
-}

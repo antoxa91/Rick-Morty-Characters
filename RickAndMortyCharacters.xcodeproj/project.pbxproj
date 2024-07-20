@@ -18,6 +18,8 @@
 		C55C8CFD2C4AF067003E787E /* FooterLoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C8CFC2C4AF067003E787E /* FooterLoaderView.swift */; };
 		C55C8D042C4B1E09003E787E /* ImageLoaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C8D032C4B1E09003E787E /* ImageLoaderService.swift */; };
 		C55C8D062C4B1E44003E787E /* EpisodesLoaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C8D052C4B1E44003E787E /* EpisodesLoaderService.swift */; };
+		C568EFC02C4C328600F9213D /* CharacterSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C568EFBF2C4C328600F9213D /* CharacterSearchController.swift */; };
+		C568EFC42C4C3F5300F9213D /* Notification + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C568EFC32C4C3F5300F9213D /* Notification + Extension.swift */; };
 		C56FA3972C4B22EF00264271 /* CharactersLoaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56FA3962C4B22EF00264271 /* CharactersLoaderService.swift */; };
 		C5909D5B2C48E80800FD5136 /* CharacterProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */; };
 		C5D522422C4906A200BF35BD /* CharactersViewControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D522412C4906A200BF35BD /* CharactersViewControllerAssembly.swift */; };
@@ -54,6 +56,8 @@
 		C55C8CFC2C4AF067003E787E /* FooterLoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterLoaderView.swift; sourceTree = "<group>"; };
 		C55C8D032C4B1E09003E787E /* ImageLoaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderService.swift; sourceTree = "<group>"; };
 		C55C8D052C4B1E44003E787E /* EpisodesLoaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodesLoaderService.swift; sourceTree = "<group>"; };
+		C568EFBF2C4C328600F9213D /* CharacterSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterSearchController.swift; sourceTree = "<group>"; };
+		C568EFC32C4C3F5300F9213D /* Notification + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification + Extension.swift"; sourceTree = "<group>"; };
 		C56FA3962C4B22EF00264271 /* CharactersLoaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersLoaderService.swift; sourceTree = "<group>"; };
 		C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterProfileView.swift; sourceTree = "<group>"; };
 		C5D522412C4906A200BF35BD /* CharactersViewControllerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersViewControllerAssembly.swift; sourceTree = "<group>"; };
@@ -147,6 +151,7 @@
 			children = (
 				C5D522412C4906A200BF35BD /* CharactersViewControllerAssembly.swift */,
 				C5D605652C47C4B3000DBA15 /* CharactersListViewController.swift */,
+				C568EFBF2C4C328600F9213D /* CharacterSearchController.swift */,
 				C5D6057A2C47C786000DBA15 /* CharacterProfileViewController.swift */,
 				C55C8CF62C4A53CD003E787E /* NetworkErrorViewController.swift */,
 			);
@@ -161,6 +166,7 @@
 				C540F3BC2C49854200919379 /* UILabel + Extension.swift */,
 				C5D605A22C47E1FB000DBA15 /* UIColor + Extension.swift */,
 				C55C8CFA2C4AC11C003E787E /* Logger + Extension.swift */,
+				C568EFC32C4C3F5300F9213D /* Notification + Extension.swift */,
 			);
 			path = Extensions;
 			sourceTree = "<group>";
@@ -303,6 +309,7 @@
 				C5D605802C47D580000DBA15 /* CharacterTableViewCell.swift in Sources */,
 				C5D605AF2C48301A000DBA15 /* NetworkService.swift in Sources */,
 				C5D605A92C47EC3F000DBA15 /* CharacterStatus.swift in Sources */,
+				C568EFC02C4C328600F9213D /* CharacterSearchController.swift in Sources */,
 				C5D605622C47C4B3000DBA15 /* AppDelegate.swift in Sources */,
 				C5D605A32C47E1FB000DBA15 /* UIColor + Extension.swift in Sources */,
 				C5D605A12C47E010000DBA15 /* UIFont + Extension.swift in Sources */,
@@ -310,6 +317,7 @@
 				C56FA3972C4B22EF00264271 /* CharactersLoaderService.swift in Sources */,
 				C55C8CFB2C4AC11C003E787E /* Logger + Extension.swift in Sources */,
 				C55C8CF92C4A54F9003E787E /* NetworkErrorView.swift in Sources */,
+				C568EFC42C4C3F5300F9213D /* Notification + Extension.swift in Sources */,
 				C5D6057B2C47C786000DBA15 /* CharacterProfileViewController.swift in Sources */,
 				C5D605AD2C47EC65000DBA15 /* CharacterLocation.swift in Sources */,
 				C55C8CF52C4A5171003E787E /* NetworkMonitor.swift in Sources */,

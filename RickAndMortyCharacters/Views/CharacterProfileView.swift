@@ -23,6 +23,7 @@ final class CharacterProfileView: UIView {
     }
     
     private var episodesLoader: EpisodesLoaderService?
+    private var imageLoader: ImageLoaderService?
 
     // MARK: Private UI Properties
     private lazy var characterImageView: UIImageView = {
@@ -75,7 +76,8 @@ final class CharacterProfileView: UIView {
         backgroundColor = AppColorEnum.cellBackground.color
         layer.cornerRadius = 24
         addSubviews(characterImageView, statusLabel, vInfoStackView)
-        ImageLoaderService.shared.delegate = self
+        imageLoader = ImageLoaderService()
+        imageLoader?.delegate = self
         episodesLoader = EpisodesLoaderService()
         episodesLoader?.delegate = self
     }
@@ -137,7 +139,7 @@ extension CharacterProfileView: ConfigurableViewProtocol {
             Logger.network.error("Ошибка: Invalid URL")
             return
         }
-        ImageLoaderService.shared.fetchImage(with: url)
+        imageLoader?.fetchImage(with: url)
     }
 }
 

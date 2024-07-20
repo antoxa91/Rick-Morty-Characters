@@ -12,7 +12,7 @@ final class CharactersListViewController: UIViewController {
     
     // MARK: Private Properties
     private var characters: [CharacterModel] = []
-    private let presenter: CharactersLoaderProtocol
+    private let charactersLoader: CharactersLoadable
     
     // MARK: Private UI Properties
     private lazy var charactersTableView: UITableView = {
@@ -26,14 +26,22 @@ final class CharactersListViewController: UIViewController {
         return tableView
     }()
     
+    private lazy var searchController: CharacterSearchController = {
+        let searchController = CharacterSearchController(charactersLoader: charactersLoader)
+        searchController.searchResultsUpdateDelegate = self
+        return searchController
+    }()
+    
     private var apiInfo: AllCharactersResponse.Info? = nil
     private var isLoadingMoreCharacters = false
     private var shouldShowMoreLoadMoreIndicator: Bool {
         return apiInfo?.next != nil
     }
     
-    init(presenter: CharactersLoaderProtocol) {
-        self.presenter = presenter
+
+    // MARK: Init
+    init(charactersLoader: CharactersLoadable) {
+        self.charactersLoader = charactersLoader
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -48,22 +56,31 @@ final class CharactersListViewController: UIViewController {
         setupView()
         setConstraints()
         downloadCharacters()
-        NotificationCenter.default.addObserver(self, selector: #selector(noInternetConnection(notification:)), name: .networkStatusChanged, object: nil)
+        setupObservers()
     }
     
     // MARK: Setup
     private func setupView() {
         title = "Rick & Morty Characters"
         navigationItem.backButtonDisplayMode = .minimal
+        navigationItem.searchController = searchController
         view.addSubviews(charactersTableView)
     }
+    
+    private func setupObservers() {
+        NotificationCenter.default.addObserver(self, selector: #selector(noInternetConnection(notification:)), name: .networkStatusChanged, object: nil)
+    }
+    
+    @objc private func updateTableViewForSearchResults() {
+           charactersTableView.reloadData()
+       }
     
     // MARK: Private Methods
     private func fetchAdditionalCharacters(url: URL) {
         guard !isLoadingMoreCharacters else { return }
         isLoadingMoreCharacters = true
         
-        presenter.fetchAdditionalCharacters(url: url) { [weak self] result in
+        charactersLoader.fetchAdditionalCharacters(url: url) { [weak self] result in
             guard let self else { return }
             
             switch result {
@@ -95,7 +112,7 @@ final class CharactersListViewController: UIViewController {
     }
     
     private func downloadCharacters() {
-        presenter.fetchInitialCharacters { [weak self] result in
+        charactersLoader.fetchInitialCharacters { [weak self] result in
             switch result {
             case .success(let characters):
                 self?.characters = characters.results
@@ -136,14 +153,17 @@ final class CharactersListViewController: UIViewController {
 // MARK: - UITableViewDataSource
 extension CharactersListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        characters.count
+        searchController.isFiltering ?
+        searchController.filteredCharacters.count : characters.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CharactersTableViewCell.identifier, for: indexPath) as? CharactersTableViewCell else {
             return UITableViewCell()
         }
-        let character = characters[indexPath.row]
+        
+        let character = searchController.isFiltering ?
+        searchController.filteredCharacters[indexPath.row] : characters[indexPath.row]
         cell.configure(with: character)
         return cell
     }
@@ -152,7 +172,9 @@ extension CharactersListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension CharactersListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let character = characters[indexPath.row]
+        let character = searchController.isFiltering ?
+        searchController.filteredCharacters[indexPath.row] : characters[indexPath.row]
+
         let vc = CharacterProfileViewController(character: character)
         navigationController?.pushViewController(vc, animated: true)
     }
@@ -178,6 +200,7 @@ extension CharactersListViewController: UIScrollViewDelegate {
         guard shouldShowMoreLoadMoreIndicator,
               !isLoadingMoreCharacters,
               !characters.isEmpty,
+              !searchController.isFiltering,
               let nextUrlString = apiInfo?.next,
               let url = URL(string: nextUrlString) else { return }
         
@@ -191,5 +214,12 @@ extension CharactersListViewController: UIScrollViewDelegate {
             }
             timer.invalidate()
         }
+    }
+}
+
+// MARK: - CharacterSearchControllerDelegate
+extension CharactersListViewController: SearchResultsUpdateDelegate {
+    func updateSearchResults() {
+        charactersTableView.reloadData()
     }
 }
