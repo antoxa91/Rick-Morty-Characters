@@ -7,15 +7,16 @@
 
 import Foundation
 
-enum CharacterGender: String, Decodable {
+enum CharacterGender: String, Decodable, CaseIterable {
     case male = "Male"
     case female = "Female"
     case unknown = "unknown"
+    case genderless = "Genderless"
     
     var text: String {
         switch self {
-        case .male, .female, .unknown:
-            return rawValue
+        case .male, .female, .unknown, .genderless:
+            return rawValue.capitalized
         }
     }
 }
