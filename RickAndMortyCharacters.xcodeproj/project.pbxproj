@@ -24,6 +24,10 @@
 		C568EFC42C4C3F5300F9213D /* Notification + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C568EFC32C4C3F5300F9213D /* Notification + Extension.swift */; };
 		C56FA3972C4B22EF00264271 /* CharactersLoaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56FA3962C4B22EF00264271 /* CharactersLoaderService.swift */; };
 		C5909D5B2C48E80800FD5136 /* CharacterProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */; };
+		C5B8692E2C4D5802004CE171 /* FiltersView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B8692D2C4D5802004CE171 /* FiltersView.swift */; };
+		C5B869302C4D581B004CE171 /* FiltersViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B8692F2C4D581B004CE171 /* FiltersViewController.swift */; };
+		C5B869322C4D69D1004CE171 /* FiltersViewNavigationStack.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B869312C4D69D1004CE171 /* FiltersViewNavigationStack.swift */; };
+		C5B869342C4D6BA9004CE171 /* FilterTypeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5B869332C4D6BA9004CE171 /* FilterTypeView.swift */; };
 		C5D522422C4906A200BF35BD /* CharactersViewControllerAssembly.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D522412C4906A200BF35BD /* CharactersViewControllerAssembly.swift */; };
 		C5D605622C47C4B3000DBA15 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D605612C47C4B3000DBA15 /* AppDelegate.swift */; };
 		C5D605662C47C4B3000DBA15 /* CharactersListViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5D605652C47C4B3000DBA15 /* CharactersListViewController.swift */; };
@@ -64,6 +68,10 @@
 		C568EFC32C4C3F5300F9213D /* Notification + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification + Extension.swift"; sourceTree = "<group>"; };
 		C56FA3962C4B22EF00264271 /* CharactersLoaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersLoaderService.swift; sourceTree = "<group>"; };
 		C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterProfileView.swift; sourceTree = "<group>"; };
+		C5B8692D2C4D5802004CE171 /* FiltersView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersView.swift; sourceTree = "<group>"; };
+		C5B8692F2C4D581B004CE171 /* FiltersViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewController.swift; sourceTree = "<group>"; };
+		C5B869312C4D69D1004CE171 /* FiltersViewNavigationStack.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FiltersViewNavigationStack.swift; sourceTree = "<group>"; };
+		C5B869332C4D6BA9004CE171 /* FilterTypeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterTypeView.swift; sourceTree = "<group>"; };
 		C5D522412C4906A200BF35BD /* CharactersViewControllerAssembly.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersViewControllerAssembly.swift; sourceTree = "<group>"; };
 		C5D6055E2C47C4B3000DBA15 /* RickAndMortyCharacters.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = RickAndMortyCharacters.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5D605612C47C4B3000DBA15 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
@@ -109,6 +117,16 @@
 			path = Utilities;
 			sourceTree = "<group>";
 		};
+		C5B869352C4D8BA7004CE171 /* FiltersViews */ = {
+			isa = PBXGroup;
+			children = (
+				C5B869312C4D69D1004CE171 /* FiltersViewNavigationStack.swift */,
+				C5B8692D2C4D5802004CE171 /* FiltersView.swift */,
+				C5B869332C4D6BA9004CE171 /* FilterTypeView.swift */,
+			);
+			path = FiltersViews;
+			sourceTree = "<group>";
+		};
 		C5D605552C47C4B3000DBA15 = {
 			isa = PBXGroup;
 			children = (
@@ -149,6 +167,7 @@
 				C527A4082C4D073E0098284E /* SearchView.swift */,
 				C527A40A2C4D2B390098284E /* SearchIconView.swift */,
 				C55C8CFC2C4AF067003E787E /* FooterLoaderView.swift */,
+				C5B869352C4D8BA7004CE171 /* FiltersViews */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -156,6 +175,7 @@
 		C5D605762C47C5C8000DBA15 /* Controllers */ = {
 			isa = PBXGroup;
 			children = (
+				C5B8692F2C4D581B004CE171 /* FiltersViewController.swift */,
 				C5D522412C4906A200BF35BD /* CharactersViewControllerAssembly.swift */,
 				C5D605652C47C4B3000DBA15 /* CharactersListViewController.swift */,
 				C5D6057A2C47C786000DBA15 /* CharacterProfileViewController.swift */,
@@ -303,6 +323,7 @@
 				C5909D5B2C48E80800FD5136 /* CharacterProfileView.swift in Sources */,
 				C5D605A72C47EB48000DBA15 /* CharacterModel.swift in Sources */,
 				C55C8D062C4B1E44003E787E /* EpisodesLoaderService.swift in Sources */,
+				C5B869342C4D6BA9004CE171 /* FilterTypeView.swift in Sources */,
 				C55C8D042C4B1E09003E787E /* ImageLoaderService.swift in Sources */,
 				C5D605A52C47E227000DBA15 /* AppColorEnum.swift in Sources */,
 				C5D6057E2C47C7D0000DBA15 /* UIView + Extension.swift in Sources */,
@@ -313,14 +334,17 @@
 				C540F3BF2C49964D00919379 /* BaseLabel.swift in Sources */,
 				C55C8CF72C4A53CD003E787E /* NetworkErrorViewController.swift in Sources */,
 				C527A40D2C4D2B540098284E /* SearchTextField.swift in Sources */,
+				C5B869302C4D581B004CE171 /* FiltersViewController.swift in Sources */,
 				C527A4092C4D073E0098284E /* SearchView.swift in Sources */,
 				C5D605802C47D580000DBA15 /* CharacterTableViewCell.swift in Sources */,
 				C5D605AF2C48301A000DBA15 /* NetworkService.swift in Sources */,
 				C527A40B2C4D2B390098284E /* SearchIconView.swift in Sources */,
 				C5D605A92C47EC3F000DBA15 /* CharacterStatus.swift in Sources */,
 				C5D605622C47C4B3000DBA15 /* AppDelegate.swift in Sources */,
+				C5B8692E2C4D5802004CE171 /* FiltersView.swift in Sources */,
 				C5D605A32C47E1FB000DBA15 /* UIColor + Extension.swift in Sources */,
 				C5D605A12C47E010000DBA15 /* UIFont + Extension.swift in Sources */,
+				C5B869322C4D69D1004CE171 /* FiltersViewNavigationStack.swift in Sources */,
 				C5D605AB2C47EC54000DBA15 /* CharacterGender.swift in Sources */,
 				C56FA3972C4B22EF00264271 /* CharactersLoaderService.swift in Sources */,
 				C55C8CFB2C4AC11C003E787E /* Logger + Extension.swift in Sources */,

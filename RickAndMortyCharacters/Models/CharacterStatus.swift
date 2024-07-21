@@ -7,7 +7,7 @@
 
 import UIKit
 
-enum CharacterStatus: String, Decodable {
+enum CharacterStatus: String, Decodable, CaseIterable {
     case alive = "Alive"
     case dead = "Dead"
     case unknown = "unknown"
