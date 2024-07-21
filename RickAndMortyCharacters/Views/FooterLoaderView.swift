@@ -39,4 +39,8 @@ final class FooterLoaderView: UIView {
     func startAnimating() {
         spinner.startAnimating()
     }
+    
+    func stopAnimating() {
+        spinner.stopAnimating()
+    }
 }

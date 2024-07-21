@@ -67,27 +67,21 @@ final class CharacterSearchController: UISearchController, SearchControllerProto
             attributes: [.foregroundColor: AppColorEnum.text.color]
         )
     }
-    
-    // MARK: Search Data
-    private func searchData(text: String) {
-        charactersLoader.fetchSearchableCharacters(name: text) { [weak self] result in
-            switch result {
-            case .success(let success):
-                self?.filteredCharacters = success.results
-                DispatchQueue.main.async {
-                    self?.searchResultsUpdateDelegate?.updateSearchResults()
-                }
-            case .failure(let failure):
-                Logger.network.error("Не могу загрузить список отфильтрованных персонажей: \(failure.localizedDescription) ")
-            }
-        }
-    }
 }
 
 // MARK: - UISearchResultsUpdating
 extension CharacterSearchController: UISearchResultsUpdating {
     func updateSearchResults(for searchController: UISearchController) {
-        searchData(text: searchController.searchBar.text ?? "")
+        guard let searchText = searchController.searchBar.text, !searchText.isEmpty else {
+            filteredCharacters = []
+            searchResultsUpdateDelegate?.updateSearchResults()
+            return
+        }
+
+        charactersLoader.fetchSearchableCharacters(name: searchText) { [weak self] characters in
+            self?.filteredCharacters = characters
+            self?.searchResultsUpdateDelegate?.updateSearchResults()
+        }
     }
 }
 

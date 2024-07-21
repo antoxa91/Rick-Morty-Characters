@@ -134,7 +134,7 @@ extension CharactersListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footer = FooterLoaderView()
-        footer.startAnimating()
+        !searchController.isFiltering ? footer.startAnimating() : footer.stopAnimating()
         return footer
     }
     
@@ -151,7 +151,7 @@ extension CharactersListViewController: UIScrollViewDelegate {
               !charactersLoader.characters.isEmpty,
               !searchController.isFiltering else { return }
         
-        Timer.scheduledTimer(withTimeInterval: 0.15, repeats: false) { [weak self] timer in //02
+        Timer.scheduledTimer(withTimeInterval: 0.15, repeats: false) { [weak self] timer in
             let offset = scrollView.contentOffset.y
             let totalContentHeight = scrollView.contentSize.height
             let totalScrollViewFixedHeight = scrollView.frame.size.height
@@ -167,6 +167,8 @@ extension CharactersListViewController: UIScrollViewDelegate {
 // MARK: - CharacterSearchControllerDelegate
 extension CharactersListViewController: SearchResultsUpdateDelegate {
     func updateSearchResults() {
-        charactersTableView.reloadData()
+        DispatchQueue.main.async {
+            self.charactersTableView.reloadData()
+        }
     }
 }

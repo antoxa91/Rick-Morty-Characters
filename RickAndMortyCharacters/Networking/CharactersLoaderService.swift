@@ -13,7 +13,7 @@ protocol CharactersLoadable: AnyObject {
     
     func fetchInitialCharacters(completion: @escaping () -> Void)
     func fetchAdditionalCharacters(completion: @escaping ([IndexPath]) -> Void)
-    func fetchSearchableCharacters(name: String, completion: @escaping DownloadHandler)
+    func fetchSearchableCharacters(name: String, completion: @escaping ([CharacterModel]) -> Void)
     
     var isShouldLoadMore: Bool { get }
     var apiInfo: AllCharactersResponse.Info? { get }
@@ -88,14 +88,14 @@ extension CharactersLoaderService: CharactersLoadable {
         guard !isLoadingMoreCharacters else { return }
         isLoadingMoreCharacters = true
         let url = buildURL(queryItems: [URLQueryItem(name: "page", value: "\(pageNumber)")])
-
+        
         fetchData(from: url) {[weak self] result in
             guard let self else { return }
             
             switch result {
-            case .success(let responseModel):
-                let moreResults = responseModel.results
-                self.apiInfo = responseModel.info
+            case .success(let response):
+                let moreResults = response.results
+                self.apiInfo = response.info
                 
                 let newCount = moreResults.count
                 let totalCount = self.characters.count + newCount
@@ -117,9 +117,20 @@ extension CharactersLoaderService: CharactersLoadable {
         pageNumber += 1
     }
     
-    ///TODO - доделать по аналогии с фильтром
-    func fetchSearchableCharacters(name: String, completion: @escaping DownloadHandler) {
+    func fetchSearchableCharacters(name: String, completion: @escaping ([CharacterModel]) -> Void) {
         let url = buildURL(queryItems: [URLQueryItem(name: "name", value: name)])
-        fetchData(from: url, completion: completion)
+        fetchData(from: url) { result in
+            switch result {
+            case .success(let response):
+                DispatchQueue.main.async {
+                    completion(response.results)
+                }
+            case .failure(let failure):
+                DispatchQueue.main.async {
+                    completion([])
+                }
+                Logger.network.error("Не могу загрузить список отфильтрованных персонажей: \(failure.localizedDescription) ")
+            }
+        }
     }
 }
