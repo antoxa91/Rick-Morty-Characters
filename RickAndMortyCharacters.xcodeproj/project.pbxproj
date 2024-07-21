@@ -102,6 +102,7 @@
 		C55C8D022C4B1D58003E787E /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
+				C527A40C2C4D2B540098284E /* SearchTextField.swift */,
 				C5D605A42C47E227000DBA15 /* AppColorEnum.swift */,
 				C540F3BE2C49964D00919379 /* BaseLabel.swift */,
 			);
@@ -145,10 +146,9 @@
 				C5D6057F2C47D580000DBA15 /* CharacterTableViewCell.swift */,
 				C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */,
 				C55C8CF82C4A54F9003E787E /* NetworkErrorView.swift */,
-				C55C8CFC2C4AF067003E787E /* FooterLoaderView.swift */,
 				C527A4082C4D073E0098284E /* SearchView.swift */,
-				C527A40C2C4D2B540098284E /* SearchTextField.swift */,
 				C527A40A2C4D2B390098284E /* SearchIconView.swift */,
+				C55C8CFC2C4AF067003E787E /* FooterLoaderView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";

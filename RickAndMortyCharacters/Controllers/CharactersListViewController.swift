@@ -21,6 +21,7 @@ final class CharactersListViewController: UIViewController {
                            forCellReuseIdentifier: CharactersTableViewCell.identifier)
         tableView.dataSource = self
         tableView.delegate = self
+        tableView.showsVerticalScrollIndicator = false
         tableView.translatesAutoresizingMaskIntoConstraints = false
         return tableView
     }()

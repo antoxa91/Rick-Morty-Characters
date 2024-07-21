@@ -7,7 +7,6 @@
 
 import UIKit
 
-///TODO - логику разделить
 protocol SearchViewProtocol: AnyObject {
     var isFiltering: Bool { get }
     var filteredCharacters: [CharacterModel] { get }
@@ -18,13 +17,20 @@ protocol SearchResultsUpdateDelegate: AnyObject {
 }
 
 final class SearchView: UIView, SearchViewProtocol {
+    private enum Constraints {
+        static let searchTextFieldLeading: CGFloat = 25
+        static let searchTextFieldTrailing: CGFloat = -16
+        static let filterButtonHeightMultiplier: CGFloat = 0.5
+        static let filterButtonWidthMultiplier: CGFloat = 0.5
+        static let filterButtonTrailing: CGFloat = -16
+    }
     
     // MARK: Properties
     private let charactersLoader: CharactersLoadable
     
     private(set) var filteredCharacters: [CharacterModel] = []
     weak var delegate: SearchResultsUpdateDelegate?
-
+    
     private var isSearchBarEmpty: Bool {
         guard let text = searchTextField.text else { return false }
         return text.isEmpty
@@ -77,7 +83,7 @@ final class SearchView: UIView, SearchViewProtocol {
             delegate?.updateSearchResults()
             return
         }
-
+        
         charactersLoader.fetchSearchableCharacters(name: searchText) { [weak self] characters in
             self?.filteredCharacters = characters
             self?.delegate?.updateSearchResults()
@@ -89,22 +95,25 @@ final class SearchView: UIView, SearchViewProtocol {
         print(#function)
     }
     
-    /// Для гита обновил searchView и поработал с клавой
     // MARK: Layout
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            searchTextField.leadingAnchor.constraint(equalTo: leadingAnchor, constant: 25),
+            searchTextField.leadingAnchor.constraint(equalTo: leadingAnchor,
+                                                     constant: Constraints.searchTextFieldLeading),
             searchTextField.topAnchor.constraint(equalTo: topAnchor),
             searchTextField.bottomAnchor.constraint(equalTo: bottomAnchor),
-            searchTextField.trailingAnchor.constraint(equalTo: filterButton.leadingAnchor, constant: -16),
+            searchTextField.trailingAnchor.constraint(equalTo: filterButton.leadingAnchor,
+                                                      constant: Constraints.searchTextFieldTrailing),
             
             filterButton.centerYAnchor.constraint(equalTo: centerYAnchor),
-            filterButton.heightAnchor.constraint(equalTo: heightAnchor, multiplier: 0.5),
-            filterButton.widthAnchor.constraint(equalTo: heightAnchor, multiplier: 0.5),
-            filterButton.trailingAnchor.constraint(equalTo: trailingAnchor, constant: -16)
+            filterButton.heightAnchor.constraint(equalTo: heightAnchor,
+                                                 multiplier: Constraints.filterButtonHeightMultiplier),
+            filterButton.widthAnchor.constraint(equalTo: heightAnchor,
+                                                multiplier: Constraints.filterButtonWidthMultiplier),
+            filterButton.trailingAnchor.constraint(equalTo: trailingAnchor,
+                                                   constant: Constraints.filterButtonTrailing)
         ])
     }
-    
 }
 
 // MARK: UITextFieldDelegate
