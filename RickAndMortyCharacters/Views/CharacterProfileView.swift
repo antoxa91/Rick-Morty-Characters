@@ -42,8 +42,8 @@ final class CharacterProfileView: UIView {
     )
     private lazy var speciesLabel = BaseLabel()
     private lazy var genderLabel = BaseLabel()
-    private lazy var episodesLabel = BaseLabel()
-    private lazy var lastLocationLabel = BaseLabel()
+    private lazy var episodesLabel = BaseLabel(numberOfLines: 0)
+    private lazy var lastLocationLabel = BaseLabel(numberOfLines: 0)
     
     private lazy var vInfoStackView: UIStackView = {
         let vStack = UIStackView(arrangedSubviews: [speciesLabel, genderLabel, episodesLabel, lastLocationLabel])
