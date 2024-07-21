@@ -100,14 +100,17 @@ final class CharactersTableViewCell: UITableViewCell {
     
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            characterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor, constant: Constants.characterImageViewLeadingInset),
+            characterImageView.leadingAnchor.constraint(equalTo: contentView.leadingAnchor,
+                                                        constant: Constants.characterImageViewLeadingInset),
             characterImageView.widthAnchor.constraint(equalToConstant: Constants.characterImageViewWidth),
             characterImageView.heightAnchor.constraint(equalToConstant: Constants.characterImageViewHeight),
             characterImageView.centerYAnchor.constraint(equalTo: contentView.centerYAnchor),
             
-            vInfoStackView.leadingAnchor.constraint(equalTo: characterImageView.trailingAnchor, constant: Constants.vStackViewLeadingInset),
+            vInfoStackView.leadingAnchor.constraint(equalTo: characterImageView.trailingAnchor, 
+                                                    constant: Constants.vStackViewLeadingInset),
             vInfoStackView.topAnchor.constraint(equalTo: characterImageView.topAnchor),
-            vInfoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor, constant: -Constants.vStackViewTrailingInset),
+            vInfoStackView.trailingAnchor.constraint(equalTo: contentView.trailingAnchor,
+                                                     constant: Constants.vStackViewTrailingInset),
             vInfoStackView.bottomAnchor.constraint(equalTo: characterImageView.bottomAnchor)
         ])
     }
