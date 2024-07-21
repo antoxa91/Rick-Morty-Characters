@@ -12,8 +12,9 @@ protocol SearchViewProtocol: AnyObject {
     var filteredCharacters: [CharacterModel] { get }
 }
 
-protocol SearchResultsUpdateDelegate: AnyObject {
+protocol SearchResultsFiltersDelegate: AnyObject {
     func updateSearchResults()
+    func showFilters()
 }
 
 final class SearchView: UIView, SearchViewProtocol {
@@ -29,7 +30,7 @@ final class SearchView: UIView, SearchViewProtocol {
     private let charactersLoader: CharactersLoadable
     
     private(set) var filteredCharacters: [CharacterModel] = []
-    weak var delegate: SearchResultsUpdateDelegate?
+    weak var delegate: SearchResultsFiltersDelegate?
     
     private var isSearchBarEmpty: Bool {
         guard let text = searchTextField.text else { return false }
@@ -90,9 +91,8 @@ final class SearchView: UIView, SearchViewProtocol {
         }
     }
     
-    ///TODO - realize
     @objc private func filterButtonTapped() {
-        print(#function)
+        delegate?.showFilters()
     }
     
     // MARK: Layout
