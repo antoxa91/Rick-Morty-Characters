@@ -25,10 +25,10 @@ final class CharactersListViewController: UIViewController {
         return tableView
     }()
     
-    private lazy var searchController: CharacterSearchController = {
-        let searchController = CharacterSearchController(charactersLoader: charactersLoader)
-        searchController.searchResultsUpdateDelegate = self
-        return searchController
+    private lazy var searchView: SearchView = {
+        let searchView = SearchView(charactersLoader: charactersLoader)
+        searchView.delegate = self
+        return searchView
     }()
     
     // MARK: Init
@@ -55,8 +55,7 @@ final class CharactersListViewController: UIViewController {
     private func setupView() {
         title = "Rick & Morty Characters"
         navigationItem.backButtonDisplayMode = .minimal
-        navigationItem.searchController = searchController
-        view.addSubviews(charactersTableView)
+        view.addSubviews(charactersTableView, searchView)
     }
     
     // MARK: Private Methods
@@ -91,7 +90,12 @@ final class CharactersListViewController: UIViewController {
     // MARK: Layout
     private func setConstraints() {
         NSLayoutConstraint.activate([
-            charactersTableView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchView.topAnchor.constraint(equalTo: view.safeAreaLayoutGuide.topAnchor),
+            searchView.leadingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leadingAnchor),
+            searchView.trailingAnchor.constraint(equalTo: view.safeAreaLayoutGuide.trailingAnchor),
+            searchView.heightAnchor.constraint(equalToConstant: 40),
+            
+            charactersTableView.topAnchor.constraint(equalTo: searchView.bottomAnchor, constant: 8),
             charactersTableView.leftAnchor.constraint(equalTo: view.safeAreaLayoutGuide.leftAnchor),
             charactersTableView.rightAnchor.constraint(equalTo: view.safeAreaLayoutGuide.rightAnchor),
             charactersTableView.bottomAnchor.constraint(equalTo:view.safeAreaLayoutGuide.bottomAnchor)
@@ -102,8 +106,8 @@ final class CharactersListViewController: UIViewController {
 // MARK: - UITableViewDataSource
 extension CharactersListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        searchController.isFiltering ?
-        searchController.filteredCharacters.count : charactersLoader.characters.count
+        searchView.isFiltering ?
+        searchView.filteredCharacters.count : charactersLoader.characters.count
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
@@ -111,8 +115,8 @@ extension CharactersListViewController: UITableViewDataSource {
             return UITableViewCell()
         }
         
-        let character = searchController.isFiltering ?
-        searchController.filteredCharacters[indexPath.row] : charactersLoader.characters[indexPath.row]
+        let character = searchView.isFiltering ?
+        searchView.filteredCharacters[indexPath.row] : charactersLoader.characters[indexPath.row]
         cell.configure(with: character)
         return cell
     }
@@ -121,8 +125,8 @@ extension CharactersListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension CharactersListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let character = searchController.isFiltering ?
-        searchController.filteredCharacters[indexPath.row] : charactersLoader.characters[indexPath.row]
+        let character = searchView.isFiltering ?
+        searchView.filteredCharacters[indexPath.row] : charactersLoader.characters[indexPath.row]
         
         let vc = CharacterProfileViewController(character: character)
         navigationController?.pushViewController(vc, animated: true)
@@ -134,7 +138,7 @@ extension CharactersListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footer = FooterLoaderView()
-        !searchController.isFiltering ? footer.startAnimating() : footer.stopAnimating()
+        !searchView.isFiltering ? footer.startAnimating() : footer.stopAnimating()
         return footer
     }
     
@@ -149,7 +153,7 @@ extension CharactersListViewController: UIScrollViewDelegate {
         guard charactersLoader.isShouldLoadMore,
               !charactersLoader.isLoadingMoreCharacters,
               !charactersLoader.characters.isEmpty,
-              !searchController.isFiltering else { return }
+              !searchView.isFiltering else { return }
         
         Timer.scheduledTimer(withTimeInterval: 0.15, repeats: false) { [weak self] timer in
             let offset = scrollView.contentOffset.y
@@ -161,6 +165,10 @@ extension CharactersListViewController: UIScrollViewDelegate {
             }
             timer.invalidate()
         }
+    }
+    
+    func scrollViewWillBeginDragging(_ scrollView: UIScrollView) {
+        view.endEditing(true)
     }
 }
 

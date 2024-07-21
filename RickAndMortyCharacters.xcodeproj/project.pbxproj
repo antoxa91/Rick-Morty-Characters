@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		C527A4092C4D073E0098284E /* SearchView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C527A4082C4D073E0098284E /* SearchView.swift */; };
+		C527A40B2C4D2B390098284E /* SearchIconView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C527A40A2C4D2B390098284E /* SearchIconView.swift */; };
+		C527A40D2C4D2B540098284E /* SearchTextField.swift in Sources */ = {isa = PBXBuildFile; fileRef = C527A40C2C4D2B540098284E /* SearchTextField.swift */; };
 		C540F3BB2C493EA300919379 /* Episode.swift in Sources */ = {isa = PBXBuildFile; fileRef = C540F3BA2C493EA300919379 /* Episode.swift */; };
 		C540F3BD2C49854200919379 /* UILabel + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C540F3BC2C49854200919379 /* UILabel + Extension.swift */; };
 		C540F3BF2C49964D00919379 /* BaseLabel.swift in Sources */ = {isa = PBXBuildFile; fileRef = C540F3BE2C49964D00919379 /* BaseLabel.swift */; };
@@ -18,7 +21,6 @@
 		C55C8CFD2C4AF067003E787E /* FooterLoaderView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C8CFC2C4AF067003E787E /* FooterLoaderView.swift */; };
 		C55C8D042C4B1E09003E787E /* ImageLoaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C8D032C4B1E09003E787E /* ImageLoaderService.swift */; };
 		C55C8D062C4B1E44003E787E /* EpisodesLoaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C55C8D052C4B1E44003E787E /* EpisodesLoaderService.swift */; };
-		C568EFC02C4C328600F9213D /* CharacterSearchController.swift in Sources */ = {isa = PBXBuildFile; fileRef = C568EFBF2C4C328600F9213D /* CharacterSearchController.swift */; };
 		C568EFC42C4C3F5300F9213D /* Notification + Extension.swift in Sources */ = {isa = PBXBuildFile; fileRef = C568EFC32C4C3F5300F9213D /* Notification + Extension.swift */; };
 		C56FA3972C4B22EF00264271 /* CharactersLoaderService.swift in Sources */ = {isa = PBXBuildFile; fileRef = C56FA3962C4B22EF00264271 /* CharactersLoaderService.swift */; };
 		C5909D5B2C48E80800FD5136 /* CharacterProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */; };
@@ -45,6 +47,9 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		C527A4082C4D073E0098284E /* SearchView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchView.swift; sourceTree = "<group>"; };
+		C527A40A2C4D2B390098284E /* SearchIconView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchIconView.swift; sourceTree = "<group>"; };
+		C527A40C2C4D2B540098284E /* SearchTextField.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SearchTextField.swift; sourceTree = "<group>"; };
 		C540F3BA2C493EA300919379 /* Episode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Episode.swift; sourceTree = "<group>"; };
 		C540F3BC2C49854200919379 /* UILabel + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "UILabel + Extension.swift"; sourceTree = "<group>"; };
 		C540F3BE2C49964D00919379 /* BaseLabel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseLabel.swift; sourceTree = "<group>"; };
@@ -56,7 +61,6 @@
 		C55C8CFC2C4AF067003E787E /* FooterLoaderView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FooterLoaderView.swift; sourceTree = "<group>"; };
 		C55C8D032C4B1E09003E787E /* ImageLoaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ImageLoaderService.swift; sourceTree = "<group>"; };
 		C55C8D052C4B1E44003E787E /* EpisodesLoaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EpisodesLoaderService.swift; sourceTree = "<group>"; };
-		C568EFBF2C4C328600F9213D /* CharacterSearchController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterSearchController.swift; sourceTree = "<group>"; };
 		C568EFC32C4C3F5300F9213D /* Notification + Extension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Notification + Extension.swift"; sourceTree = "<group>"; };
 		C56FA3962C4B22EF00264271 /* CharactersLoaderService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharactersLoaderService.swift; sourceTree = "<group>"; };
 		C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CharacterProfileView.swift; sourceTree = "<group>"; };
@@ -142,6 +146,9 @@
 				C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */,
 				C55C8CF82C4A54F9003E787E /* NetworkErrorView.swift */,
 				C55C8CFC2C4AF067003E787E /* FooterLoaderView.swift */,
+				C527A4082C4D073E0098284E /* SearchView.swift */,
+				C527A40C2C4D2B540098284E /* SearchTextField.swift */,
+				C527A40A2C4D2B390098284E /* SearchIconView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -151,7 +158,6 @@
 			children = (
 				C5D522412C4906A200BF35BD /* CharactersViewControllerAssembly.swift */,
 				C5D605652C47C4B3000DBA15 /* CharactersListViewController.swift */,
-				C568EFBF2C4C328600F9213D /* CharacterSearchController.swift */,
 				C5D6057A2C47C786000DBA15 /* CharacterProfileViewController.swift */,
 				C55C8CF62C4A53CD003E787E /* NetworkErrorViewController.swift */,
 			);
@@ -306,10 +312,12 @@
 				C540F3BB2C493EA300919379 /* Episode.swift in Sources */,
 				C540F3BF2C49964D00919379 /* BaseLabel.swift in Sources */,
 				C55C8CF72C4A53CD003E787E /* NetworkErrorViewController.swift in Sources */,
+				C527A40D2C4D2B540098284E /* SearchTextField.swift in Sources */,
+				C527A4092C4D073E0098284E /* SearchView.swift in Sources */,
 				C5D605802C47D580000DBA15 /* CharacterTableViewCell.swift in Sources */,
 				C5D605AF2C48301A000DBA15 /* NetworkService.swift in Sources */,
+				C527A40B2C4D2B390098284E /* SearchIconView.swift in Sources */,
 				C5D605A92C47EC3F000DBA15 /* CharacterStatus.swift in Sources */,
-				C568EFC02C4C328600F9213D /* CharacterSearchController.swift in Sources */,
 				C5D605622C47C4B3000DBA15 /* AppDelegate.swift in Sources */,
 				C5D605A32C47E1FB000DBA15 /* UIColor + Extension.swift in Sources */,
 				C5D605A12C47E010000DBA15 /* UIFont + Extension.swift in Sources */,
