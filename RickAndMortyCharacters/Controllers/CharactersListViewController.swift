@@ -174,7 +174,13 @@ extension CharactersListViewController: UIScrollViewDelegate {
 }
 
 // MARK: - CharacterSearchControllerDelegate
-extension CharactersListViewController: SearchResultsUpdateDelegate {
+extension CharactersListViewController: SearchResultsFiltersDelegate {
+    func showFilters() {
+        let filtersVC = FiltersViewController()
+        filtersVC.sheetPresentationController?.detents = [.medium()]
+        present(filtersVC, animated: true)
+    }
+    
     func updateSearchResults() {
         DispatchQueue.main.async {
             self.charactersTableView.reloadData()
