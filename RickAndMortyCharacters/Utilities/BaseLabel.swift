@@ -14,7 +14,8 @@ final class BaseLabel: UILabel {
          cornerRadius: CGFloat = 0,
          clipsToBounds: Bool = false,
          text: String = "",
-         textColor: UIColor = AppColorEnum.text.color
+         textColor: UIColor = AppColorEnum.text.color,
+         numberOfLines: Int = 1
     ) {
         super.init(frame: .zero)
         
@@ -24,6 +25,7 @@ final class BaseLabel: UILabel {
         self.clipsToBounds = clipsToBounds
         self.text = text
         self.textColor = textColor
+        self.numberOfLines = numberOfLines
         setupDefaultStyle()
     }
      
@@ -34,6 +36,5 @@ final class BaseLabel: UILabel {
     
     private func setupDefaultStyle() {     
         self.translatesAutoresizingMaskIntoConstraints = false
-        self.numberOfLines = 0
     }
 }
