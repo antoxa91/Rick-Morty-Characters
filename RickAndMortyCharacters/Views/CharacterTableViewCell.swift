@@ -60,7 +60,6 @@ final class CharactersTableViewCell: UITableViewCell {
         setupContentView()
         setConstraints()
         imageLoader = ImageLoaderService()
-        imageLoader?.delegate = self
     }
     
     @available(*, unavailable)
@@ -128,16 +127,12 @@ extension CharactersTableViewCell: ConfigurableViewProtocol {
                                                 trailingText: " • " + model.species)
         
         guard let url = URL(string: model.image) else {
-            Logger.network.error("Invalid URL in CharactersTableViewCell")
+            Logger.network.error("Ошибка: Invalid URL for Image")
             return
         }
-        imageLoader?.fetchImage(with: url)
-    }
-}
 
-// MARK: - CharacterImageDelegate
-extension CharactersTableViewCell: ImageLoaderDelegate {
-    func didUpdateImage(_ model: ImageLoaderProtocol, image: UIImage?) {
-        characterImageView.image = image
+        imageLoader?.fetchImage(with: url) { [weak self] image in
+            self?.characterImageView.image = image
+        }
     }
 }

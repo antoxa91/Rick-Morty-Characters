@@ -8,11 +8,11 @@
 import UIKit
 
 struct CharactersViewControllerAssembly {
-    let charactersLoader: CharactersLoadable
+    let networkService: CharactersLoader
     
     func create() throws -> UIViewController {
         
-        let vc = CharactersListViewController(charactersLoader: charactersLoader)
+        let vc = CharactersListViewController(networkService: networkService)
         let navVC = UINavigationController(rootViewController: vc)
         configureNavigationBar(for: navVC)
         
