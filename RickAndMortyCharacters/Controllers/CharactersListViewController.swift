@@ -8,10 +8,17 @@
 import UIKit
 import OSLog
 
+enum ConnectionType {
+    case searching
+    case filtering
+    case `default`
+}
+
 final class CharactersListViewController: UIViewController {
     
     // MARK: Private Properties
-    private let charactersLoader: CharactersLoadable
+    private let networkService: CharactersLoader
+    private var connectionType: ConnectionType = .default
     
     // MARK: Private UI Properties
     private lazy var charactersTableView: UITableView = {
@@ -27,14 +34,20 @@ final class CharactersListViewController: UIViewController {
     }()
     
     private lazy var searchView: SearchView = {
-        let searchView = SearchView(charactersLoader: charactersLoader)
+        let searchView = SearchView(networkService: networkService)
         searchView.delegate = self
         return searchView
     }()
     
+    private lazy var filterVC: FiltersViewController = {
+        let vc = FiltersViewController(networkService: networkService)
+        vc.delegate = self
+        return vc
+    }()
+    
     // MARK: Init
-    init(charactersLoader: CharactersLoadable) {
-        self.charactersLoader = charactersLoader
+    init(networkService: CharactersLoader) {
+        self.networkService = networkService
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -61,17 +74,19 @@ final class CharactersListViewController: UIViewController {
     
     // MARK: Private Methods
     private func downloadInitialCharacters() {
-        charactersLoader.fetchInitialCharacters {[weak self] in
-            self?.charactersTableView.reloadData()
+        if connectionType == .default {
+            networkService.fetchInitialCharacters {[weak self] in
+                self?.charactersTableView.reloadData()
+            }
         }
     }
     
     private func downloadAdditionalCharacters() {
-        charactersLoader.fetchAdditionalCharacters() { [weak self] indexPathsToAdd in
-            DispatchQueue.main.async {
-                guard let self = self else { return }
-                self.charactersTableView.performBatchUpdates {
-                    self.charactersTableView.insertRows(at: indexPathsToAdd, with: .fade)
+        if connectionType == .default {
+            networkService.fetchAdditionalCharacters() { [weak self] indexPathsToAdd in
+                    guard let self = self else { return }
+                    self.charactersTableView.performBatchUpdates {
+                        self.charactersTableView.insertRows(at: indexPathsToAdd, with: .fade)
                 }
             }
         }
@@ -107,17 +122,30 @@ final class CharactersListViewController: UIViewController {
 // MARK: - UITableViewDataSource
 extension CharactersListViewController: UITableViewDataSource {
     func tableView(_ tableView: UITableView, numberOfRowsInSection section: Int) -> Int {
-        searchView.isFiltering ?
-        searchView.filteredCharacters.count : charactersLoader.characters.count
+        switch connectionType {
+        case .searching:
+            return searchView.searchedCharacters.count
+        case .filtering:
+            return filterVC.filteredCharacters.count
+        case .default:
+            return networkService.characters.count
+        }
     }
     
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         guard let cell = tableView.dequeueReusableCell(withIdentifier: CharactersTableViewCell.identifier, for: indexPath) as? CharactersTableViewCell else {
             return UITableViewCell()
         }
-        
-        let character = searchView.isFiltering ?
-        searchView.filteredCharacters[indexPath.row] : charactersLoader.characters[indexPath.row]
+        var character: CharacterModel
+        switch connectionType {
+        case .searching:
+            character = searchView.searchedCharacters[indexPath.row]
+        case .filtering:
+            character = filterVC.filteredCharacters[indexPath.row]
+        case .default:
+            character = networkService.characters[indexPath.row]
+        }
+  
         cell.configure(with: character)
         return cell
     }
@@ -126,8 +154,15 @@ extension CharactersListViewController: UITableViewDataSource {
 // MARK: - UITableViewDelegate
 extension CharactersListViewController: UITableViewDelegate {
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        let character = searchView.isFiltering ?
-        searchView.filteredCharacters[indexPath.row] : charactersLoader.characters[indexPath.row]
+        var character: CharacterModel
+        switch connectionType {
+        case .searching:
+            character = searchView.searchedCharacters[indexPath.row]
+        case .filtering:
+            character = filterVC.filteredCharacters[indexPath.row]
+        case .default:
+            character = networkService.characters[indexPath.row]
+        }
         
         let vc = CharacterProfileViewController(character: character)
         navigationController?.pushViewController(vc, animated: true)
@@ -139,7 +174,11 @@ extension CharactersListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footer = FooterLoaderView()
-        !searchView.isFiltering ? footer.startAnimating() : footer.stopAnimating()
+        if connectionType == .searching {
+            footer.startAnimating()
+        } else {
+            footer.stopAnimating()
+        }
         return footer
     }
     
@@ -151,10 +190,10 @@ extension CharactersListViewController: UITableViewDelegate {
 // MARK: - UIScrollViewDelegate
 extension CharactersListViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard charactersLoader.isShouldLoadMore,
-              !charactersLoader.isLoadingMoreCharacters,
-              !charactersLoader.characters.isEmpty,
-              !searchView.isFiltering else { return }
+        guard networkService.isShouldLoadMore,
+              !networkService.isLoadingMoreCharacters,
+              !networkService.characters.isEmpty,
+              !searchView.isSearching else { return }
         
         Timer.scheduledTimer(withTimeInterval: 0.15, repeats: false) { [weak self] timer in
             let offset = scrollView.contentOffset.y
@@ -176,14 +215,21 @@ extension CharactersListViewController: UIScrollViewDelegate {
 // MARK: - CharacterSearchControllerDelegate
 extension CharactersListViewController: SearchResultsFiltersDelegate {
     func showFilters() {
-        let filtersVC = FiltersViewController()
-        filtersVC.sheetPresentationController?.detents = [.medium()]
-        present(filtersVC, animated: true)
+        filterVC.sheetPresentationController?.detents = [.medium()]
+        present(filterVC, animated: true)
+        connectionType = .filtering
     }
     
     func updateSearchResults() {
         DispatchQueue.main.async {
             self.charactersTableView.reloadData()
         }
+    }
+}
+
+// MARK: - FiltersVCDelegate
+extension CharactersListViewController: FiltersVCDelegate {
+    var filteredCharacters: [CharacterModel] {
+        return filterVC.filteredCharacters
     }
 }
