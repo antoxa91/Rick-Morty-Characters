@@ -10,6 +10,7 @@ import UIKit
 protocol FiltersVCDelegate: AnyObject {
     func updateSearchResults()
     var filteredCharacters: [CharacterModel] { get }
+    func resetConnectionType(to type: ConnectionType)
 }
 
 final class FiltersViewController: UIViewController {
@@ -136,5 +137,6 @@ extension FiltersViewController: FilterNavBarDelegate {
     func resetFilters() {
         statusFilterView.reset()
         genderFilterView.reset()
+        delegate?.resetConnectionType(to: .default)
     }
 }

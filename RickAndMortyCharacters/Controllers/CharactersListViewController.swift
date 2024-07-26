@@ -84,9 +84,9 @@ final class CharactersListViewController: UIViewController {
     private func downloadAdditionalCharacters() {
         if connectionType == .default {
             networkService.fetchAdditionalCharacters() { [weak self] indexPathsToAdd in
-                    guard let self = self else { return }
-                    self.charactersTableView.performBatchUpdates {
-                        self.charactersTableView.insertRows(at: indexPathsToAdd, with: .fade)
+                guard let self = self else { return }
+                self.charactersTableView.performBatchUpdates {
+                    self.charactersTableView.insertRows(at: indexPathsToAdd, with: .fade)
                 }
             }
         }
@@ -145,7 +145,7 @@ extension CharactersListViewController: UITableViewDataSource {
         case .default:
             character = networkService.characters[indexPath.row]
         }
-  
+        
         cell.configure(with: character)
         return cell
     }
@@ -174,7 +174,7 @@ extension CharactersListViewController: UITableViewDelegate {
     
     func tableView(_ tableView: UITableView, viewForFooterInSection section: Int) -> UIView? {
         let footer = FooterLoaderView()
-        if connectionType == .searching {
+        if connectionType == .default {
             footer.startAnimating()
         } else {
             footer.stopAnimating()
@@ -217,7 +217,7 @@ extension CharactersListViewController: SearchResultsFiltersDelegate {
     func showFilters() {
         filterVC.sheetPresentationController?.detents = [.medium()]
         present(filterVC, animated: true)
-        connectionType = .filtering
+        filterVC.delegate?.resetConnectionType(to: .filtering)
     }
     
     func updateSearchResults() {
@@ -229,6 +229,11 @@ extension CharactersListViewController: SearchResultsFiltersDelegate {
 
 // MARK: - FiltersVCDelegate
 extension CharactersListViewController: FiltersVCDelegate {
+    func resetConnectionType(to type: ConnectionType) {
+        connectionType = type
+        charactersTableView.reloadData()
+    }
+    
     var filteredCharacters: [CharacterModel] {
         return filterVC.filteredCharacters
     }

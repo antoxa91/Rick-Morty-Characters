@@ -15,6 +15,7 @@ protocol SearchViewProtocol: AnyObject {
 protocol SearchResultsFiltersDelegate: AnyObject {
     func updateSearchResults()
     func showFilters()
+    func resetConnectionType(to type: ConnectionType)
 }
 
 final class SearchView: UIView, SearchViewProtocol {
@@ -82,12 +83,14 @@ final class SearchView: UIView, SearchViewProtocol {
         guard let searchText = searchTextField.text, !searchText.isEmpty else {
             searchedCharacters = []
             delegate?.updateSearchResults()
+            self.delegate?.resetConnectionType(to: .default)
             return
         }
         
         networkService.filterBy(name: searchText, parameters: nil) { [weak self] characters in
             self?.searchedCharacters = characters
             self?.delegate?.updateSearchResults()
+            self?.delegate?.resetConnectionType(to: .searching)
         }
     }
     
