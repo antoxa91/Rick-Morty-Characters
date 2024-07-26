@@ -28,3 +28,5 @@
 - *Добавлены*: иконка приложения, название “Рик и Морти” и launchScreen. 
 
 ### Скриншоты
+![1](https://github.com/user-attachments/assets/18217214-704a-4a58-b1de-c24a4a65c975)
+![2](https://github.com/user-attachments/assets/6d1e174a-8df0-44ef-82fa-006d12785854)
