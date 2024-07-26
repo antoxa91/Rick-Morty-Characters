@@ -7,10 +7,6 @@
 
 import Foundation
 
-struct AllEpisodesResponse: Decodable {
-    let results: [Episode]
-}
-
 struct Episode: Decodable {
     let name: String
 }
