@@ -16,10 +16,6 @@ protocol CharactersLoader: AnyObject {
     func fetchInitialCharacters(completion: @escaping () -> Void)
     func fetchAdditionalCharacters(completion: @escaping ([IndexPath]) -> Void)
     func filterBy(name: String?, parameters: FilterParameters?, completion: @escaping ([CharacterModel]) -> Void)
-
-    var isShouldLoadMore: Bool { get }
-    var apiInfo: AllCharactersResponse.Info? { get }
-    var isLoadingMoreCharacters: Bool { get }
     var characters: [CharacterModel] { get }
 }
 
@@ -39,15 +35,12 @@ final class NetworkService {
     
     private let decoder = JSONDecoder()
     private let session: URLSession
-        
-    var characters: [CharacterModel] = []
-    var apiInfo: AllCharactersResponse.Info? = nil
-    var isLoadingMoreCharacters = false
+    
+    private var apiInfo: AllCharactersResponse.Info? = nil
+    private var isLoadingMoreCharacters = false
     private var pageNumber = 2
     
-    var isShouldLoadMore: Bool {
-        return apiInfo?.next != nil
-    }
+    var characters: [CharacterModel] = []
     
     init(session: URLSession = URLSession(configuration: .default)) {
         self.session = session
@@ -118,6 +111,7 @@ extension NetworkService: CharactersLoader {
     func fetchAdditionalCharacters(completion: @escaping ([IndexPath]) -> Void) {
         guard !isLoadingMoreCharacters else { return }
         isLoadingMoreCharacters = true
+        
         guard let url = buildURL(queryItems: [
             URLQueryItem(name: ConstantsQueryItem.page, value: "\(pageNumber)")
         ]) else { return }
