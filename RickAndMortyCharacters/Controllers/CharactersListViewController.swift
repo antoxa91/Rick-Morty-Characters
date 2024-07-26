@@ -226,7 +226,6 @@ extension CharactersListViewController: SearchResultsFiltersDelegate {
 extension CharactersListViewController: FiltersVCDelegate {
     func resetConnectionType(to type: ConnectionType) {
         connectionType = type
-        charactersTableView.reloadData()
     }
     
     var filteredCharacters: [CharacterModel] {

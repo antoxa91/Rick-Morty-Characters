@@ -108,9 +108,7 @@
 		C55C8D022C4B1D58003E787E /* Utilities */ = {
 			isa = PBXGroup;
 			children = (
-				C527A40C2C4D2B540098284E /* SearchTextField.swift */,
 				C5D605A42C47E227000DBA15 /* AppColorEnum.swift */,
-				C5D777D72C52EE5A001A8B75 /* FilterParameters.swift */,
 				C540F3BE2C49964D00919379 /* BaseLabel.swift */,
 			);
 			path = Utilities;
@@ -161,11 +159,10 @@
 			isa = PBXGroup;
 			children = (
 				C5D6057F2C47D580000DBA15 /* CharacterTableViewCell.swift */,
+				C55C8CFC2C4AF067003E787E /* FooterLoaderView.swift */,
 				C5909D5A2C48E80800FD5136 /* CharacterProfileView.swift */,
 				C55C8CF82C4A54F9003E787E /* NetworkErrorView.swift */,
-				C527A4082C4D073E0098284E /* SearchView.swift */,
-				C527A40A2C4D2B390098284E /* SearchIconView.swift */,
-				C55C8CFC2C4AF067003E787E /* FooterLoaderView.swift */,
+				C5D777DB2C53AE2F001A8B75 /* SearchViews */,
 				C5B869352C4D8BA7004CE171 /* FiltersViews */,
 			);
 			path = Views;
@@ -204,6 +201,7 @@
 				C5D605AA2C47EC54000DBA15 /* CharacterGender.swift */,
 				C5D605A82C47EC3F000DBA15 /* CharacterStatus.swift */,
 				C540F3BA2C493EA300919379 /* Episode.swift */,
+				C5D777D72C52EE5A001A8B75 /* FilterParameters.swift */,
 			);
 			path = Models;
 			sourceTree = "<group>";
@@ -222,9 +220,9 @@
 		C5D6057C2C47C7A2000DBA15 /* Networking */ = {
 			isa = PBXGroup;
 			children = (
-				C540F3C22C49C7FE00919379 /* NetworkError.swift */,
 				C5D605AE2C48301A000DBA15 /* NetworkService.swift */,
 				C55C8D032C4B1E09003E787E /* ImageLoaderService.swift */,
+				C540F3C22C49C7FE00919379 /* NetworkError.swift */,
 				C55C8CF42C4A5171003E787E /* NetworkMonitor.swift */,
 			);
 			path = Networking;
@@ -239,6 +237,16 @@
 				C5D605832C47DE95000DBA15 /* IBMPlexSans-SemiBold.ttf */,
 			);
 			path = Font;
+			sourceTree = "<group>";
+		};
+		C5D777DB2C53AE2F001A8B75 /* SearchViews */ = {
+			isa = PBXGroup;
+			children = (
+				C527A40C2C4D2B540098284E /* SearchTextField.swift */,
+				C527A4082C4D073E0098284E /* SearchView.swift */,
+				C527A40A2C4D2B390098284E /* SearchIconView.swift */,
+			);
+			path = SearchViews;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */

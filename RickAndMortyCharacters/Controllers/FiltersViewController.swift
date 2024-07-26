@@ -122,6 +122,7 @@ final class FiltersViewController: UIViewController {
         ) { [weak self] characters in
             self?.filteredCharacters = characters
             self?.delegate?.updateSearchResults()
+            self?.delegate?.resetConnectionType(to: .filtering)
             self?.dismiss(animated: true)
         }
     }
