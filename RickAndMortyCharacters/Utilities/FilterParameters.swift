@@ -6,3 +6,11 @@
 //
 
 import Foundation
+
+struct FilterParameters {
+    let status: String?
+    let gender: String?
+    
+    static let status = "Status"
+    static let gender = "Gender"
+}
