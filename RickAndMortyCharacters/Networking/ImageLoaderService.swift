@@ -8,12 +8,8 @@
 import UIKit
 import OSLog
 
-protocol ImageLoaderDelegate: AnyObject {
-    func didUpdateImage(_ model: ImageLoaderProtocol, image: UIImage?)
-}
-
 protocol ImageLoaderProtocol {
-    func fetchImage(with url: URL)
+    func fetchImage(with url: URL, completion: @escaping (UIImage) -> Void)
 }
 
 protocol ImageLoaderCacheCleaner {
@@ -21,7 +17,6 @@ protocol ImageLoaderCacheCleaner {
 }
 
 final class ImageLoaderService {
-    weak var delegate: ImageLoaderDelegate?
     private var imageDataCache = NSCache<NSString, NSData>()
     private let session: URLSession
     
@@ -73,18 +68,15 @@ final class ImageLoaderService {
 
 // MARK: - ImageLoaderProtocol
 extension ImageLoaderService: ImageLoaderProtocol {
-    func fetchImage(with url: URL) {
-        downloadData(url) { [weak self] result in
-            guard let self else { return }
-            
+    func fetchImage(with url: URL, completion: @escaping (UIImage) -> Void) {
+        downloadData(url) { result in
             DispatchQueue.main.async {
                 switch result {
                 case .success(let data):
-                    let image = UIImage(data: data)
-                    self.delegate?.didUpdateImage(self, image: image)
+                    guard let image = UIImage(data: data) else { return }
+                    completion(image)
                 case .failure(let failure):
                     Logger.network.error("Ошибка при загрузке character image: \(failure.localizedDescription)")
-                    self.delegate?.didUpdateImage(self, image: nil)
                 }
             }
         }
