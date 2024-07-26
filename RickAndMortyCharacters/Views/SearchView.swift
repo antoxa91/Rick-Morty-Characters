@@ -8,8 +8,8 @@
 import UIKit
 
 protocol SearchViewProtocol: AnyObject {
-    var isFiltering: Bool { get }
-    var filteredCharacters: [CharacterModel] { get }
+    var isSearching: Bool { get }
+    var searchedCharacters: [CharacterModel] { get }
 }
 
 protocol SearchResultsFiltersDelegate: AnyObject {
@@ -27,9 +27,9 @@ final class SearchView: UIView, SearchViewProtocol {
     }
     
     // MARK: Properties
-    private let charactersLoader: CharactersLoadable
+    private let networkService: CharactersLoader
     
-    private(set) var filteredCharacters: [CharacterModel] = []
+    private(set) var searchedCharacters: [CharacterModel] = []
     weak var delegate: SearchResultsFiltersDelegate?
     
     private var isSearchBarEmpty: Bool {
@@ -37,7 +37,7 @@ final class SearchView: UIView, SearchViewProtocol {
         return text.isEmpty
     }
     
-    var isFiltering: Bool {
+    var isSearching: Bool {
         return !isSearchBarEmpty
     }
     
@@ -58,8 +58,8 @@ final class SearchView: UIView, SearchViewProtocol {
     }()
     
     // MARK: Init
-    init(charactersLoader: CharactersLoadable) {
-        self.charactersLoader = charactersLoader
+    init(networkService: CharactersLoader) {
+        self.networkService = networkService
         super.init(frame: .zero)
         setupView()
         setConstraints()
@@ -80,13 +80,13 @@ final class SearchView: UIView, SearchViewProtocol {
     
     @objc private func searchTextChanged() {
         guard let searchText = searchTextField.text, !searchText.isEmpty else {
-            filteredCharacters = []
+            searchedCharacters = []
             delegate?.updateSearchResults()
             return
         }
         
-        charactersLoader.fetchSearchableCharacters(name: searchText) { [weak self] characters in
-            self?.filteredCharacters = characters
+        networkService.filterBy(name: searchText, parameters: nil) { [weak self] characters in
+            self?.searchedCharacters = characters
             self?.delegate?.updateSearchResults()
         }
     }
