@@ -190,9 +190,6 @@ extension CharactersListViewController: UITableViewDelegate {
 // MARK: - UIScrollViewDelegate
 extension CharactersListViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
-        guard networkService.isShouldLoadMore,
-              !networkService.isLoadingMoreCharacters else { return }
-        
         Timer.scheduledTimer(withTimeInterval: 0.15, repeats: false) { [weak self] timer in
             let offset = scrollView.contentOffset.y
             let totalContentHeight = scrollView.contentSize.height
