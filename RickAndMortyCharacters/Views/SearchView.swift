@@ -8,7 +8,6 @@
 import UIKit
 
 protocol SearchViewProtocol: AnyObject {
-    var isSearching: Bool { get }
     var searchedCharacters: [CharacterModel] { get }
 }
 
@@ -32,15 +31,6 @@ final class SearchView: UIView, SearchViewProtocol {
     
     private(set) var searchedCharacters: [CharacterModel] = []
     weak var delegate: SearchResultsFiltersDelegate?
-    
-    private var isSearchBarEmpty: Bool {
-        guard let text = searchTextField.text else { return false }
-        return text.isEmpty
-    }
-    
-    var isSearching: Bool {
-        return !isSearchBarEmpty
-    }
     
     // MARK: Private UI Properties
     private lazy var filterButton: UIButton = {
@@ -83,7 +73,7 @@ final class SearchView: UIView, SearchViewProtocol {
         guard let searchText = searchTextField.text, !searchText.isEmpty else {
             searchedCharacters = []
             delegate?.updateSearchResults()
-            self.delegate?.resetConnectionType(to: .default)
+            delegate?.resetConnectionType(to: .default)
             return
         }
         

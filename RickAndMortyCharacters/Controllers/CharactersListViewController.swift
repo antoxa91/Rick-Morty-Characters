@@ -191,9 +191,7 @@ extension CharactersListViewController: UITableViewDelegate {
 extension CharactersListViewController: UIScrollViewDelegate {
     func scrollViewDidScroll(_ scrollView: UIScrollView) {
         guard networkService.isShouldLoadMore,
-              !networkService.isLoadingMoreCharacters,
-              !networkService.characters.isEmpty,
-              !searchView.isSearching else { return }
+              !networkService.isLoadingMoreCharacters else { return }
         
         Timer.scheduledTimer(withTimeInterval: 0.15, repeats: false) { [weak self] timer in
             let offset = scrollView.contentOffset.y
