@@ -13,7 +13,7 @@ protocol FiltersVCDelegate: AnyObject {
 }
 
 final class FiltersViewController: UIViewController {
-    private let charactersLoader: CharactersLoadable
+    private let networkService: CharactersLoader
 
     private(set) var filteredCharacters: [CharacterModel] = []
     weak var delegate: FiltersVCDelegate?
@@ -62,8 +62,8 @@ final class FiltersViewController: UIViewController {
     }()
 
     // MARK: Init
-    init(charactersLoader: CharactersLoadable) {
-        self.charactersLoader = charactersLoader
+    init(networkService: CharactersLoader) {
+        self.networkService = networkService
         super.init(nibName: nil, bundle: nil)
     }
     
@@ -113,8 +113,9 @@ final class FiltersViewController: UIViewController {
         ])
     }
     
+    // MARK: Action
     @objc private func applyButtonTapped() {
-        charactersLoader.filterBy(name: nil, parameters: FilterParameters(
+        networkService.filterBy(name: nil, parameters: FilterParameters(
             status: statusFilterView.selectedOption,
             gender: genderFilterView.selectedOption)
         ) { [weak self] characters in

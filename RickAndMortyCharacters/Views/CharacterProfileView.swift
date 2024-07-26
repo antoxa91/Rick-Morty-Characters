@@ -22,9 +22,9 @@ final class CharacterProfileView: UIView {
         static let imageHeightMultiplier: CGFloat = 0.92
     }
     
-    private var episodesLoader: EpisodesLoaderService?
+    private var episodesLoader: EpisodesLoader?
     private var imageLoader: ImageLoaderService?
-
+    
     // MARK: Private UI Properties
     private lazy var characterImageView: UIImageView = {
         let imageView = UIImageView()
@@ -59,7 +59,12 @@ final class CharacterProfileView: UIView {
     }()
     
     // MARK: Init
-    override init(frame: CGRect) {
+    init(frame: CGRect = .zero,
+         imageLoader: ImageLoaderService = ImageLoaderService(),
+         episodesLoader: EpisodesLoader = NetworkService()
+    ) {
+        self.imageLoader = imageLoader
+        self.episodesLoader = episodesLoader
         super.init(frame: frame)
         setupView()
         setConstraints()
@@ -76,10 +81,6 @@ final class CharacterProfileView: UIView {
         backgroundColor = AppColorEnum.cellBackground.color
         layer.cornerRadius = 24
         addSubviews(characterImageView, statusLabel, vInfoStackView)
-        imageLoader = ImageLoaderService()
-        imageLoader?.delegate = self
-        episodesLoader = EpisodesLoaderService()
-        episodesLoader?.delegate = self
     }
     
     // MARK: Layout
@@ -133,26 +134,17 @@ extension CharacterProfileView: ConfigurableViewProtocol {
         lastLocationLabel.setAttributedText(leadingText: .lastKnownLocation,
                                             trailingText: model.location.name)
         
-        episodesLoader?.fetchEpisodes(urls: model.episode)
+        episodesLoader?.fetchEpisodes(urls: model.episode) { [weak self] text in
+            self?.episodesLabel.setAttributedText(leadingText: .episodes, trailingText: text)
+        }
         
         guard let url = URL(string: model.image) else {
-            Logger.network.error("Ошибка: Invalid URL")
+            Logger.network.error("Ошибка: Invalid URL for Image")
             return
         }
-        imageLoader?.fetchImage(with: url)
-    }
-}
-
-// MARK: - CharacterProfileImageDelegate
-extension CharacterProfileView: ImageLoaderDelegate {
-    func didUpdateImage(_ model: ImageLoaderProtocol, image: UIImage?) {
-        characterImageView.image = image
-    }
-}
-
-// MARK: - CharacterProfileeEpisodeDelegate
-extension CharacterProfileView: EpisodesLoaderDelegate {
-    func didUpdateEpisodes(_ model: EpisodesLoaderService, episodes: String) {
-        episodesLabel.setAttributedText(leadingText: .episodes, trailingText: episodes)
+        
+        imageLoader?.fetchImage(with: url) { [weak self] image in
+            self?.characterImageView.image = image
+        }
     }
 }
