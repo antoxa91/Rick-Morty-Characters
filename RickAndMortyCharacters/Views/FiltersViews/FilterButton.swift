@@ -20,11 +20,11 @@ final class FilterButton: UIButton {
     
     override var isSelected: Bool {
         didSet {
-            updateTitle()
+            updateAppearance()
         }
     }
     
-    private func updateTitle() {
+    private func updateAppearance() {
         if isSelected {
             backgroundColor = AppColorEnum.text.color
             setTitleColor(AppColorEnum.appBackground.color, for: .normal)

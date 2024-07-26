@@ -7,6 +7,10 @@
 
 import UIKit
 
+protocol ResetFilterSettings: AnyObject {
+    func reset()
+}
+
 final class FilterTypeView<T: RawRepresentable>: UIView where T.RawValue == String {
     // MARK: Private UI Properties
     private lazy var titleLabel: UILabel = {
@@ -21,6 +25,10 @@ final class FilterTypeView<T: RawRepresentable>: UIView where T.RawValue == Stri
     
     // MARK: Private Properties
     private var selectedButton: FilterButton?
+    
+    var selectedOption: String? {
+        return selectedButton?.titleLabel?.text?.replacingOccurrences(of: " ✓", with: "")
+    }
     
     // MARK: Init
     init(title: String, filterOptions: [T]) {
@@ -46,7 +54,7 @@ final class FilterTypeView<T: RawRepresentable>: UIView where T.RawValue == Stri
         stack.spacing = 4
         options.enumerated().forEach { index, option in
             let btn = FilterButton(frame: .zero, title: option.rawValue.capitalized)
-            btn.tag = index //
+            btn.tag = index
             btn.addTarget(self, action: #selector(buttonTapped(_:)), for: .touchUpInside)
             stack.addArrangedSubview(btn)
         }
@@ -55,14 +63,20 @@ final class FilterTypeView<T: RawRepresentable>: UIView where T.RawValue == Stri
     }
     
     @objc private func buttonTapped(_ sender: FilterButton) {
-        if let selectedButton, selectedButton != sender {
-            selectedButton.isSelected = false
-        }
-        
+        selectedButton?.isSelected = false
         sender.isSelected.toggle()
-        selectedButton = sender
+        selectedButton = sender.isSelected ? sender : nil
     }
     
+//    @objc private func buttonTapped(_ sender: FilterButton) {
+//        if let selectedButton, selectedButton != sender {
+//            selectedButton.isSelected = false
+//        }
+//        
+//        sender.isSelected.toggle()
+//        selectedButton = sender
+//    }
+//    
     // MARK: Layout
     private func setConstraints() {
         NSLayoutConstraint.activate([
@@ -76,4 +90,16 @@ final class FilterTypeView<T: RawRepresentable>: UIView where T.RawValue == Stri
             filterButtonStack.bottomAnchor.constraint(equalTo: bottomAnchor)
         ])
     }
+}
+
+// MARK: ResetFilterSettings
+extension FilterTypeView: ResetFilterSettings {
+    func reset() {
+          selectedButton = nil
+           for view in filterButtonStack.arrangedSubviews {
+               if let button = view as? FilterButton {
+                   button.isSelected = false
+               }
+           }
+      }
 }
