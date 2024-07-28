@@ -210,7 +210,12 @@ extension CharactersListViewController: UIScrollViewDelegate {
 // MARK: - CharacterSearchControllerDelegate
 extension CharactersListViewController: SearchResultsFiltersDelegate {
     func showFilters() {
-        filterVC.sheetPresentationController?.detents = [.medium()]
+        if let sheet = filterVC.sheetPresentationController {
+            sheet.preferredCornerRadius = 32
+            sheet.detents = [.custom(resolver: { context in
+              return 313
+            })]
+        }
         present(filterVC, animated: true)
         filterVC.delegate?.resetConnectionType(to: .filtering)
     }
