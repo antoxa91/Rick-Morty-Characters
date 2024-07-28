@@ -68,15 +68,6 @@ final class FilterTypeView<T: RawRepresentable>: UIView where T.RawValue == Stri
         selectedButton = sender.isSelected ? sender : nil
     }
     
-//    @objc private func buttonTapped(_ sender: FilterButton) {
-//        if let selectedButton, selectedButton != sender {
-//            selectedButton.isSelected = false
-//        }
-//        
-//        sender.isSelected.toggle()
-//        selectedButton = sender
-//    }
-//    
     // MARK: Layout
     private func setConstraints() {
         NSLayoutConstraint.activate([
