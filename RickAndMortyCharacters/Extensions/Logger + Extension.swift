@@ -11,5 +11,5 @@ import OSLog
 extension Logger {
     private static var appIdentifier = Bundle.main.bundleIdentifier ?? ""
     static let network = Logger(subsystem: appIdentifier, category: "network")
-    static let appDelegate = Logger(subsystem: appIdentifier, category: "statistics")
+    static let appDelegate = Logger(subsystem: appIdentifier, category: "appDelegate")
 }
