@@ -42,5 +42,7 @@ final class SearchTextField: UITextField {
         leftView = searchIconView
         leftViewMode = .always
         translatesAutoresizingMaskIntoConstraints = false
+        
+        returnKeyType = .search
     }
 }
