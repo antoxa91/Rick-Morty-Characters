@@ -44,7 +44,7 @@ final class SearchView: UIView, SearchViewProtocol {
     
     private lazy var searchTextField: SearchTextField = {
         let textField = SearchTextField()
-        textField.addTarget(self, action: #selector(searchTextChanged), for: .editingChanged)
+        textField.delegate = self
         return textField
     }()
     
@@ -65,23 +65,7 @@ final class SearchView: UIView, SearchViewProtocol {
     private func setupView() {
         backgroundColor = AppColorEnum.appBackground.color
         addSubviews(searchTextField, filterButton)
-        searchTextField.delegate = self
         translatesAutoresizingMaskIntoConstraints = false
-    }
-    
-    @objc private func searchTextChanged() {
-        guard let searchText = searchTextField.text, !searchText.isEmpty else {
-            searchedCharacters = []
-            delegate?.updateSearchResults()
-            delegate?.resetConnectionType(to: .default)
-            return
-        }
-        
-        networkService.filterBy(name: searchText, parameters: nil) { [weak self] characters in
-            self?.searchedCharacters = characters
-            self?.delegate?.updateSearchResults()
-            self?.delegate?.resetConnectionType(to: .searching)
-        }
     }
     
     @objc private func filterButtonTapped() {
@@ -112,15 +96,28 @@ final class SearchView: UIView, SearchViewProtocol {
 // MARK: UITextFieldDelegate
 extension SearchView: UITextFieldDelegate {
     func textFieldDidBeginEditing(_ textField: UITextField) {
-        searchTextField.placeholder = ""
+        textField.placeholder = ""
     }
     
     func textFieldDidEndEditing(_ textField: UITextField) {
-        searchTextField.placeholder = "Search"
+        textField.placeholder = "Search"
     }
     
     func textFieldShouldReturn(_ textField: UITextField) -> Bool {
         textField.resignFirstResponder()
+        
+        guard let searchText = textField.text, !searchText.isEmpty else {
+            searchedCharacters = []
+            delegate?.updateSearchResults()
+            delegate?.resetConnectionType(to: .default)
+            return false
+        }
+        
+        networkService.filterBy(name: searchText, parameters: nil) { [weak self] characters in
+            self?.searchedCharacters = characters
+            self?.delegate?.updateSearchResults()
+            self?.delegate?.resetConnectionType(to: .searching)
+        }
         return true
     }
 }
