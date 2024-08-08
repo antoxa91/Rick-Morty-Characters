@@ -18,6 +18,8 @@ protocol ImageLoaderCacheCleaner {
 
 final class ImageLoaderService {
     private var imageDataCache = NSCache<NSString, NSData>()
+    private let cacheQueue = DispatchQueue(label: "com.RickAndMortyCharacters.ImageLoaderService.cacheQueue", qos: .background, attributes: .concurrent)
+
     private let session: URLSession
     
     init(session: URLSession = URLSession(configuration: .default)) {
@@ -54,7 +56,9 @@ final class ImageLoaderService {
         switch response.statusCode {
         case 200..<300:
             let value = data as NSData
-            self.imageDataCache.setObject(value, forKey: key)
+            cacheQueue.async {
+                self.imageDataCache.setObject(value, forKey: key)
+            }
             completion(.success(data))
         case 404:
             completion(.failure(.notFound))
